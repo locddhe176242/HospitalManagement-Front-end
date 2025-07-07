@@ -148,115 +148,69 @@
                       <!--logo End-->
                     </a>
                   </div>
-                  <form method="post">
+                  <form method="post" id="loginDashboardForm">
                     <div class="custom-form-field">
+                      <label for="username">Email&nbsp;<span>*</span></label>
                       <input
                         type="email"
-                        name="email"
-                        placeholder="Email *"
-                        class="form-control mb-3"
+                        id="username"
+                        name="user-name"
+                        class="form-control mb-5"
                         required
+                        pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
+                        title="Please enter a valid Gmail address (e.g., example@gmail.com)"
                       />
                     </div>
                     <div class="custom-form-field">
+                      <label for="password">Mật khẩu&nbsp;<span>*</span></label>
                       <input
                         type="password"
-                        name="password"
-                        placeholder="Password *"
-                        class="form-control mb-3"
-                        required
-                      />
-                    </div>
-                    <div class="custom-form-field">
-                      <input
-                        type="text"
-                        name="fullName"
-                        placeholder="Full Name *"
-                        class="form-control mb-3"
+                        id="password"
+                        name="pwd"
+                        class="form-control mb-5"
                         required
                       />
                     </div>
 
-                    <div class="custom-form-field">
-                      <select name="gender" class="form-control mb-3" required>
-                        <option value="0">Nam</option>
-                        <!-- 0 = Male -->
-                        <option value="1">Nữ</option>
-                        <!-- 1 = Female -->
-                      </select>
-                    </div>
-                    <div class="custom-form-field">
-                      <input
-                        type="date"
-                        name="dob"
-                        placeholder="Date of Birth *"
-                        class="form-control mb-3"
-                        required
-                      />
-                    </div>
-                    <div class="custom-form-field">
-                      <input
-                        type="text"
-                        name="cccd"
-                        placeholder="CCCD"
-                        class="form-control mb-3"
-                      />
-                    </div>
-                    <div class="custom-form-field">
-                      <input
-                        type="text"
-                        name="phone"
-                        placeholder="Phone"
-                        class="form-control mb-3"
-                      />
-                    </div>
-                    <div class="custom-form-field">
-                      <input
-                        type="text"
-                        name="emergencyContact"
-                        placeholder="Emergency Contact"
-                        class="form-control mb-3"
-                      />
-                    </div>
-                    <div class="custom-form-field">
-                      <input
-                        type="text"
-                        name="address"
-                        placeholder="Address"
-                        class="form-control mb-3"
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      class="iq-button text-capitalize border-0 w-100"
+                    <input type="hidden" name="userType" value="Doctor" />
+
+                    <div
+                      class="flex-column flex-sm-row d-flex align-items-start justify-content-between mb-5 gap-2"
                     >
-                      <span class="iq-btn-text-holder position-relative"
-                        >Đăng Ký</span
+                      <label class="custom-form-field">
+                        <input
+                          type="checkbox"
+                          required="required"
+                          class="mr-2"
+                        />
+                        <span class="checkmark"></span>
+                        <span>Lưu tài khoản</span>
+                      </label>
+                      <a href="reset-password.html" class="forgot-pwd"
+                        >Quên mật khẩu</a
                       >
-                      <span class="iq-btn-icon-holder">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="10"
-                          height="10"
-                          viewBox="0 0 8 8"
-                          fill="none"
+                    </div>
+
+                    <div class="iq-btn-container">
+                      <button
+                        type="submit"
+                        class="iq-button text-capitalize border-0"
+                      >
+                        <span class="iq-btn-text-holder position-relative"
+                          >Đăng nhập</span
                         >
-                          <path
-                            d="M7.32046 4.70834H4.74952V7.25698C4.74952 7.66734 4.41395 8 4 8C3.58605 8 3.25048 7.66734 3.25048 7.25698V4.70834H0.679545C0.293423 4.6687 0 4.34614 0 3.96132C0 3.5765 0.293423 3.25394 0.679545 3.21431H3.24242V0.673653C3.28241 0.290878 3.60778 0 3.99597 0C4.38416 0 4.70954 0.290878 4.74952 0.673653V3.21431H7.32046C7.70658 3.25394 8 3.5765 8 3.96132C8 4.34614 7.70658 4.6687 7.32046 4.70834Z"
-                            fill="currentColor"
-                          ></path>
-                        </svg>
-                      </span>
-                    </button>
+                        <span class="iq-btn-icon-holder">
+                          <!-- SVG icon -->
+                        </span>
+                      </button>
+                    </div>
                   </form>
-                  <div
-                    class="d-flex align-items-center mt-5 justify-content-center"
-                  >
-                    <p class="text-center mb-0">
-                      <span class="signup-rtl-space">Đã có tài khoản?</span
-                      ><a href="../auth/sign-in.html">Đăng Nhập</a>
+                  <!-- <div class="d-flex align-items-center mt-5">
+                    <p class="text-center">
+                      <span class="signup-rtl-space">Chưa có tài khoản?</span
+                      ><a href="../auth/sign-up.html">Đăng ký</a>
                     </p>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -1262,5 +1216,6 @@
       src="../assets/js/solid-icon-search-filter.js?v=1.4.1"
       defer
     ></script>
+    <script src="../assets/js/AminUI/login-dashboard.js" defer></script>
   </body>
 </html>
