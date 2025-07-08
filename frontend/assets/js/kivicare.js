@@ -191,6 +191,7 @@ Index Of Script
       flatpickr(elem, {
         minDate: "today",
         dateFormat: "Y-m-d",
+        locale: Vietnamese
       })
     }
   })
@@ -202,6 +203,7 @@ Index Of Script
         mode: "range",
         minDate: "today",
         dateFormat: "Y-m-d",
+        locale: Vietnamese
       })
     }
   })
@@ -213,6 +215,7 @@ Index Of Script
         wrap: true,
         minDate: "today",
         dateFormat: "Y-m-d",
+        locale: Vietnamese
       })
     }
   })
@@ -224,17 +227,114 @@ Index Of Script
         enableTime: true,
         noCalendar: true,
         dateFormat: "H:i",
+        locale: Vietnamese
       })
     }
   })
   /*-------------Inline Flatpickr-----------------*/
+  // Vietnamese locale for flatpickr
+  const Vietnamese = {
+    weekdays: {
+      shorthand: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+      longhand: [
+        'Chủ nhật',
+        'Thứ hai',
+        'Thứ ba',
+        'Thứ tư',
+        'Thứ năm',
+        'Thứ sáu',
+        'Thứ bảy'
+      ]
+    },
+    months: {
+      shorthand: [
+        'Th1', 'Th2', 'Th3', 'Th4', 'Th5', 'Th6',
+        'Th7', 'Th8', 'Th9', 'Th10', 'Th11', 'Th12'
+      ],
+      longhand: [
+        'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4',
+        'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8',
+        'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
+      ]
+    },
+    daysInMonth: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+    firstDayOfWeek: 0,
+    ordinal: function () { return ''; },
+    rangeSeparator: ' đến ',
+    weekAbbreviation: 'Tuần',
+    scrollTitle: 'Cuộn để tăng',
+    toggleTitle: 'Click để chuyển đổi',
+    amPM: ['SA', 'CH'],
+    yearAriaLabel: 'Năm',
+    time_24hr: true
+  };
+
   const inline_flatpickr = document.querySelectorAll('.inline_flatpickr')
   Array.from(inline_flatpickr, (elem) => {
     if (typeof flatpickr !== typeof undefined) {
       flatpickr(elem, {
         inline: true,
-        minDate: "today",
+        minDate: new Date(new Date().getFullYear(), 0, 1), // Từ đầu năm
+        maxDate: new Date(new Date().getFullYear(), 11, 31), // Chỉ cho phép năm hiện tại
         dateFormat: "Y-m-d",
+        locale: Vietnamese,
+        defaultDate: "today",
+        disableMobile: true,
+        static: true,
+        showMonths: 1,
+        onReady: function(selectedDates, dateStr, instance) {
+          // Đặt năm hiện tại và disable interaction
+          const currentYear = new Date().getFullYear();
+          const yearElement = instance.yearElements[0];
+          if (yearElement) {
+            yearElement.value = currentYear;
+            // Disable year input nhưng vẫn hiển thị
+            yearElement.style.pointerEvents = 'none';
+            yearElement.style.cursor = 'default';
+            yearElement.style.background = 'transparent';
+            yearElement.style.border = 'none';
+            yearElement.style.outline = 'none';
+            yearElement.style.fontWeight = 'normal';
+            yearElement.readOnly = true;
+          }
+          
+          // Chỉ ẩn các nút mũi tên chuyển năm
+          const calendar = instance.calendarContainer;
+          const arrowControls = calendar.querySelectorAll('.arrowUp, .arrowDown');
+          arrowControls.forEach(arrow => {
+            arrow.style.display = 'none';
+          });
+          // Đảm bảo năm luôn là năm hiện tại
+          instance.currentYear = currentYear;
+        },
+        onMonthChange: function(selectedDates, dateStr, instance) {
+          // Đảm bảo chỉ ở trong năm hiện tại
+          const currentYear = new Date().getFullYear();
+          if (instance.currentYear !== currentYear) {
+            instance.currentYear = currentYear;
+            instance.redraw();
+          }
+          
+          // Đặt lại year element value và giữ nguyên style
+          const yearElement = instance.yearElements[0];
+          if (yearElement) {
+            yearElement.value = currentYear;
+            yearElement.style.pointerEvents = 'none';
+            yearElement.style.cursor = 'default';
+            yearElement.style.background = 'transparent';
+            yearElement.style.border = 'none';
+            yearElement.style.outline = 'none';
+            yearElement.style.fontWeight = 'normal';
+            yearElement.readOnly = true;
+          }
+          
+          // Đảm bảo các nút mũi tên vẫn bị ẩn
+          const calendar = instance.calendarContainer;
+          const arrowControls = calendar.querySelectorAll('.arrowUp, .arrowDown');
+          arrowControls.forEach(arrow => {
+            arrow.style.display = 'none';
+          });
+        }
       })
     }
   })
