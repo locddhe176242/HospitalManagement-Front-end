@@ -343,7 +343,7 @@
             showAlert('Vui lòng điền đầy đủ tất cả thông tin bắt buộc trước khi tiếp tục!', 'error');
             return false;
         }
-        showAlert('Thông tin hợp lệ! Đang chuyển sang bước tiếp theo...', 'success');
+        // showAlert('Thông tin hợp lệ! Đang chuyển sang bước tiếp theo...', 'success'); // Đã xóa theo yêu cầu
     }
     
     function showAlert(message, type = 'error') {

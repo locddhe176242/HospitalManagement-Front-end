@@ -1,5 +1,5 @@
- <!doctype html>
-<html lang="en" data-bs-theme="light" dir="ltr" class="landing-pages">
+<!doctype html>
+<html lang="vi" data-bs-theme="light" dir="ltr" class="landing-pages">
   <head>
     <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -283,17 +283,17 @@
                                            <ul class="sub-nav collapse  list-unstyled" id="docPages">
                                               <li class="nav-item">
                                                  <a class="nav-link " href="./tab-two-column.html">
-                                                 tab two column
+                                                 Tab 2 cột
                                                  </a>
                                               </li>
                                               <li class="nav-item">
                                                  <a class="nav-link " href="./tab-three-column.html">
-                                                 tab three column
+                                                 Tab 3 cột
                                                  </a>
                                               </li>
                                               <li class="nav-item">
                                                  <a class="nav-link " href="./doctor-details.html">
-                                                 doctor details
+                                                 Chi tiết bác sĩ
                                                  </a>
                                               </li>
                                            </ul>
@@ -315,12 +315,12 @@
                                            <ul class="sub-nav collapse  list-unstyled" id="pageServices">
                                               <li class="nav-item">
                                                  <a class="nav-link " href="./service1.html">
-                                                 service 1
+                                                 Dịch vụ 1
                                                  </a>
                                               </li>
                                               <li class="nav-item">
                                                  <a class="nav-link " href="./service2.html">
-                                                 service 2
+                                                 Dịch vụ 2
                                                  </a>
                                               </li>
                                            </ul>
@@ -342,12 +342,12 @@
                                            <ul class="sub-nav collapse  list-unstyled" id="pricingPlan">
                                               <li class="nav-item">
                                                  <a class="nav-link " href="./pricing-plan-one.html">
-                                                 Pricing plan 1
+                                                 Gói giá 1
                                                  </a>
                                               </li>
                                               <li class="nav-item">
                                                  <a class="nav-link " href="./pricing-plan-two.html">
-                                                 Pricing plan 2
+                                                 Gói giá 2
                                                  </a>
                                               </li>
                                            </ul>
@@ -1533,7 +1533,12 @@
                                                          placeholder="Nhập họ và tên của người thân"
                                                          required="">
                                                    </div>
-                                                   <div class="col-md-12 mt-3">
+                                                   <div class="col-sm-6 mt-3">
+                                                      <label class="form-label h6">Email *</label>
+                                                      <input type="email" class="form-control" id="emailRelative"
+                                                         placeholder="Email sẽ được tự động điền từ tài khoản" readonly required>
+                                                   </div>
+                                                   <div class="col-sm-6 mt-3">
                                                       <label class="form-label h6">Giới tính *</label>
                                                       <div class="d-flex align-items-center flex-wrap gap-3">
                                                          <div class="form-check">
@@ -1588,11 +1593,19 @@
                                                          placeholder="Họ và tên sẽ được tự động điền từ database"
                                                          readonly="">
                                                    </div>
-                                                   <div class="col-sm-6 mt-3">
-                                                      <label class="form-label h6">Email *</label>
-                                                      <input type="email" class="form-control"
-                                                         placeholder="Email sẽ được tự động điền từ database"
-                                                         readonly="">
+                                                   <div class="row">
+                                                      <div class="col-sm-6 mt-3">
+                                                         <label class="form-label h6">Email *</label>
+                                                         <input type="email" class="form-control"
+                                                            placeholder="Email sẽ được tự động điền từ database"
+                                                            readonly="">
+                                                      </div>
+                                                      <div class="col-sm-6 mt-3">
+                                                         <label class="form-label h6">Số điện thoại *</label>
+                                                         <input type="tel" class="form-control"
+                                                            placeholder="Số điện thoại sẽ được tự động điền từ database"
+                                                            readonly="">
+                                                      </div>
                                                    </div>
                                                    <div class="col-md-12 mt-3">
                                                       <label class="form-label h6">Giới tính *</label>
@@ -1627,12 +1640,6 @@
                                                    <div class="col-sm-6 mt-3">
                                                       <label class="form-label h6">Ngày tháng năm sinh *</label>
                                                       <input type="text" class="form-control flatpickrdate">
-                                                   </div>
-                                                   <div class="col-sm-6 mt-3">
-                                                      <label class="form-label h6">Số điện thoại *</label>
-                                                      <input type="tel" class="form-control"
-                                                         placeholder="Số điện thoại sẽ được tự động điền từ database"
-                                                         readonly="">
                                                    </div>
                                                    <div class="col-12 mt-4">
                                                       <div class="alert alert-info">
@@ -3091,5 +3098,19 @@
         }
       });
     </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const userInfo = localStorage.getItem('userInfo');
+    if (userInfo) {
+        const user = JSON.parse(userInfo);
+        // Tìm input email của phần đăng ký cho người thân
+        const emailInput = document.getElementById('emailRelative');
+        if (emailInput && user.email) {
+            emailInput.value = user.email;
+            emailInput.readOnly = true; // Nếu muốn không cho sửa
+        }
+    }
+});
+</script>
     </body>
 </html>

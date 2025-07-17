@@ -135,6 +135,7 @@ class UnifiedRegistrationHandler {
             // Điền thông tin vào form
             const fullName = document.getElementById('fullName');
             const email = document.getElementById('email');
+            const emailRelative = document.getElementById('emailRelative');
             const cccd = document.getElementById('cccd');
             const phone = document.getElementById('phone');
             const dob = document.getElementById('dob');
@@ -147,6 +148,7 @@ class UnifiedRegistrationHandler {
             }
 
             if (email && user.email) email.value = user.email;
+            if (emailRelative && user.email) emailRelative.value = user.email;
             if (cccd && user.cccd) cccd.value = user.cccd;
             if (phone && user.phone) phone.value = user.phone;
             
@@ -169,9 +171,8 @@ class UnifiedRegistrationHandler {
                     genderRadio.checked = true;
                 }
             }
-
-        } catch (error) {
-            console.error('Error populating user data:', error);
+        } catch (e) {
+            console.error('Lỗi khi điền user data:', e);
         }
     }
 
@@ -356,29 +357,10 @@ class UnifiedRegistrationHandler {
         return true;
     }
 
-    showSuccess(message) {
-        // Hiển thị thông báo thành công
-        const toast = document.getElementById('global-toast');
-        if (toast) {
-            toast.textContent = message;
-            toast.style.display = 'block';
-            toast.style.background = 'rgba(40,167,69,0.97)';
-            
-            setTimeout(() => {
-                toast.style.display = 'none';
-            }, 3000);
-        } else {
-            alert(message);
-        }
-    }
-
     goToNextStep() {
         // Lưu dữ liệu form vào sessionStorage
         this.saveFormData();
-        
-        // Hiển thị thông báo thành công
-        this.showSuccess('Thông tin bệnh nhân đã được lưu thành công!');
-        
+        // Đã xóa hiển thị thông báo thành công
         // Chuyển sang tab tiếp theo
         const currentTab = document.querySelector('.appointment-tab-content.appointment-content-active');
         if (currentTab) {
@@ -388,7 +370,6 @@ class UnifiedRegistrationHandler {
                 currentTab.classList.remove('appointment-content-active');
                 // Hiển thị tab tiếp theo
                 nextTab.classList.add('appointment-content-active');
-                
                 // Cập nhật confirmation display
                 if (window.appointmentConfirmation) {
                     setTimeout(() => {

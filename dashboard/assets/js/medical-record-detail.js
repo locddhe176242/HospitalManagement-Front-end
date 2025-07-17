@@ -208,7 +208,6 @@ function getStatusText(status) {
         default: return status || 'Không xác định';
     }
 }
-
 function showNotification(message, type) {
     const alertClass = type === 'error' ? 'danger' : type;
     const notification = document.createElement('div');

@@ -370,7 +370,7 @@ class AppointmentConfirmationHandler {
                     name: `${lastName} ${firstName}`.trim() || 'Chưa nhập họ và tên',
                     phone: phone || 'Chưa nhập số điện thoại',
                     email: email || 'Chưa nhập email',
-                    birthdate: birthdate || 'Chưa nhập ngày sinh',
+                    dob: birthdate || 'Chưa nhập ngày sinh', // Đổi birthdate thành dob
                     cccd: cccd || 'Chưa nhập CCCD'
                 };
             }

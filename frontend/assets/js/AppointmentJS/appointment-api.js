@@ -249,8 +249,18 @@ class AppointmentAPI {
         // Chuyển đổi ngày sinh từ DD/MM/YYYY sang yyyy-MM-ddTHH:mm:ss
         let dob = data.patient.dob;
         if (dob && dob.includes('/')) {
-            const [day, month, year] = dob.split('/');
-            dob = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}T00:00:00`;
+            // Hỗ trợ cả trường hợp có hoặc không có 0 ở đầu
+            const parts = dob.split('/');
+            if (parts.length === 3) {
+                let [day, month, year] = parts;
+                day = day.padStart(2, '0');
+                month = month.padStart(2, '0');
+                dob = `${year}-${month}-${day}T00:00:00`;
+            }
+        }
+        // Nếu dob chỉ có yyyy-MM-dd thì thêm T00:00:00
+        if (dob && /^\d{4}-\d{2}-\d{2}$/.test(dob)) {
+            dob = dob + 'T00:00:00';
         }
 
         // Đảm bảo các trường nullable luôn có
@@ -297,11 +307,18 @@ class AppointmentAPI {
             body: JSON.stringify(payload)
         });
         console.log('📡 API Response status:', response.status);
-        const responseData = await response.json();
+        let responseData = null;
+        try {
+            responseData = await response.json();
+        } catch (e) {
+            responseData = { message: 'Không đọc được dữ liệu trả về từ server.' };
+        }
         console.log('📡 API Response data:', responseData);
         if (!response.ok) {
-            // Nếu server trả về error message trong response
-            const errorMessage = responseData.message || `HTTP ${response.status}: ${response.statusText}`;
+            // Log chi tiết lỗi trả về từ backend
+            console.error('API error detail:', responseData);
+            const errorMessage = responseData.message || JSON.stringify(responseData) || `HTTP ${response.status}: ${response.statusText}`;
+            this.showError(errorMessage);
             throw new Error(errorMessage);
         }
         return responseData;
@@ -315,9 +332,7 @@ class AppointmentAPI {
             sessionStorage.setItem('appointmentResult', JSON.stringify(response.data));
         }
 
-        // Hiển thị thông báo thành công
-        this.showSuccessMessage('Đặt lịch hẹn thành công!');
-
+        // Đã xóa hiển thị thông báo thành công
         // Chuyển đến step thành công sau 1.5 giây
         setTimeout(() => {
             this.goToSuccessStep();
@@ -378,29 +393,6 @@ class AppointmentAPI {
             const alert = document.querySelector('.alert');
             if (alert) alert.remove();
         }, 5000);
-    }
-
-    showSuccessMessage(message) {
-        // Tạo alert thành công
-        const alertHtml = `
-            <div class="alert alert-success alert-dismissible fade show position-fixed" 
-                 style="top: 20px; right: 20px; z-index: 9999; min-width: 300px;">
-                <strong>Thành công!</strong> ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        `;
-        
-        // Remove existing alerts
-        document.querySelectorAll('.alert').forEach(alert => alert.remove());
-        
-        // Add new alert
-        document.body.insertAdjacentHTML('beforeend', alertHtml);
-        
-        // Auto remove after 3 seconds
-        setTimeout(() => {
-            const alert = document.querySelector('.alert');
-            if (alert) alert.remove();
-        }, 3000);
     }
 }
 
