@@ -1,4 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Sử dụng UserSessionManager nếu có, nếu không thì fallback về logic cũ
+    if (window.userSessionManager) {
+        // UserSessionManager sẽ tự động xử lý việc hiển thị UI
+        return;
+    }
+
+    // Fallback logic cho trường hợp UserSessionManager chưa khởi tạo
     const userInfo = localStorage.getItem('userInfo');
     const userDropdown = document.querySelector('#itemdropdown1 .dropdown-menu');
     const userIcon = document.querySelector('#itemdropdown1 .btn-inner');

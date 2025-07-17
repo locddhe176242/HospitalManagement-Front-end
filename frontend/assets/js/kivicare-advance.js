@@ -302,9 +302,34 @@ jQuery(document).ready(function () {
   // hidden things
   jQuery(".appointment-tab-content").hide();
   jQuery("#successMessage").hide();
-  // next button
-  jQuery(".next").on({
+  // next button cho tab "Đăng ký cho người thân"
+  jQuery("#next-btn-relatives").on({
     click: function () {
+      console.log('🔘 Clicked nút Tiếp theo - Tab Đăng ký cho người thân');
+      jQuery("#appointment-tab-list").find(".active").next().addClass("active");
+      jQuery("#appointment-tab-list").find(".active").prev().addClass("done");
+      jQuery(this).parents(".appointment-content-active").fadeOut("slow", function () {
+        jQuery(this).next(".appointment-content-active").fadeIn("slow");
+      });
+    }
+  });
+
+  // next button cho tab "Đăng ký cho bản thân"
+  jQuery("#next-btn-self").on({
+    click: function () {
+      console.log('🔘 Clicked nút Tiếp theo - Tab Đăng ký cho bản thân');
+      jQuery("#appointment-tab-list").find(".active").next().addClass("active");
+      jQuery("#appointment-tab-list").find(".active").prev().addClass("done");
+      jQuery(this).parents(".appointment-content-active").fadeOut("slow", function () {
+        jQuery(this).next(".appointment-content-active").fadeIn("slow");
+      });
+    }
+  });
+
+  // next button cho các tab khác (giữ nguyên logic cũ)
+  jQuery(".next:not(#next-btn-relatives):not(#next-btn-self)").on({
+    click: function () {
+      console.log('🔘 Clicked nút Tiếp theo - Tab khác');
       jQuery("#appointment-tab-list").find(".active").next().addClass("active");
       jQuery("#appointment-tab-list").find(".active").prev().addClass("done");
       jQuery(this).parents(".appointment-content-active").fadeOut("slow", function () {

@@ -283,10 +283,9 @@ function getFormData() {
         Status: document.getElementById('status').value,
         DoctorId: parseInt(document.getElementById('doctorId').value),
         PatientId: parseInt(document.getElementById('patientId').value),
-        DiseaseId: parseInt(document.getElementById('diseaseSelect').value),
+        DiseaseId: document.getElementById('diseaseSelect').value ? parseInt(document.getElementById('diseaseSelect').value) : null,
         AppointmentId: parseInt(document.getElementById('appointmentId').value),
-        PrescriptionId: document.getElementById('prescriptionId').value ? 
-                       parseInt(document.getElementById('prescriptionId').value) : 0 // Backend expect int, không phải null
+        PrescriptionId: document.getElementById('prescriptionId').value ? parseInt(document.getElementById('prescriptionId').value) : null
     };
     
     console.log('Formatted data for API (PascalCase):', data);
