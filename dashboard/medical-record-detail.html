@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en" class="theme-fs-sm" data-bs-theme="light" data-bs-theme-color="default" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Chi tiết báo cáo y tế - KiviCare</title>
+    <!-- Import existing CSS files -->
+    <link rel="shortcut icon" href="./assets/images/favicon.ico" />
+    <link rel="stylesheet" href="./assets/css/core/libs.min.css" />
+    <link rel="stylesheet" href="./assets/css/kivicare.min.css?v=1.4.1" />
+    <link rel="stylesheet" href="./assets/css/custom.min.css?v=1.4.1" />
+    
+    <!-- Custom CSS for this page -->
+    <style>
+        .info-card {
+            border-left: 4px solid #007bff;
+            background: #f8f9fa;
+        }
+        .print-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        @media print {
+            .no-print { display: none !important; }
+            .print-section { box-shadow: none; }
+            body { background: white !important; }
+        }
+        .detail-row {
+            border-bottom: 1px solid #eee;
+            padding: 0.75rem 0;
+        }
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body class="">
+    <!-- Include existing sidebar -->
+    <aside class="sidebar sidebar-base no-print" id="first-tour" data-toggle="main-sidebar" data-sidebar="responsive">
+        <div class="sidebar-header d-flex align-items-center justify-content-start position-relative">
+            <a href="./doctor-dashboard.html" class="navbar-brand">
+                <div class="logo-main">
+                    <img class="logo-normal img-fluid" src="./assets/images/logo.png" height="30" alt="logo">
+                    <img class="logo-mini img-fluid" src="./assets/images/logo-mini.png" height="30" alt="logo">
+                </div>
+            </a>
+        </div>
+        
+        <div class="sidebar-body pt-0 data-scrollbar">
+            <div class="sidebar-list">
+                <ul class="navbar-nav iq-main-menu" id="sidebar-menu">
+                    <li class="nav-item static-item">
+                        <a class="nav-link static-item disabled text-start" href="#" tabindex="-1">
+                            <span class="default-icon">Doctor Panel</span>
+                            <span class="mini-icon">-</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="./doctor-dashboard.html">
+                            <span class="item-name">My Dashboard</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="./my-appointments.html">
+                            <span class="item-name">My Appointments</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="./patient-schedule.html">
+                            <span class="item-name">Chi tiết lịch khám</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" onclick="return false;">
+                            <span class="item-name">Chi tiết báo cáo y tế</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="position-relative">
+            <!-- Navigation -->
+            <nav class="nav navbar navbar-expand-xl navbar-light iq-navbar no-print">
+                <div class="container-fluid navbar-inner">
+                    <a href="./doctor-dashboard.html" class="navbar-brand">
+                        <div class="logo-main"></div>
+                    </a>
+                    
+                    <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
+                        <i class="icon d-flex"></i>
+                    </div>
+                    
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="mb-2 navbar-nav ms-auto align-items-center navbar-list mb-lg-0">
+                            <!-- User menu items -->
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <div class="content-inner container-fluid pb-0" id="page_layout">
+
+            <!-- Breadcrumb -->
+            <div class="d-flex align-items-center mb-4 pb-3 pt-3 no-print">
+                <svg class="icon-18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.15722 20.7714V17.7047C9.1572 16.9246 9.79312 16.2908 10.581 16.2856H13.4671C14.2587 16.2856 14.9005 16.9209 14.9005 17.7047V17.7047V20.7809C14.9003 21.4432 15.4343 21.9845 16.103 22H18.0271C19.9451 22 21.5 20.4607 21.5 18.5618V18.5618V9.83784C21.4898 9.09083 21.1355 8.38935 20.538 7.93303L13.9577 2.6853C12.8049 1.77157 11.1662 1.77157 10.0134 2.6853L3.46203 7.94256C2.86226 8.39702 2.50739 9.09967 2.5 9.84736V18.5618C2.5 20.4607 4.05488 22 5.97291 22H7.89696C8.58235 22 9.13797 21.4499 9.13797 20.7714V20.7714" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <svg class="mx-1 icon-18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.5 5L15.5 12L8.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <a href="./doctor-dashboard.html" class="text-decoration-none">Dashboard</a>
+                <svg class="mx-1 icon-18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.5 5L15.5 12L8.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <a href="./patient-schedule.html" class="text-decoration-none">Chi tiết lịch khám</a>
+                <svg class="mx-1 icon-18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.5 5L15.5 12L8.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <a href="javascript:history.back()" class="text-decoration-none">Hồ sơ bệnh án</a>
+                <svg class="mx-1 icon-18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.5 5L15.5 12L8.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <span class="head-title fw-500 mt-1">Chi tiết báo cáo</span>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-flex justify-content-between align-items-center mb-4 no-print">
+                <div>
+                    <button type="button" class="btn btn-outline-secondary" onclick="window.history.back()">
+                        <i class="fas fa-arrow-left"></i> Quay lại
+                    </button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-outline-primary me-2" onclick="printReport()">
+                        <i class="fas fa-print"></i> In báo cáo
+                    </button>
+                    <button type="button" class="btn btn-outline-success" onclick="exportToPDF()">
+                        <i class="fas fa-file-pdf"></i> Xuất PDF
+                    </button>
+                </div>
+            </div>
+
+            <!-- Medical Record Detail Content -->
+            <div class="print-section" id="medicalRecordContent">
+                
+                <!-- Loading State -->
+                <div id="loadingSection" class="text-center py-5">
+                    <div class="spinner-border text-primary mb-3" role="status">
+                        <span class="visually-hidden">Đang tải...</span>
+                    </div>
+                    <h5>Đang tải chi tiết báo cáo...</h5>
+                    <p class="text-muted">Vui lòng đợi trong giây lát</p>
+                </div>
+
+                <!-- Content Section (Initially Hidden) -->
+                <div id="contentSection" style="display: none;">
+                    
+                    <!-- Header -->
+                    <div class="text-center mb-4 pb-3 border-bottom">
+                        <h2 class="text-primary mb-1">BÁO CÁO Y TẾ CHI TIẾT</h2>
+                        <h4 class="text-muted">BỆNH VIỆN ABC</h4>
+                        <p class="mb-0 text-muted">Địa chỉ: 123 Đường ABC, Quận XYZ, TP.HCM</p>
+                    </div>
+
+                    <!-- Patient & Record Info -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="info-card p-3 h-100">
+                                <h6 class="text-primary mb-3">
+                                    <i class="fas fa-user me-2"></i>Thông tin bệnh nhân
+                                </h6>
+                                <div id="patientInfo">
+                                    <!-- Patient info will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-card p-3 h-100">
+                                <h6 class="text-primary mb-3">
+                                    <i class="fas fa-info-circle me-2"></i>Thông tin báo cáo
+                                </h6>
+                                <div id="recordInfo">
+                                    <!-- Record info will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Medical Details -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0 text-primary">
+                                <i class="fas fa-stethoscope me-2"></i>Chi tiết y tế
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div id="medicalDetails">
+                                <!-- Medical details will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Test Results -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0 text-primary">
+                                <i class="fas fa-flask me-2"></i>Kết quả xét nghiệm
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div id="testResults">
+                                <!-- Test results will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notes -->
+                    <div class="card mb-4" id="notesCard" style="display: none;">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0 text-primary">
+                                <i class="fas fa-sticky-note me-2"></i>Ghi chú bổ sung
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div id="notes">
+                                <!-- Notes will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="row mt-5 pt-4 border-top">
+                        <div class="col-6">
+                            <div class="text-center">
+                                <p class="mb-1"><strong>Bệnh nhân</strong></p>
+                                <div style="height: 60px;"></div>
+                                <p class="border-top pt-2" id="patientSignature">________________</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center">
+                                <p class="mb-1"><strong>Bác sĩ điều trị</strong></p>
+                                <div style="height: 60px;"></div>
+                                <p class="border-top pt-2" id="doctorSignature">________________</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <small class="text-muted">
+                            Báo cáo được tạo ngày: <span id="reportDate"></span>
+                        </small>
+                    </div>
+
+                </div>
+
+                <!-- Error Section -->
+                <div id="errorSection" style="display: none;" class="text-center py-5">
+                    <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                    <h5>Không thể tải báo cáo</h5>
+                    <p class="text-muted" id="errorMessage">Đã xảy ra lỗi khi tải chi tiết báo cáo</p>
+                    <button class="btn btn-outline-primary" onclick="retryLoad()">
+                        <i class="fas fa-redo"></i> Thử lại
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="./assets/js/core/libs.min.js"></script>
+    <script src="./assets/js/kivicare.js"></script>
+    <script src="./assets/js/medical-record-detail.js"></script>
+</body>
+</html>
