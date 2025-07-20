@@ -36,6 +36,8 @@
 
 
 
+    <!-- Sweetlaert2 css -->
+    <link rel="stylesheet" href="./assets/vendor/sweetalert2/dist/sweetalert2.min.css" />
 
 
 
@@ -248,7 +250,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="./patient.html">
+                        <a class="nav-link active" aria-current="page" href="./patient.html">
                             <i class="icon" data-bs-toggle="tooltip" title="Patient" data-bs-placement="right">
                                 <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -335,10 +337,10 @@
                                 <a class="nav-link" href="./ImportManage.html">
                                     <i class="icon" data-bs-toggle="tooltip" title="Quản lý nhập thuốc"
                                         data-bs-placement="right">
-                                        
+
                                         <svg width="20" class="icon-20" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
-                                            
+
                                         </svg>
                                     </i>
                                     <span class="item-name">Quản lý nhập thuốc</span>
@@ -348,10 +350,10 @@
                                 <a class="nav-link" href="./MedicineAdmin.html">
                                     <i class="icon" data-bs-toggle="tooltip" title="Quản lý thuốc"
                                         data-bs-placement="right">
-                                        
+
                                         <svg width="20" class="icon-20" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
-                                            
+
                                         </svg>
                                     </i>
                                     <span class="item-name">Quản lý thuốc</span>
@@ -400,7 +402,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="./helpsupport.html">
+                        <a class="nav-link " aria-current="page" href="./helpsupport.html">
                             <i class="icon" data-bs-toggle="tooltip" title="Help & Support" data-bs-placement="right">
                                 <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -1847,241 +1849,315 @@
         </div>
         <div class="content-inner container-fluid pb-0" id="page_layout">
 
-            <div class="d-flex align-items-center justify-content-between flex-wrap mb-5 gap-3">
-                <div>
-                    <h1>Help And Support</h1>
-                    <span>When customer have problem they open support ticket</span>
-                </div>
+            <div class="d-flex align-items-center mb-4 mb-4 pb-3 pt-3">
+                <svg class="icon-18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M9.15722 20.7714V17.7047C9.1572 16.9246 9.79312 16.2908 10.581 16.2856H13.4671C14.2587 16.2856 14.9005 16.9209 14.9005 17.7047V17.7047V20.7809C14.9003 21.4432 15.4343 21.9845 16.103 22H18.0271C19.9451 22 21.5 20.4607 21.5 18.5618V18.5618V9.83784C21.4898 9.09083 21.1355 8.38935 20.538 7.93303L13.9577 2.6853C12.8049 1.77157 11.1662 1.77157 10.0134 2.6853L3.46203 7.94256C2.86226 8.39702 2.50739 9.09967 2.5 9.84736V18.5618C2.5 20.4607 4.05488 22 5.97291 22H7.89696C8.58235 22 9.13797 21.4499 9.13797 20.7714V20.7714"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <svg class="mx-1 icon-18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.5 5L15.5 12L8.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                </svg>
+                <span class="head-title fw-500 mt-1">Quản lý thuốc</span>
             </div>
-
             <div class="card">
-                <div class="card-header d-flex justify-content-between flex-wrap">
+                <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
                     <div>
-                        <h4>Create New Ticket</h4>
-                        <span>Fill up this information and submit.</span>
+                        <h4>Thuốc Đã Nhập</h4>
                     </div>
+
                 </div>
-                <div class="card-body pt-0">
-                    <form>
-                        <div class="row row-cols-xl-4 row-cols-md-2 row-cols-1">
-                            <div class="form-group col">
-                                <label class="form-label">Your Name</label>
-                                <input type="text" class="form-control" value="Amine Steward">
+                <div>
+                    <form id="searchForm" class="rounded p-3 mb-4 border bg-light">
+                        <div class="row g-3 align-items-end">
+                            <!-- Từ khóa -->
+                            <div class="col-md-2">
+                                <label class="form-label">Từ khóa</label>
+                                <input type="text" class="form-control" id="searchInput"
+                                    placeholder="Tên thuốc, nhà cung cấp...">
                             </div>
-                            <div class="form-group col">
-                                <label class="form-label">Email<span class="text-danger">*</span></label>
-                                <input type="email" class="form-control" value="amine@gmail.com">
+
+                            <!-- Ngày bắt đầu -->
+                            <div class="col-md-2">
+                                <label class="form-label">Ngày bắt đầu</label>
+                                <input type="date" class="form-control" id="startDateInput">
                             </div>
-                            <div class="form-group col">
-                                <label class="form-label">Support Text<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" value="">
+
+                            <!-- Ngày kết thúc -->
+                            <div class="col-md-2">
+                                <label class="form-label">Ngày kết thúc</label>
+                                <input type="date" class="form-control" id="endDateInput">
                             </div>
-                            <div class="form-group col">
-                                <label class="form-label">Reason</label>
-                                <input type="text" class="form-control" value="">
+
+                            <!-- Tiêu chí sắp xếp -->
+                            <div class="col-md-2">
+                                <label for="sortByDropdown" class="form-label">Sắp xếp theo</label>
+                                <select id="sortByDropdown" class="form-select">
+                                    <option value="">-- Chọn tiêu chí --</option>
+                                    <option value="medicineName">Tên thuốc</option>
+                                    <option value="categoryName">Danh mục thuốc</option>
+                                    <option value="unitName">Đơn vị</option>
+                                    <option value="quantity">Số lượng</option>
+                                    <option value="expiryDate">Ngày hết hạn</option>
+                                    <option value="supplierName">Nhà cung cấp</option>
+                                </select>
                             </div>
-                        </div>
-                        <div class="mt-3">
-                            <button type="button" class="btn btn-primary">
-                                <span class="btn-inner">
-                                    <span class="text d-inline-block align-middle">Submit Ticket</span>
-                                    <span class="icon d-inline-block align-middle ms-1 ps-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8"
-                                            fill="none">
-                                            <path
-                                                d="M7.32046 4.70834H4.74952V7.25698C4.74952 7.66734 4.41395 8 4 8C3.58605 8 3.25048 7.66734 3.25048 7.25698V4.70834H0.679545C0.293423 4.6687 0 4.34614 0 3.96132C0 3.5765 0.293423 3.25394 0.679545 3.21431H3.24242V0.673653C3.28241 0.290878 3.60778 0 3.99597 0C4.38416 0 4.70954 0.290878 4.74952 0.673653V3.21431H7.32046C7.70658 3.25394 8 3.5765 8 3.96132C8 4.34614 7.70658 4.6687 7.32046 4.70834Z"
-                                                fill="currentColor" />
-                                        </svg>
-                                    </span>
-                                </span>
-                            </button>
+
+                            <!-- Thứ tự -->
+                            <div class="col-md-2">
+                                <label for="ascendingDropdown" class="form-label">Thứ tự</label>
+                                <select id="ascendingDropdown" class="form-select">
+                                    <option value="">-- Chọn thứ tự --</option>
+                                    <option value="true">Tăng dần</option>
+                                    <option value="false">Giảm dần</option>
+                                </select>
+                            </div>
+
+                            <!-- Nút -->
+                            <div class="col-md-2 d-flex">
+                                <button class="btn btn-primary me-2 flex-fill" type="submit">Search</button>
+                                <button class="btn btn-secondary flex-fill" type="button" id="clearBtn">Clear</button>
+                            </div>
                         </div>
                     </form>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-7">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="row align-items-center">
-                                <div class="col-sm-6">
-                                    <h4>Latest Support History</h4>
-                                    <p class="mb-0">Here is your most recent history</p>
-                                </div>
-                                <div class="col-sm-6 text-sm-end mt-sm-0 mt-4">
-                                    <a href="#" class="btn btn-primary" download>
-                                        <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M7.38948 8.98403H6.45648C4.42148 8.98403 2.77148 10.634 2.77148 12.669V17.544C2.77148 19.578 4.42148 21.228 6.45648 21.228H17.5865C19.6215 21.228 21.2715 19.578 21.2715 17.544V12.659C21.2715 10.63 19.6265 8.98403 17.5975 8.98403L16.6545 8.98403"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round"></path>
-                                            <path d="M12.0215 2.19044V14.2314" stroke="currentColor" stroke-width="1.5"
-                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                            <path d="M9.10645 5.1189L12.0214 2.1909L14.9374 5.1189"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round"></path>
-                                        </svg>
-                                        Export</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body pt-0">
-                            <div class="table-responsive">
-                                <table class="table border-end border-start align-middle mb-0 rounded">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th scope="col">Support Reguest No</th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Support Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>SR#14356</td>
-                                            <td>darrell@gmail.com</td>
-                                            <td>23/08/2023</td>
-                                            <td>
-                                                <span
-                                                    class="badge rounded bg-secondary-subtle text-secondary fw-500 px-3 py-2 border-0">Inprogress</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>SR#14678</td>
-                                            <td>esther@gmail.com</td>
-                                            <td>24/08/2023</td>
-                                            <td>
-                                                <span
-                                                    class="badge rounded bg-success-subtle text-success fw-500 px-3 py-2 border-0">Approve</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>SR#12431</td>
-                                            <td>floyd@gmail.com</td>
-                                            <td>09/09/2023</td>
-                                            <td>
-                                                <span
-                                                    class="badge rounded bg-primary-subtle text-primary fw-500 px-3 py-2 border-0">Submit</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>SR#21356</td>
-                                            <td>guy@gmail.com</td>
-                                            <td>12/10/2023</td>
-                                            <td>
-                                                <span
-                                                    class="badge rounded bg-danger-subtle text-danger fw-500 px-3 py-2 border-0">Cancel</span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+
+
+
+
+                <div class="card-body pt-0">
+                    <div class="table-responsive">
+                        <table class="table border-end border-start align-middle mb-0 rounded">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Mã Thuốc</th>
+                                    <th>Tên Thuốc</th>
+                                    <th>Số lượng</th>
+                                    <th>Đơn Vị</th>
+                                    <th>Giá Nhập</th>
+                                    <th>Danh Mục Thuốc</th>
+                                    <th>Ngày Sản Xuất</th>
+                                    <th>Ngày Hết Hạn</th>
+                                    <th>Số Lô</th>
+                                    <th>Nhà Cung Cấp</th>
+                                    <th>Ngày nhập</th>
+                                    <th>Người Nhập</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ImportMedicine">
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="col-lg-5">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="mb-0">Frequenty Asked Questions</h4>
-                        </div>
-                        <div class="card-body pt-0">
-                            <div class="accordion" id="accordionExample">
-                                <div class="accordion-item">
-                                    <h5 class="accordion-header" id="headingOne">
-                                        <button class="accordion-button text-capitalize" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true"
-                                            aria-controls="collapseOne">
-                                            How to book an appointment?
-                                        </button>
-                                    </h5>
-                                    <div id="collapseOne" class="accordion-collapse collapse show"
-                                        aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
-                                            There are many variations of passages of Lorem Ipsum available, but the
-                                            majority have suffered alteration in some form, by injected humour, or
-                                            randomised words which don’t look even slightly believable. If you are going
-                                            to use a passage of Lorem Ipsum, you need to be sure there isn’t anything.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="accordion-item">
-                                    <h5 class="accordion-header" id="headingTwo">
-                                        <button class="accordion-button text-capitalize collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#collapseTwo"
-                                            aria-expanded="false" aria-controls="collapseTwo">
-                                            What are bed charges?
-                                        </button>
-                                    </h5>
-                                    <div id="collapseTwo" class="accordion-collapse collapse"
-                                        aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
-                                            There are many variations of passages of Lorem Ipsum available, but the
-                                            majority have suffered alteration in some form, by injected humour, or
-                                            randomised words which don’t look even slightly believable. If you are going
-                                            to use a passage of Lorem Ipsum, you need to be sure there isn’t anything.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="accordion-item">
-                                    <h5 class="accordion-header" id="headingThree">
-                                        <button class="accordion-button text-capitalize collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#collapseThree"
-                                            aria-expanded="false" aria-controls="collapseThree">
-                                            What is Lasik Treatment?
-                                        </button>
-                                    </h5>
-                                    <div id="collapseThree" class="accordion-collapse collapse"
-                                        aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
-                                            There are many variations of passages of Lorem Ipsum available, but the
-                                            majority have suffered alteration in some form, by injected humour, or
-                                            randomised words which don’t look even slightly believable. If you are going
-                                            to use a passage of Lorem Ipsum, you need to be sure there isn’t anything.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="accordion-item">
-                                    <h5 class="accordion-header" id="headingFour">
-                                        <button class="accordion-button text-capitalize collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#collapseFour"
-                                            aria-expanded="false" aria-controls="collapseFour">
-                                            What is heart surgery?
-                                        </button>
-                                    </h5>
-                                    <div id="collapseFour" class="accordion-collapse collapse"
-                                        aria-labelledby="headingFour" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
-                                            There are many variations of passages of Lorem Ipsum available, but the
-                                            majority have suffered alteration in some form, by injected humour, or
-                                            randomised words which don’t look even slightly believable. If you are going
-                                            to use a passage of Lorem Ipsum, you need to be sure there isn’t anything.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="accordion-item">
-                                    <h5 class="accordion-header" id="headingFive">
-                                        <button class="accordion-button text-capitalize collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#collapseFive"
-                                            aria-expanded="false" aria-controls="collapseFive">
-                                            Which vegetables to eat?
-                                        </button>
-                                    </h5>
-                                    <div id="collapseFive" class="accordion-collapse collapse"
-                                        aria-labelledby="headingFive" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
-                                            There are many variations of passages of Lorem Ipsum available, but the
-                                            majority have suffered alteration in some form, by injected humour, or
-                                            randomised words which don’t look even slightly believable. If you are going
-                                            to use a passage of Lorem Ipsum, you need to be sure there isn’t anything.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="card-footer pt-0">
+                    <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap">
+                        <ul id="pageNumber" class="page-number m-0 p-0 list-unstyled d-flex gap-2"></ul>
+                        <div>
+                            <button class="btn btn-secondary text-white me-3" type="button" id="preBtn"
+                                aria-label="Previous page">
+                                <span class="btn-inner">
+                                    <span class="text d-inline-block align-middle">Previous</span>
+                                </span>
+                            </button>
+                            <button class="btn btn-primary me-3" type="button" id="nextBtn" aria-label="Next page">
+                                <span class="btn-inner">
+                                    <span class="text d-inline-block align-middle">Next</span>
+                                </span>
+                            </button>
+                            <span id="pageInfo" class="text-muted"></span>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasPatientEdit"
+                aria-labelledby="offcanvasPatientEditLabel">
+                <div class="offcanvas-header border-bottom">
+                    <h3 class="offcanvas-title" id="offcanvasPatientEditLabel">Edit Patient</h3>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div class="form-group">
+                        <label class="form-label" for="Id">Patient Id <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="Id" value="#14356">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="Name">Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="Name" value="Isabella Brown">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="Age">Age </label>
+                        <input type="text" class="form-control" id="Age" value="23">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="form-label" for="PnoneNumber">Phone Number <span
+                                class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="PnoneNumber" value="+1 345 675 345">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="form-label" for="datetime">Date And Time <span
+                                class="text-danger">*</span></label>
+                        <input type="text" id="datetime" class="form-control date_flatpicker flatpickr-input active"
+                            value="2023-05-24" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label d-block">Gender <span class="text-danger">*</span></label>
+                        <div class="form-check d-inline-block">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="male2">
+                            <label class="form-check-label" for="male2">
+                                Male
+                            </label>
+                        </div>
+                        <div class="form-check d-inline-block ms-3">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="female2" checked>
+                            <label class="form-check-label" for="female2">
+                                Female
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="form-label" for="reason">Reason <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="reason" value="Vaccination">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="form-label" for="reason">Blood Group <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="BloodGroup" value="O +ve">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="Name">Doctor Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="Doctorname" value="Dr. David Johnson">
+                    </div>
+                </div>
+                <div class="offcanvas-footer border-top">
+                    <div class="d-grid d-md-flex gap-3 p-3">
+                        <button type="submit" class="btn btn-primary d-block">
+                            <span class="btn-inner">
+                                <span class="text d-inline-block align-middle">Update</span>
+                                <span class="icon d-inline-block align-middle ms-1 ps-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8"
+                                        fill="none">
+                                        <path
+                                            d="M7.32046 4.70834H4.74952V7.25698C4.74952 7.66734 4.41395 8 4 8C3.58605 8 3.25048 7.66734 3.25048 7.25698V4.70834H0.679545C0.293423 4.6687 0 4.34614 0 3.96132C0 3.5765 0.293423 3.25394 0.679545 3.21431H3.24242V0.673653C3.28241 0.290878 3.60778 0 3.99597 0C4.38416 0 4.70954 0.290878 4.74952 0.673653V3.21431H7.32046C7.70658 3.25394 8 3.5765 8 3.96132C8 4.34614 7.70658 4.6687 7.32046 4.70834Z"
+                                            fill="currentColor" />
+                                    </svg>
+                                </span>
+                            </span>
+                        </button>
+                        <button class="btn btn-secondary d-block" type="button" data-bs-dismiss="offcanvas">
+                            <span class="btn-inner">
+                                <span class="text d-inline-block align-middle">Close</span>
+                                <span class="icon d-inline-block align-middle ms-1 ps-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8"
+                                        fill="none">
+                                        <path
+                                            d="M7.32046 4.70834H4.74952V7.25698C4.74952 7.66734 4.41395 8 4 8C3.58605 8 3.25048 7.66734 3.25048 7.25698V4.70834H0.679545C0.293423 4.6687 0 4.34614 0 3.96132C0 3.5765 0.293423 3.25394 0.679545 3.21431H3.24242V0.673653C3.28241 0.290878 3.60778 0 3.99597 0C4.38416 0 4.70954 0.290878 4.74952 0.673653V3.21431H7.32046C7.70658 3.25394 8 3.5765 8 3.96132C8 4.34614 7.70658 4.6687 7.32046 4.70834Z"
+                                            fill="currentColor" />
+                                    </svg>
+                                </span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasPatientAdd"
+                aria-labelledby="offcanvasPatientAddLabel">
+                <div class="offcanvas-header border-bottom">
+                    <h3 class="offcanvas-title" id="offcanvasPatientAddLabel">Add Patient</h3>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div class="form-group">
+                        <label class="form-label" for="add_id">Patient Id <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="add_id">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="add_Name">Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="add_Name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="add_age">Age </label>
+                        <input type="text" class="form-control" id="add_age">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="form-label" for="AddPnoneNumber">Phone Number <span
+                                class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="AddPnoneNumber">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="form-label" for="adddatetime">Date And Time <span
+                                class="text-danger">*</span></label>
+                        <input type="text" id="adddatetime" class="form-control date_flatpicker flatpickr-input active"
+                            readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label d-block" for="Name">Gender <span class="text-danger">*</span></label>
+                        <div class="form-check d-inline-block">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="male">
+                            <label class="form-check-label" for="male">
+                                Male
+                            </label>
+                        </div>
+                        <div class="form-check d-inline-block ms-3">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="female">
+                            <label class="form-check-label" for="female">
+                                Female
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="form-label" for="add_reason">Reason <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="add_reason">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="form-label" for="AddBloodGroup">Blood Group <span
+                                class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="AddBloodGroup">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="AddDoctorname">Doctor Name <span
+                                class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="AddDoctorname">
+                    </div>
+                </div>
+                <div class="offcanvas-footer border-top">
+                    <div class="d-grid d-md-flex gap-3 p-3">
+                        <button type="submit" class="btn btn-primary d-block">
+                            <span class="btn-inner">
+                                <span class="text d-inline-block align-middle">Save</span>
+                                <span class="icon d-inline-block align-middle ms-1 ps-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8"
+                                        fill="none">
+                                        <path
+                                            d="M7.32046 4.70834H4.74952V7.25698C4.74952 7.66734 4.41395 8 4 8C3.58605 8 3.25048 7.66734 3.25048 7.25698V4.70834H0.679545C0.293423 4.6687 0 4.34614 0 3.96132C0 3.5765 0.293423 3.25394 0.679545 3.21431H3.24242V0.673653C3.28241 0.290878 3.60778 0 3.99597 0C4.38416 0 4.70954 0.290878 4.74952 0.673653V3.21431H7.32046C7.70658 3.25394 8 3.5765 8 3.96132C8 4.34614 7.70658 4.6687 7.32046 4.70834Z"
+                                            fill="currentColor" />
+                                    </svg>
+                                </span>
+                            </span>
+                        </button>
+                        <button class="btn btn-secondary d-block" type="button" data-bs-dismiss="offcanvas">
+                            <span class="btn-inner">
+                                <span class="text d-inline-block align-middle">Close</span>
+                                <span class="icon d-inline-block align-middle ms-1 ps-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8"
+                                        fill="none">
+                                        <path
+                                            d="M7.32046 4.70834H4.74952V7.25698C4.74952 7.66734 4.41395 8 4 8C3.58605 8 3.25048 7.66734 3.25048 7.25698V4.70834H0.679545C0.293423 4.6687 0 4.34614 0 3.96132C0 3.5765 0.293423 3.25394 0.679545 3.21431H3.24242V0.673653C3.28241 0.290878 3.60778 0 3.99597 0C4.38416 0 4.70954 0.290878 4.74952 0.673653V3.21431H7.32046C7.70658 3.25394 8 3.5765 8 3.96132C8 4.34614 7.70658 4.6687 7.32046 4.70834Z"
+                                            fill="currentColor" />
+                                    </svg>
+                                </span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
         <!-- Footer Section Start -->
@@ -2945,6 +3021,9 @@
     <script src="./assets/js/plugins/fslightbox.js" defer></script>
 
 
+    <!-- Sweet-alert Script -->
+    <script src="./assets/vendor/sweetalert2/dist/sweetalert2.min.js" async></script>
+    <script src="./assets/js/plugins/sweet-alert.js" defer></script>
 
 
     <!-- Select2 Script -->
@@ -2974,6 +3053,9 @@
 
     <!-- Icons -->
     <script src="./assets/js/solid-icon-search-filter.js?v=1.4.1" defer></script>
+    <!-- JS -->
+    <script src="./assets/js/MedicineImportDetailAdmin.js"></script>
+
 </body>
 
 </html>
