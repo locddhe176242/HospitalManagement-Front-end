@@ -1,170 +1,164 @@
-const API_BASE_URL = 'http://localhost:5082';
+const API_BASE_URL = 'https://localhost:7097';
 const ITEMS_PER_PAGE = 10;
-
 let currentData = [];
 let currentPage = 1;
 
-// Initialize page
-document.addEventListener('DOMContentLoaded', function() {
-    loadDoctorOptions();
+// ====== UTILS ======
+function getAuthToken() {
+    return localStorage.getItem('authToken') || localStorage.getItem('token');
+}
+function getDoctorId() {
+    const userInfo = localStorage.getItem('userInfo');
+    if (!userInfo) return null;
+    try {
+        const user = JSON.parse(userInfo);
+        return user.doctorId || user.userId || null;
+    } catch {
+        return null;
+    }
+}
+
+// ====== MAIN INIT ======
+document.addEventListener('DOMContentLoaded', async function() {
     setupEventListeners();
+    updateDoctorTitle();
+    await preloadDoctorId();
+    await loadTodaySchedule();
 });
 
-// Setup event listeners
+// ====== EVENT LISTENERS ======
 function setupEventListeners() {
     document.getElementById('filterForm').addEventListener('submit', function(e) {
         e.preventDefault();
         searchSchedule();
     });
+    document.querySelector('[onclick="loadTodaySchedule()"]').addEventListener('click', loadTodaySchedule);
+    document.querySelector('[onclick="loadThisWeekSchedule()"]').addEventListener('click', loadThisWeekSchedule);
+    document.querySelector('[onclick="clearFilters()"]').addEventListener('click', clearFilters);
 }
 
-// Load doctor options - KẾT NỐI VỚI API THỰC TẾ
-async function loadDoctorOptions() {
+// ====== DOCTOR INFO ======
+async function preloadDoctorId() {
+    let doctorId = getDoctorId();
+    if (doctorId) return doctorId;
+    const userInfo = localStorage.getItem('userInfo');
+    if (!userInfo) return null;
+    let user;
+    try { user = JSON.parse(userInfo); } catch { return null; }
+    const userId = user.userId || user.id;
+    if (!userId) return null;
     try {
-        console.log('Starting to load doctors...');
-        
-        const response = await fetch(`${API_BASE_URL}/api/Doctors/GetAll`, {
-            method: 'GET',
-            mode: 'cors', // Thêm dòng này
-            headers: {
-                'Content-Type': 'application/json'
-            }
+        const res = await fetch(`${API_BASE_URL}/api/Doctors/FindByUserId/${userId}`, {
+            headers: { 'Authorization': `Bearer ${getAuthToken()}` }
         });
-
-        console.log('Response:', response);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        if (!res.ok) return null;
+        const doctor = await res.json();
+        if (doctor && doctor.id) {
+            user.doctorId = doctor.id;
+            localStorage.setItem('userInfo', JSON.stringify(user));
+            localStorage.setItem('doctorId', doctor.id);
+            return doctor.id;
         }
+    } catch { }
+    return null;
+}
 
-        const doctors = await response.json();
-        console.log('Doctors received:', doctors);
-        
-        const select = document.getElementById('doctorFilter');
-        select.innerHTML = '<option value="">Chọn bác sĩ...</option>';
-        
-        // SỬA: Backend trả về "name" chứ không phải "firstName" và "lastName"
-        doctors.forEach(doctor => {
-            const option = document.createElement('option');
-            option.value = doctor.id;
-            option.textContent = `Dr. ${doctor.name}`; // Sửa ở đây
-            select.appendChild(option);
-        });
-
-        console.log('Successfully loaded', doctors.length, 'doctors');
-
-    } catch (error) {
-        console.error('Error loading doctors:', error);
-        showNotification('Lỗi khi tải danh sách bác sĩ: ' + error.message, 'error');
+function updateDoctorTitle() {
+    const userInfo = localStorage.getItem('userInfo');
+    const titleElement = document.getElementById('doctorPageTitle');
+    const totalElement = document.getElementById('totalAppointments');
+    if (!titleElement) return;
+    if (userInfo) {
+        const user = JSON.parse(userInfo);
+        titleElement.textContent = `Bác sĩ ${user.fullName || user.name || 'Chưa đăng nhập'}`;
+        if (totalElement) totalElement.textContent = '0';
+    } else {
+        titleElement.textContent = 'Bác sĩ Chưa đăng nhập';
     }
 }
 
-// Search schedule with filters - KẾT NỐI VỚI API THỰC TẾ
+// ====== SCHEDULE LOAD & DISPLAY ======
+async function loadTodaySchedule() {
+    document.getElementById('fromDateFilter').value = new Date().toISOString().split('T')[0];
+    document.getElementById('toDateFilter').value = new Date().toISOString().split('T')[0];
+    await searchSchedule();
+}
+
+function loadThisWeekSchedule() {
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    const diff = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+    const startOfWeek = new Date(today.setDate(diff));
+    const endOfWeek = new Date(today.setDate(diff + 6));
+    document.getElementById('fromDateFilter').value = startOfWeek.toISOString().split('T')[0];
+    document.getElementById('toDateFilter').value = endOfWeek.toISOString().split('T')[0];
+    searchSchedule();
+}
+
+function clearFilters() {
+    document.getElementById('filterForm').reset();
+    currentData = [];
+    currentPage = 1;
+    document.getElementById('scheduleTableBody').innerHTML = `
+        <tr>
+            <td colspan="8" class="text-center py-4">
+                <i class="fas fa-search fa-2x text-muted mb-2"></i>
+                <p class="text-muted">Sử dụng bộ lọc để tìm kiếm lịch khám</p>
+            </td>
+        </tr>
+    `;
+    document.getElementById('resultCount').textContent = 'Chọn bác sĩ để xem lịch khám';
+    document.getElementById('paginationSection').style.display = 'none';
+    setTimeout(loadTodaySchedule, 100);
+}
+
+// ====== SEARCH & RENDER ======
 async function searchSchedule() {
+    const doctorId = getDoctorId();
+    if (!doctorId) {
+        showNotification('Không tìm thấy thông tin bác sĩ', 'error');
+        return;
+    }
+    const authToken = getAuthToken();
+    const fromDate = document.getElementById('fromDateFilter').value || null;
+    const toDate = document.getElementById('toDateFilter').value || null;
+    const patientName = document.getElementById('patientNameFilter').value || "";
+    const status = document.getElementById('statusFilter').value || "";
+    showLoading();
+    const filterData = {
+        doctorId: parseInt(doctorId),
+        fromDate,
+        toDate,
+        patientName,
+        status,
+        pageNumber: 1,
+        pageSize: 100
+    };
     try {
-        const doctorId = document.getElementById('doctorFilter').value;
-        const fromDate = document.getElementById('fromDateFilter').value;
-        const toDate = document.getElementById('toDateFilter').value;
-        const patientName = document.getElementById('patientNameFilter').value;
-        const status = document.getElementById('statusFilter').value;
-
-        if (!doctorId) {
-            showNotification('Vui lòng chọn bác sĩ', 'warning');
-            return;
-        }
-
-        showLoading();
-
-        const filterData = {
-            doctorId: parseInt(doctorId),
-            fromDate: fromDate || null,
-            toDate: toDate || null,
-            patientName: patientName || null,
-            appointmentStatus: status || null
-        };
-
-        const response = await fetch(`${API_BASE_URL}/api/PatientFilter/doctor-patients`, {
+        const response = await fetch(`${API_BASE_URL}/api/PatientFilter/GetPatientSchedule`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                ...(authToken && { 'Authorization': `Bearer ${authToken}` })
             },
             body: JSON.stringify(filterData)
         });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
+        if (!response.ok) throw new Error('Không lấy được lịch khám');
         const data = await response.json();
         currentData = data;
         currentPage = 1;
-        
         displaySchedule(data);
         updateResultCount(data.length);
         hideLoading();
-
     } catch (error) {
-        console.error('Error searching schedule:', error);
         hideLoading();
         showNotification('Lỗi khi tìm kiếm lịch khám: ' + error.message, 'error');
     }
 }
 
-// Load today's schedule - KẾT NỐI VỚI API THỰC TẾ
-async function loadTodaySchedule() {
-    try {
-        const doctorId = document.getElementById('doctorFilter').value;
-        
-        if (!doctorId) {
-            showNotification('Vui lòng chọn bác sĩ trước', 'warning');
-            return;
-        }
-
-        showLoading();
-
-        const response = await fetch(`${API_BASE_URL}/api/PatientFilter/doctor/${doctorId}/today`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        currentData = data;
-        currentPage = 1;
-        
-        displaySchedule(data);
-        updateResultCount(data.length);
-        hideLoading();
-
-    } catch (error) {
-        console.error('Error loading today schedule:', error);
-        hideLoading();
-        showNotification('Lỗi khi tải lịch hôm nay: ' + error.message, 'error');
-    }
-}
-
-// Load this week's schedule
-function loadThisWeekSchedule() {
-    const today = new Date();
-    const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
-    const endOfWeek = new Date(today.setDate(today.getDate() - today.getDay() + 6));
-
-    document.getElementById('fromDateFilter').value = startOfWeek.toISOString().split('T')[0];
-    document.getElementById('toDateFilter').value = endOfWeek.toISOString().split('T')[0];
-    
-    searchSchedule();
-}
-
-// Display schedule data - XỬ LÝ RESPONSE TỪ BACKEND
 function displaySchedule(data) {
     const tbody = document.getElementById('scheduleTableBody');
     tbody.innerHTML = '';
-
     if (!data || data.length === 0) {
         tbody.innerHTML = `
             <tr>
@@ -177,21 +171,16 @@ function displaySchedule(data) {
         document.getElementById('paginationSection').style.display = 'none';
         return;
     }
-
-    // Pagination
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
     const pageData = data.slice(startIndex, endIndex);
-
     pageData.forEach((item, index) => {
         const examinationDate = item.examinationTime ? new Date(item.examinationTime) : new Date();
         const formattedDate = examinationDate.toLocaleDateString('vi-VN');
         const formattedTime = examinationDate.toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
-        
-        // Tạo dropdown trạng thái
-        const statusDropdown = getStatusDropdown(item.appointmentStatus || 'Pending', item.id);
-        
-        const row = `
+        const statusValue = mapBackendStatus(item.appointmentStatus);
+        const statusDropdown = getStatusDropdown(statusValue, item.id);
+        tbody.innerHTML += `
             <tr>
                 <td>${startIndex + index + 1}</td>
                 <td>${item.id || 'N/A'}</td>
@@ -210,14 +199,11 @@ function displaySchedule(data) {
                 <td>${formattedTime}</td>
                 <td>${statusDropdown}</td>
                 <td>
-                    ${getViewReportButton(item.appointmentStatus || 'Pending', item.id, item.name)}
+                    ${getViewReportButton(statusValue, item.id, item.name)}
                 </td>
             </tr>
         `;
-        tbody.innerHTML += row;
     });
-
-    // Show pagination if needed
     if (data.length > ITEMS_PER_PAGE) {
         showPagination(data.length);
     } else {
@@ -225,185 +211,88 @@ function displaySchedule(data) {
     }
 }
 
-// Show pagination
+function mapBackendStatus(backendStatus) {
+    switch(backendStatus) {
+        case 'Completed': return 'Completed';
+        case 'Confirmed': return 'InProgress';
+        case 'Pending': return 'Pending';
+        case 'Cancelled': return 'Cancelled';
+        default: return 'Pending';
+    }
+}
+
+function updateResultCount(count) {
+    const resultElement = document.getElementById('resultCount');
+    if (resultElement) resultElement.textContent = `Tìm thấy ${count} lịch khám`;
+    const totalElement = document.getElementById('totalAppointments');
+    if (totalElement) totalElement.textContent = count;
+}
+
+// ====== PAGINATION ======
 function showPagination(totalItems) {
     const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
     const pagination = document.getElementById('pagination');
     pagination.innerHTML = '';
-
-    // Previous button
-    const prevBtn = `
+    pagination.innerHTML += `
         <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
             <button class="page-link" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
                 <i class="fas fa-chevron-left"></i>
             </button>
         </li>
     `;
-    pagination.innerHTML += prevBtn;
-
-    // Page numbers
     for (let i = 1; i <= totalPages; i++) {
         if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
-            const pageBtn = `
+            pagination.innerHTML += `
                 <li class="page-item ${i === currentPage ? 'active' : ''}">
                     <button class="page-link" onclick="goToPage(${i})">${i}</button>
                 </li>
             `;
-            pagination.innerHTML += pageBtn;
         } else if (i === currentPage - 3 || i === currentPage + 3) {
             pagination.innerHTML += '<li class="page-item disabled"><span class="page-link">...</span></li>';
         }
     }
-
-    // Next button
-    const nextBtn = `
+    pagination.innerHTML += `
         <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
             <button class="page-link" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
                 <i class="fas fa-chevron-right"></i>
             </button>
         </li>
     `;
-    pagination.innerHTML += nextBtn;
-
     document.getElementById('paginationSection').style.display = 'block';
 }
 
-// Go to specific page
 function goToPage(page) {
     currentPage = page;
     displaySchedule(currentData);
 }
 
-// Redirect to patient medical records
-function viewPatientDetail(patientId, patientName) {
-    window.location.href = `./patient-medical-records.html?patientId=${patientId}&patientName=${encodeURIComponent(patientName)}`;
-}
-
-// Update appointment status
-async function updateStatus(appointmentId, newStatus) {
-    if (!confirm(`Bạn có chắc muốn thay đổi trạng thái thành "${getStatusText(newStatus)}"?`)) {
-        return;
-    }
-
-    try {
-        // TODO: Gọi API để update status thực tế
-        showNotification(`Đã cập nhật trạng thái thành "${getStatusText(newStatus)}"`, 'success');
-        // Refresh data
-        searchSchedule();
-    } catch (error) {
-        console.error('Error updating status:', error);
-        showNotification('Lỗi khi cập nhật trạng thái', 'error');
-    }
-}
-
-// Clear all filters
-function clearFilters() {
-    document.getElementById('filterForm').reset();
-    document.getElementById('scheduleTableBody').innerHTML = `
-        <tr>
-            <td colspan="8" class="text-center py-4">
-                <i class="fas fa-search fa-2x text-muted mb-2"></i>
-                <p class="text-muted">Sử dụng bộ lọc để tìm kiếm lịch khám</p>
-            </td>
-        </tr>
-    `;
-    document.getElementById('resultCount').textContent = 'Chọn bác sĩ để xem lịch khám';
-    document.getElementById('paginationSection').style.display = 'none';
-}
-
-// Update result count
-function updateResultCount(count) {
-    document.getElementById('resultCount').textContent = `Tìm thấy ${count} lịch khám`;
-}
-
-// Utility functions
-function getStatusClass(status) {
-    switch(status) {
-        case 'Pending': return 'bg-warning text-dark';
-        case 'InProgress': return 'bg-info text-white';  // SỬA
-        case 'Completed': return 'bg-success text-white';  // SỬA
-        case 'Cancelled': return 'bg-danger text-white';
-        default: return 'bg-secondary text-white';
-    }
-}
-
-function getStatusText(status) {
-    switch(status) {
-        case 'Pending': return 'Chưa khám';        // SỬA
-        case 'InProgress': return 'Đang khám';     // SỬA
-        case 'Completed': return 'Khám xong';      // SỬA
-        case 'Cancelled': return 'Đã hủy';
-        default: return status;
-    }
-}
-
-function showLoading() {
-    document.getElementById('scheduleTableBody').innerHTML = `
-        <tr>
-            <td colspan="8" class="text-center py-4">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Đang tải...</span>
-                </div>
-                <p class="mt-2 text-muted">Đang tải dữ liệu...</p>
-            </td>
-        </tr>
-    `;
-}
-
-function hideLoading() {
-    // Loading will be replaced by actual data
-}
-
-function showNotification(message, type) {
-    const alertClass = type === 'error' ? 'danger' : type;
-    const notification = document.createElement('div');
-    notification.className = `alert alert-${alertClass} alert-dismissible fade show position-fixed top-0 end-0 m-3`;
-    notification.style.zIndex = '9999';
-    notification.innerHTML = `
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    `;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.remove();
-    }, 5000);
-}
-
-// THÊM CÁC HÀM MỚI VÀO CUỐI FILE
-
-// Tạo dropdown trạng thái
+// ====== STATUS & REPORT BUTTONS ======
 function getStatusDropdown(currentStatus, appointmentId) {
     const statusOptions = [
         { value: 'Pending', text: 'Chưa khám', class: 'text-warning' },
         { value: 'InProgress', text: 'Đang khám', class: 'text-info' },
         { value: 'Completed', text: 'Khám xong', class: 'text-success' }
     ];
-
     let dropdown = `<select class="form-select form-select-sm" onchange="updateAppointmentStatus(${appointmentId}, this.value)" style="min-width: 120px;">`;
-    
     statusOptions.forEach(option => {
         const selected = currentStatus === option.value ? 'selected' : '';
         dropdown += `<option value="${option.value}" class="${option.class}" ${selected}>${option.text}</option>`;
     });
-    
     dropdown += '</select>';
     return dropdown;
 }
 
-// Tạo nút xem báo cáo thông minh
 function getViewReportButton(status, patientId, patientName) {
     if (status === 'Completed') {
         return `
-            <button class="btn btn-sm btn-success" onclick="viewMedicalRecords('${patientId}', '${patientName}')" title="Xem danh sách báo cáo khám">
+            <button class="btn btn-sm btn-success" onclick="viewMedicalRecords('${patientId}', '${patientName}')">
                 <i class="fas fa-file-medical me-1"></i>
                 Xem báo cáo khám
             </button>
         `;
     } else if (status === 'InProgress') {
         return `
-            <button class="btn btn-sm btn-info" onclick="createMedicalRecord('${patientId}', '${patientName}')" title="Tạo báo cáo khám">
+            <button class="btn btn-sm btn-info" onclick="createMedicalRecord('${patientId}', '${patientName}')">
                 <i class="fas fa-plus me-1"></i>
                 Tạo báo cáo
             </button>
@@ -418,29 +307,45 @@ function getViewReportButton(status, patientId, patientName) {
     }
 }
 
-// Cập nhật trạng thái appointment
-async function updateAppointmentStatus(appointmentId, newStatus) {
-    try {
-        console.log(`Updating appointment ${appointmentId} to status: ${newStatus}`);
-        showNotification(`Đã cập nhật trạng thái thành "${getStatusText(newStatus)}"`, 'success');
-        
-        // Refresh data để cập nhật UI
-        setTimeout(() => {
-            searchSchedule();
-        }, 1000);
+// ====== STATUS UPDATE & REPORT ======
+function showLoading() {
+    const tbody = document.getElementById('scheduleTableBody');
+    if (tbody) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="8" class="text-center py-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Đang tải...</span>
+                    </div>
+                    <p class="text-muted mt-2">Đang tải dữ liệu...</p>
+                </td>
+            </tr>
+        `;
+    }
+}
+function hideLoading() { /* No-op, handled by displaySchedule */ }
+function showNotification(message, type = 'info') {
+    alert(message);
+}
 
-    } catch (error) {
-        console.error('Error updating appointment status:', error);
-        showNotification('Lỗi khi cập nhật trạng thái: ' + error.message, 'error');
+function updateAppointmentStatus(appointmentId, newStatus) {
+    showNotification(`Đã cập nhật trạng thái thành "${getStatusText(newStatus)}"`, 'success');
+    searchSchedule();
+}
+
+function getStatusText(status) {
+    switch(status) {
+        case 'Pending': return 'Chưa khám';
+        case 'InProgress': return 'Đang khám';
+        case 'Completed': return 'Khám xong';
+        case 'Cancelled': return 'Đã hủy';
+        default: return status;
     }
 }
 
-// Chuyển đến trang xem báo cáo y tế
 function viewMedicalRecords(patientId, patientName) {
     window.location.href = `./patient-medical-records.html?patientId=${patientId}&patientName=${encodeURIComponent(patientName)}`;
 }
-
-// Tạo báo cáo y tế mới
 function createMedicalRecord(patientId, patientName) {
     showNotification('Chức năng tạo báo cáo đang được phát triển', 'info');
 }
