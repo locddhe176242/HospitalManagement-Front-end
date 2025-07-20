@@ -35,10 +35,24 @@ document.addEventListener('DOMContentLoaded', function () {
       // Chuyển hướng theo userType
       switch (userType) {
         case 'Admin':
-          window.location.href = '/dashboard/index.html';
+          window.location.href = '../index.html';
           break;
         case 'Doctor':
-          window.location.href = '/dashboard/doctor-page.html';
+          try {
+            const userId = data.userInfo.id;
+              const doctorRes = await fetch(
+             `https://localhost:7097/api/Doctors/FindByUserId/${userId}`,
+            {
+              headers: { 'Authorization': `Bearer ${data.token}` }
+            });
+              if (doctorRes.ok) {
+              const doctorData = await doctorRes.json();
+            localStorage.setItem('doctorId', doctorData.id);
+            }
+    }      catch (err) {
+              alert('Không lấy được thông tin bác sĩ!');
+              }
+          window.location.href = '../doctor-page.html';
           break;
         case 'Patient':
           window.location.href = '/frontend/index.html';
