@@ -194,15 +194,13 @@ function displayMedicalRecords(records) {
         return;
     }
 
-    // RENDER DỮ LIỆU THEO ĐÚNG FIELD TỪ API
     records.forEach((record, index) => {
-        // SỬA THEO ĐÚNG FIELD TỪ API RESPONSE
         const createDate = new Date(record.createDate || Date.now());
         const formattedDate = createDate.toLocaleDateString('vi-VN');
         const formattedTime = createDate.toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
         const statusClass = getStatusClass(record.status);
         const statusText = getStatusText(record.status);
-        
+
         const row = `
             <tr>
                 <td>${index + 1}</td>
@@ -223,10 +221,17 @@ function displayMedicalRecords(records) {
                     <span class="badge ${statusClass}">${statusText}</span>
                 </td>
                 <td>
-                    <button class="btn btn-sm btn-success" onclick="viewMedicalRecordDetail(${record.id})" title="Xem chi tiết báo cáo">
-                        <i class="fas fa-file-medical me-1"></i>
-                        Chi tiết
-                    </button>
+                    <div class="d-flex gap-2 flex-wrap justify-content-center">
+                        <button class="btn btn-sm btn-success" title="Xem chi tiết" onclick="viewMedicalRecordDetail(${record.id})">
+                            <i class="fas fa-file-medical"></i>
+                        </button>
+                        <button class="btn btn-sm btn-warning text-white" title="Sửa hồ sơ" onclick="editMedicalRecord(${record.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" title="Xoá hồ sơ" onclick="deleteMedicalRecord(${record.id})">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
                 </td>
             </tr>
         `;
@@ -313,4 +318,16 @@ function showNotification(message, type) {
     setTimeout(() => {
         notification.remove();
     }, 5000);
+}
+
+// Thêm các hàm xử lý (placeholder)
+function editMedicalRecord(recordId) {
+    window.location.href = `./medical-record.html?recordId=${recordId}&mode=edit`;
+}
+
+function deleteMedicalRecord(recordId) {
+    if (confirm('Bạn có chắc chắn muốn xoá hồ sơ này?')) {
+        // TODO: Gọi API xoá, sau đó refreshRecords()
+        showNotification('Chức năng xoá hồ sơ đang được phát triển', 'info');
+    }
 }
