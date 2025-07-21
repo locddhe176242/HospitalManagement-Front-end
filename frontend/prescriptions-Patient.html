@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đơn Thuốc Của Tôi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --accent-color: #3498db;
+      --bg-color: #ecf0f1;
+      --card-bg: #ffffff;
+      --text-color: #34495e;
+      --border-radius: 8px;
+      --padding: 16px;
+      --border-color: #bdc3c7;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: var(--padding);
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+    }
+    h1 { text-align: center; color: var(--primary-color); margin-bottom: var(--padding); }
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: var(--padding);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      max-width: 1000px;
+      margin: 0 auto var(--padding);
+    }
+    label { display: block; margin-bottom: 8px; font-size: 14px; }
+    input { width: 100%; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px; }
+    table {
+      width: 100%; border-collapse: collapse;
+      margin-top: var(--padding);
+    }
+    th, td {
+      padding: 12px; border: 1px solid var(--border-color);
+      text-align: center;
+    }
+    th {
+      background: var(--primary-color); color: #fff; position: relative; user-select: none;
+    }
+    .sort-btn {
+      background: none; border: none; color: #fff; cursor: pointer; margin-left: 3px; font-size: 13px;
+      vertical-align: middle; padding: 0;
+    }
+    .sort-btn.active { color: var(--accent-color); }
+    button.view-btn {
+      padding: 4px 8px;
+      background: var(--accent-color);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button.view-btn:hover { background: #2980b9; }
+    .pagination {
+      display: flex; justify-content: flex-end;
+      gap: 4px; margin-top: var(--padding);
+    }
+    .pagination button {
+      padding: 6px 10px;
+      background: var(--accent-color);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .pagination button.active {
+      background: #2980b9;
+      cursor: default;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px 24px;
+      margin-bottom: 12px;
+    }
+    .info-item label {
+      font-weight: 600;
+      color: var(--primary-color);
+      display: block;
+      margin-bottom: 2px;
+      font-size: 14px;
+    }
+    .info-value { color: var(--text-color); font-size: 15px; }
+    .detail-card-title {
+      margin-bottom: 10px;
+      color: var(--accent-color);
+      letter-spacing: 1px;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 14px;
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .back-btn:hover { text-decoration: underline; }
+    @media (max-width: 800px) {
+      .info-grid { grid-template-columns: 1fr; }
+      .card { padding: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Đơn Thuốc Của Tôi</h1>
+
+  <!-- DANH SÁCH ĐƠN THUỐC -->
+  <div class="card" id="listCard">
+    <h2>Danh Sách Đơn Thuốc</h2>
+    <label for="searchInput">Tìm kiếm theo <b>tên đơn</b> hoặc <b>mã đơn</b> hoặc <b>trạng thái</b>:</label>
+    <input type="text" id="searchInput" placeholder="Nhập mã đơn hoặc tên đơn thuốc hoặc trạng thái…" autocomplete="off" />
+
+    <table>
+      <thead>
+        <tr>
+          <th>
+            STT
+            <button class="sort-btn" data-sort="stt">&#8597;</button>
+          </th>
+          <th>
+            Mã đơn
+            <button class="sort-btn" data-sort="code">&#8597;</button>
+          </th>
+          <th>
+            Tên đơn thuốc
+            <button class="sort-btn" data-sort="name">&#8597;</button>
+          </th>
+          <th>
+            Ngày tạo
+            <button class="sort-btn" data-sort="createDate">&#8597;</button>
+          </th>
+          <th>
+            Trạng thái
+            <button class="sort-btn" data-sort="status">&#8597;</button>
+          </th>
+          <th>Chi tiết</th>
+        </tr>
+      </thead>
+      <tbody id="prescTableBody"></tbody>
+    </table>
+    <div class="pagination" id="pagination"></div>
+  </div>
+
+  <!-- CHI TIẾT ĐƠN THUỐC -->
+  <div id="detailSection" class="card" style="display:none;">
+    <a href="#" class="back-btn" onclick="hideDetail();return false;">&larr; Quay lại danh sách</a>
+    <div class="detail-card-title">Thông tin đơn thuốc</div>
+    <div class="info-grid">
+      <div class="info-item"><label>Tên đơn thuốc:</label> <div class="info-value" id="d-prescName"></div></div>
+      <div class="info-item"><label>Bệnh nhân:</label> <div class="info-value" id="d-prescPatient"></div></div>
+      <div class="info-item"><label>CCCD:</label> <div class="info-value" id="d-prescCCCD"></div></div>
+      <div class="info-item"><label>Bác sĩ kê đơn:</label> <div class="info-value" id="d-prescDoctor"></div></div>
+      <div class="info-item"><label>Ghi chú:</label> <div class="info-value" id="d-prescNote"></div></div>
+      <div class="info-item"><label>Trạng thái:</label> <div class="info-value" id="d-prescStatus"></div></div>
+      <div class="info-item"><label>Code:</label> <div class="info-value" id="d-prescCode"></div></div>
+      <div class="info-item"><label>Tổng giá trị đơn thuốc:</label> <div class="info-value" id="d-prescTotal"></div></div>
+    </div>
+    <h3>Chi tiết thuốc</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Tên thuốc</th>
+          <th>Đơn vị</th>
+          <th>Số lượng</th>
+          <th>Cách dùng</th>
+          <th>Đơn giá</th>
+          <th>Tổng giá</th>
+          <th>Trạng thái</th>
+        </tr>
+      </thead>
+      <tbody id="detailTableBody"></tbody>
+    </table>
+  </div>
+
+ <script>
+  const apiBase = 'https://localhost:7097/api';
+  const itemsPerPage = 6;
+  const statusMap = {
+  0: "Mới",
+  1: "Đã giao",
+  2: "Hủy",
+  
+  "new": "Mới",
+  "New": "Mới",
+  "dispensed": "Đã giao",
+  "Dispensed": "Đã giao",
+  "cancel": "Hủy",
+  "Cancel": "Hủy",
+  "cancelled": "Hủy",
+  "Cancelled": "Hủy"
+  
+};
+
+
+  let prescriptions = [], filtered = [], currentPage = 1, currentSort = { column: '', asc: true };
+  let allMeds = [];
+
+  function getToken() {
+    const t = localStorage.getItem('token');
+    if (!t) { alert('Vui lòng đăng nhập!'); throw new Error('No token'); }
+    return t;
+  }
+
+  async function authFetch(url, opts = {}) {
+    opts.headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + getToken(),
+      ...opts.headers
+    };
+    return fetch(url, opts);
+  }
+
+  async function loadAllMedicines() {
+    try {
+      const res = await authFetch(`${apiBase}/Medicine/get-all`);
+      if (!res.ok) throw new Error('Không lấy được danh sách thuốc');
+      const meds = await res.json();
+      allMeds = meds.map(m => ({
+        id: m.id,
+        name: m.name || m.medicineName,
+        unitName: m.unitName || ''
+      }));
+    } catch (err) {
+      console.error('Lỗi loadAllMedicines:', err);
+    }
+  }
+
+  async function loadMyPrescriptions() {
+    try {
+      const res = await authFetch(`${apiBase}/Prescription/my-prescriptions`);
+      if (!res.ok) throw new Error('Không tải được đơn thuốc');
+      prescriptions = await res.json();
+      filtered = prescriptions.slice();
+      sortAndRenderList();
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+  function sortAndRenderList() {
+    if (currentSort.column) {
+      let col = currentSort.column;
+      let asc = currentSort.asc;
+      filtered.sort((a, b) => {
+        let vA, vB;
+        switch(col) {
+          case 'stt':
+            vA = prescriptions.indexOf(a);
+            vB = prescriptions.indexOf(b);
+            break;
+          case 'code':
+            vA = a.code?.toLowerCase() || '';
+            vB = b.code?.toLowerCase() || '';
+            break;
+          case 'name':
+            vA = a.name?.toLowerCase() || '';
+            vB = b.name?.toLowerCase() || '';
+            break;
+          case 'createDate':
+            vA = new Date(a.createDate);
+            vB = new Date(b.createDate);
+            break;
+          case 'status':
+            vA = statusMap[p.status] || statusMap[(typeof p.status === "string" ? p.status.toLowerCase() : "")] || p.status;
+            vB = statusMap[p.status] || statusMap[(typeof p.status === "string" ? p.status.toLowerCase() : "")] || p.status || '';
+            break;
+          default: return 0;
+        }
+        if (vA < vB) return asc ? -1 : 1;
+        if (vA > vB) return asc ? 1 : -1;
+        return 0;
+      });
+    }
+    renderList(1);
+    renderPagination();
+    highlightSortBtn();
+  }
+
+  function renderList(page) {
+    currentPage = page;
+    const tbody = document.getElementById('prescTableBody');
+    tbody.innerHTML = '';
+    const start = (page - 1) * itemsPerPage;
+    const slice = filtered.slice(start, start + itemsPerPage);
+    slice.forEach((p, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${start + i + 1}</td>
+        <td>${p.code}</td>
+        <td>${p.name}</td>
+        <td>${new Date(p.createDate).toLocaleDateString('vi-VN')}</td>
+        <td>${statusMap[p.status] || p.status}</td>
+        <td><button class="view-btn" data-id="${p.id}">Xem</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function renderPagination() {
+    const pg = document.getElementById('pagination');
+    pg.innerHTML = '';
+    const totalPages = Math.ceil(filtered.length / itemsPerPage);
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement('button');
+      btn.textContent = i;
+      if (i === currentPage) btn.classList.add('active');
+      btn.addEventListener('click', () => {
+        renderList(i);
+        renderPagination();
+      });
+      pg.appendChild(btn);
+    }
+  }
+
+  function highlightSortBtn() {
+    document.querySelectorAll('.sort-btn').forEach(btn => {
+      const col = btn.getAttribute('data-sort');
+      btn.classList.remove('active');
+      btn.innerHTML = '&#8597;';
+      if (col === currentSort.column) {
+        btn.classList.add('active');
+        btn.innerHTML = currentSort.asc ? '&#8593;' : '&#8595;';
+      }
+    });
+  }
+
+  document.querySelectorAll('.sort-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const col = btn.getAttribute('data-sort');
+      if (currentSort.column === col) {
+        currentSort.asc = !currentSort.asc;
+      } else {
+        currentSort.column = col;
+        currentSort.asc = true;
+      }
+      sortAndRenderList();
+    });
+  });
+
+  document.getElementById('searchInput').addEventListener('input', function() {
+  const q = this.value.trim().toLowerCase();
+  currentPage = 1;
+  filtered = q
+    ? prescriptions.filter(p => {
+        const name = (p.name || '').toLowerCase();
+        const code = (p.code || '').toLowerCase();
+        // Map status code về tiếng Việt
+        const statusVN = statusMap[p.status]?.toLowerCase() || '';
+        return name.includes(q) || code.includes(q) || statusVN.includes(q);
+      })
+    : prescriptions.slice();
+  sortAndRenderList();
+});
+
+  document.getElementById('prescTableBody').addEventListener('click', async e => {
+    if (!e.target.classList.contains('view-btn')) return;
+    const id = e.target.dataset.id;
+
+    document.getElementById('listCard').style.display = 'none';
+    document.getElementById('detailSection').style.display = 'block';
+
+    const preRes = await authFetch(`${apiBase}/Prescription/get-by-id/${id}`);
+    const presc = await preRes.json();
+    document.getElementById('d-prescName').textContent    = presc.name;
+    document.getElementById('d-prescPatient').textContent = presc.patientName || presc.patientId;
+    document.getElementById('d-prescCCCD').textContent    = presc.patientCCCD || '—';
+    document.getElementById('d-prescDoctor').textContent  = presc.doctorName   || '—';
+    document.getElementById('d-prescNote').textContent    = presc.note        || '—';
+    document.getElementById('d-prescStatus').textContent =
+  statusMap[presc.status] || statusMap[(typeof presc.status === "string" ? presc.status.toLowerCase() : "")] || presc.status;
+
+    document.getElementById('d-prescCode').textContent    = presc.code       || '—';
+
+    const detRes = await authFetch(`${apiBase}/PrescriptionDetail/get-by-prescription/${id}`);
+    const details = await detRes.json();
+    let total = 0;
+    const tbody = document.getElementById('detailTableBody');
+    tbody.innerHTML = '';
+    details.forEach((d, i) => {
+      const med = allMeds.find(m => m.name === d.medicineName || m.id === d.medicineId);
+      const unit = med?.unitName || '';
+      total += +d.total || 0;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${i+1}</td>
+        <td>${d.medicineName || ''}</td>
+        <td>${unit}</td>
+        <td>${d.quantity}</td>
+        <td>${d.usage}</td>
+        <td>${d.unitPrice?.toLocaleString('vi-VN')} đ</td>
+        <td>${d.total?.toLocaleString('vi-VN')} đ</td>
+        <td>${statusMap[d.status] || d.status}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+    document.getElementById('d-prescTotal').textContent = total.toLocaleString('vi-VN') + ' đ';
+    document.getElementById('detailSection').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  function hideDetail() {
+    document.getElementById('detailSection').style.display = 'none';
+    document.getElementById('listCard').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  (async function init() {
+    await loadAllMedicines();
+    await loadMyPrescriptions();
+  })();
+</script>
+
+</body>
+</html>
