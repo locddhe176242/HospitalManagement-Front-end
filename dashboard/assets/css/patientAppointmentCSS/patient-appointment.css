@@ -1,0 +1,375 @@
+/* Patient Appointment CSS - Calendar Integration */
+
+/* Loading Spinner */
+.loading-spinner {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-spinner.show {
+    display: flex;
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Calendar Event Styles */
+.fc-event {
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.fc-event:hover {
+    transform: scale(1.02);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.fc-event.scheduled {
+    background-color: #1976d2 !important;
+    border-color: #1976d2 !important;
+}
+
+.fc-event.completed {
+    background-color: #2e7d32 !important;
+    border-color: #2e7d32 !important;
+}
+
+.fc-event.cancelled {
+    background-color: #c62828 !important;
+    border-color: #c62828 !important;
+    opacity: 0.7;
+}
+
+.fc-event.noshow {
+    background-color: #ef6c00 !important;
+    border-color: #ef6c00 !important;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-scheduled {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.status-completed {
+    background-color: #e8f5e8;
+    color: #2e7d32;
+}
+
+.status-cancelled {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.status-noshow {
+    background-color: #fff3e0;
+    color: #ef6c00;
+}
+
+/* Modal Styles */
+.modal-header {
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.modal-title {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
+
+/* Button Styles */
+.btn-custom {
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+    transform: translateY(-1px);
+}
+
+.btn-edit {
+    background: #17a2b8;
+    border-color: #17a2b8;
+    color: white;
+}
+
+.btn-edit:hover {
+    background: #138496;
+    border-color: #117a8b;
+    color: white;
+}
+
+.btn-cancel {
+    background: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+.btn-cancel:hover {
+    background: #c82333;
+    border-color: #bd2130;
+    color: white;
+}
+
+.btn-view {
+    background: #6c757d;
+    border-color: #6c757d;
+    color: white;
+}
+
+.btn-view:hover {
+    background: #5a6268;
+    border-color: #545b62;
+    color: white;
+}
+
+/* Doctor Info */
+.doctor-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.doctor-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e9ecef;
+}
+
+.doctor-name {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* List Group Styles */
+.list-group-item {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: all 0.2s ease;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+    border-color: #007bff;
+}
+
+/* Toast Notifications */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.toast {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    margin-bottom: 10px;
+}
+
+.toast-success {
+    background: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.toast-error {
+    background: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.toast-warning {
+    background: #fff3cd;
+    border-color: #ffeaa7;
+    color: #856404;
+}
+
+.toast-info {
+    background: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+}
+
+/* Calendar Header Customization */
+.fc-header-toolbar {
+    margin-bottom: 1.5rem !important;
+}
+
+.fc-toolbar-title {
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    color: #2c3e50 !important;
+}
+
+.fc-button {
+    border-radius: 6px !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+}
+
+.fc-button:hover {
+    transform: translateY(-1px) !important;
+}
+
+.fc-button-primary {
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+}
+
+.fc-button-primary:hover {
+    background-color: #0056b3 !important;
+    border-color: #0056b3 !important;
+}
+
+.fc-button-active {
+    background-color: #0056b3 !important;
+    border-color: #0056b3 !important;
+}
+
+/* Calendar Day Headers */
+.fc-col-header-cell {
+    background-color: #f8f9fa !important;
+    border-color: #e9ecef !important;
+}
+
+.fc-col-header-cell-cushion {
+    color: #495057 !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+}
+
+/* Calendar Day Cells */
+.fc-daygrid-day {
+    border-color: #e9ecef !important;
+}
+
+.fc-daygrid-day-number {
+    color: #495057 !important;
+    font-weight: 500 !important;
+}
+
+.fc-day-today {
+    background-color: #e3f2fd !important;
+}
+
+/* Event Tooltips */
+.fc-event-title {
+    font-weight: 500 !important;
+}
+
+.fc-event-time {
+    font-weight: 600 !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .fc-toolbar {
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+    
+    .fc-toolbar-chunk {
+        display: flex !important;
+        justify-content: center !important;
+    }
+    
+    .fc-event {
+        font-size: 10px !important;
+        padding: 1px 2px !important;
+    }
+    
+    .modal-dialog {
+        margin: 10px !important;
+    }
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal.fade.show .modal-dialog {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Custom Scrollbar for Modal Body */
+.modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+} 

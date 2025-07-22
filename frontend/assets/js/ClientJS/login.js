@@ -10,44 +10,88 @@ document.addEventListener('DOMContentLoaded', function () {
     const password = form.querySelector('input[name="pwd"]').value;
     const userType = form.querySelector('input[name="userType"]')?.value;
 
+    // Kiểm tra userType hợp lệ
+    const validUserTypes = ["Patient", "Doctor", "Nurse", "Admin"];
+    if (!validUserTypes.includes(userType)) {
+      alert("Loại tài khoản không hợp lệ! Vui lòng chọn đúng: Patient, Doctor, Nurse hoặc Admin.");
+      return;
+    }
+
     if (!email || !password || !userType) {
       alert('Vui lòng nhập đầy đủ thông tin.');
       return;
     }
 
     try {
-      const response = await fetch('https://localhost:7097/api/Authentication/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, userType })
-      });
+      // Sử dụng UserSessionManager nếu có
+      if (window.userSessionManager) {
+        const result = await window.userSessionManager.login(email, password, userType);
+        if (result.success) {
+          // Chuyển hướng theo userType
+          switch (userType) {
+            case 'Admin':
+              window.location.href = '/dashboard/index.html';
+              break;
+            case 'Doctor':
+              window.location.href = '/dashboard/doctor-page.html';
+              break;
+            case 'Patient':
+              window.location.href = '/frontend/index.html';
+              break;
+            case 'Nurse':
+              window.location.href = '/frontend/nurse-ui.html';
+              break;
+            default:
+              window.location.href = '/home';
+          }
+        } else {
+          alert(result.message);
+        }
+      } else {
+        // Fallback cho trường hợp UserSessionManager chưa khởi tạo
+        const response = await fetch('https://localhost:7097/api/Authentication/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password, userType })
+        });
 
-      if (!response.ok) {
-        alert('Login failed!');
-        return;
-      }
+        if (!response.ok) {
+          alert('Login failed!');
+          return;
+        }
 
-      const data = await response.json();
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('userInfo', JSON.stringify(data.userInfo));
-      localStorage.setItem('userId', data.userInfo.id);
+        const data = await response.json();
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('kivicare_token', data.token);
+        localStorage.setItem('userInfo', JSON.stringify(data.userInfo));
+        localStorage.setItem('userId', data.userInfo.id);
+        // Đồng bộ session cho UserSessionManager
+        const userSession = {
+          email: data.userInfo.email,
+          fullName: data.userInfo.fullName || data.userInfo.userName || '',
+          userType: data.userInfo.userType || '',
+          token: data.token,
+          userId: data.userInfo.id
+        };
+        localStorage.setItem('kivicare_user_session', JSON.stringify(userSession));
 
-      // Chuyển hướng theo userType
-      switch (userType) {
-        case 'Admin':
-          window.location.href = '/dashboard/index.html';
-          break;
-        case 'Doctor':
-          window.location.href = '/dashboard/doctor-page.html';
-          break;
-        case 'Patient':
-          window.location.href = '/frontend/index.html';
-          break;
-        case 'Nurse':
-          window.location.href = '/frontend/nurse-ui.html';
-          break;
-        default:
-          window.location.href = '/home';
+        // Chuyển hướng theo userType
+        switch (userType) {
+          case 'Admin':
+            window.location.href = '/dashboard/index.html';
+            break;
+          case 'Doctor':
+            window.location.href = '/dashboard/doctor-page.html';
+            break;
+          case 'Patient':
+            window.location.href = '/frontend/index.html';
+            break;
+          case 'Nurse':
+            window.location.href = '/frontend/nurse-ui.html';
+            break;
+          default:
+            window.location.href = '/home';
+        }
       }
     } catch (err) {
       alert('Lỗi kết nối: ' + err.message);
