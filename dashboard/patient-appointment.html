@@ -1,14 +1,13 @@
-
 <!doctype html>
 <html lang="en" class="theme-fs-sm" data-bs-theme="light" data-bs-theme-color="default" dir="ltr">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title data-setting="app_name" data-rightJoin=" Clinic And Patient Management Dashboard">KiviCare  Clinic And Patient Management Dashboard</title>
-        <meta name="description" content="KiviCare is a revolutionary Bootstrap Admin Dashboard Template and UI Components Library. The Admin Dashboard Template and UI Component features 8 modules.">
+        <title data-setting="app_name" data-rightJoin=" Bảng Điều Khiển Quản Lý Phòng Khám Và Bệnh Nhân">KiviCare  Bảng Điều Khiển Quản Lý Phòng Khám Và Bệnh Nhân</title>
+        <meta name="description" content="KiviCare là một bảng điều khiển Bootstrap Admin Template và thư viện UI Components mang tính cách mạng. Template Bảng Điều Khiển Admin và UI Component có 8 module.">
         <meta name="keywords" content="premium, admin, dashboard, template, bootstrap 5, clean ui, Kivicare, admin dashboard,responsive dashboard, optimized dashboard,">
         <meta name="author" content="Iqonic Design">
-        <meta name="DC.title" content="KiviCare Clinic And Patient Management Dashboard">
+        <meta name="DC.title" content="KiviCare Bảng Điều Khiển Quản Lý Phòng Khám Và Bệnh Nhân">
         <!-- Config Options -->
         <meta name="setting_options" content='{&quot;saveLocal&quot;:&quot;sessionStorage&quot;,&quot;storeKey&quot;:&quot;kivicare&quot;,&quot;setting&quot;:{&quot;app_name&quot;:{&quot;value&quot;:&quot;KiviCare&quot;},&quot;theme_scheme_direction&quot;:{&quot;value&quot;:&quot;ltr&quot;},&quot;theme_scheme&quot;:{&quot;value&quot;:&quot;light&quot;},&quot;theme_style_appearance&quot;:{&quot;value&quot;:[&quot;theme-default&quot;]},&quot;theme_color&quot;:{&quot;value&quot;:&quot;default&quot;},&quot;theme_transition&quot;:{&quot;value&quot;:&quot;theme-with-animation&quot;},&quot;theme_font_size&quot;:{&quot;value&quot;:&quot;theme-fs-sm&quot;},&quot;page_layout&quot;:{&quot;value&quot;:&quot;container-fluid&quot;},&quot;header_navbar&quot;:{&quot;value&quot;:&quot;default&quot;},&quot;header_banner&quot;:{&quot;value&quot;:&quot;default&quot;},&quot;sidebar_color&quot;:{&quot;value&quot;:&quot;sidebar-white&quot;},&quot;card_color&quot;:{&quot;value&quot;:&quot;card-default&quot;},&quot;sidebar_type&quot;:{&quot;value&quot;:[]},&quot;sidebar_menu_style&quot;:{&quot;value&quot;:&quot;text-hover&quot;},&quot;footer&quot;:{&quot;value&quot;:&quot;default&quot;},&quot;body_font_family&quot;:{&quot;value&quot;:null},&quot;heading_font_family&quot;:{&quot;value&quot;:null}}}'>
         <!-- Google Font Api KEY-->
@@ -49,6 +48,9 @@
         <!-- Custom Css -->
         <link rel="stylesheet" href="./assets/css/custom.min.css?v=1.4.1" />
         
+        <!-- Patient Appointment CSS -->
+        <link rel="stylesheet" href="./assets/css/patientAppointmentCSS/patient-appointment.css" />
+        
         <!-- RTL Css -->
         <link rel="stylesheet" href="./assets/css/rtl.min.css?v=1.4.1"/>
         
@@ -68,6 +70,14 @@
             </div>
         </div>        </div>
         <!-- loader END -->
+        
+        <!-- Loading Spinner for API calls -->
+        <div class="loading-spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        
         <main class="main-content">
             <div class="position-relative ">
             <!--Nav Start-->
@@ -85,173 +95,27 @@
                                  <img class="logo-mini white-mini img-fluid" src="./assets/images/logo-mini-white.png" height="30" alt="logo">
                              </div>
                              <!--logo End-->      </a>
+                          <!-- Navigation items next to logo -->
+                          <div class="d-flex align-items-center ms-4">
+                             <a href="../frontend/index.html" class="nav-link me-4">
+                                <div class="d-flex align-items-center">
+                                   <svg class="icon-20 me-2" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M9.02 2.84004L3.63 7.04004C2.73 7.74004 2 9.23004 2 10.36V17.77C2 20.09 3.89 21.99 6.21 21.99H17.79C20.11 21.99 22 20.09 22 17.78V10.5C22 9.29004 21.19 7.74004 20.2 7.05004L14.02 2.72004C12.62 1.74004 10.37 1.79004 9.02 2.84004Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <path d="M12 17.99V14.99" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                   </svg>
+                                   <span class="text-primary">Trang Chủ</span>
+                                </div>
+                             </a>
+
+                          </div>
                           <div class="d-flex align-items-center justify-content-between product-offcanvas">
                              <div class="offcanvas offcanvas-end shadow-none iq-product-menu-responsive border-0" tabindex="-1" id="offcanvasBottom">
                                 <div class="offcanvas-body">
                                    <ul class="iq-nav-menu list-unstyled gap-1">
-                                      <li class="nav-item">
-                                         <a class="nav-link menu-arrow justify-content-start" data-bs-toggle="collapse"
-                                            href="#allPatitentDash" role="button" aria-expanded="false" aria-controls="allPatitentDash">
-                                            <i class="icon" data-bs-toggle="tooltip" title="Dashboard" data-bs-placement="right">
-                                               <svg width="20" class="icon-20" viewBox="0 0 24 24" fill="none"
-                                                  xmlns="http://www.w3.org/2000/svg">
-                                                  <path opacity="0.4"
-                                                     d="M16.0756 2H19.4616C20.8639 2 22.0001 3.14585 22.0001 4.55996V7.97452C22.0001 9.38864 20.8639 10.5345 19.4616 10.5345H16.0756C14.6734 10.5345 13.5371 9.38864 13.5371 7.97452V4.55996C13.5371 3.14585 14.6734 2 16.0756 2Z"
-                                                     fill="currentColor"></path>
-                                                  <path fill-rule="evenodd" clip-rule="evenodd"
-                                                     d="M4.53852 2H7.92449C9.32676 2 10.463 3.14585 10.463 4.55996V7.97452C10.463 9.38864 9.32676 10.5345 7.92449 10.5345H4.53852C3.13626 10.5345 2 9.38864 2 7.97452V4.55996C2 3.14585 3.13626 2 4.53852 2ZM4.53852 13.4655H7.92449C9.32676 13.4655 10.463 14.6114 10.463 16.0255V19.44C10.463 20.8532 9.32676 22 7.92449 22H4.53852C3.13626 22 2 20.8532 2 19.44V16.0255C2 14.6114 3.13626 13.4655 4.53852 13.4655ZM19.4615 13.4655H16.0755C14.6732 13.4655 13.537 14.6114 13.537 16.0255V19.44C13.537 20.8532 14.6732 22 16.0755 22H19.4615C20.8637 22 22 20.8532 22 19.44V16.0255C22 14.6114 20.8637 13.4655 19.4615 13.4655Z"
-                                                     fill="currentColor"></path>
-                                               </svg>
-                                            </i>
-                                            <span class="nav-text ms-2">Dashboard</span>
-                                         </a>
-                                         <ul class="iq-header-sub-menu list-unstyled collapse" id="allPatitentDash">
-                                            <li class="nav-item">
-                                               <a class="nav-link menu-arrow justify-content-start gap-2 rounded-0 "
-                                                  aria-current="page" href="./patient-dashboard.html">
-                                                  <i class="icon" data-bs-toggle="tooltip" title="Dashboard" data-bs-placement="right">
-                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 24 24" fill="none">
-                                                        <path opacity="0.4"
-                                                           d="M2 4C2 2.89543 2.89543 2 4 2H9C10.1046 2 11 2.89543 11 4V20C11 21.1046 10.1046 22 9 22H4C2.89543 22 2 21.1046 2 20V4Z"
-                                                           fill="currentColor"></path>
-                                                        <path
-                                                           d="M13 4C13 2.89543 13.8954 2 15 2H20C21.1046 2 22 2.89543 22 4V9C22 10.1046 21.1046 11 20 11H15C13.8954 11 13 10.1046 13 9V4Z"
-                                                           fill="currentColor"></path>
-                                                        <path
-                                                           d="M13 15C13 13.8954 13.8954 13 15 13H20C21.1046 13 22 13.8954 22 15V20C22 21.1046 21.1046 22 20 22H15C13.8954 22 13 21.1046 13 20V15Z"
-                                                           fill="currentColor"></path>
-                                                     </svg>
-                                                  </i>
-                                                  <span class="item-name">patient-dashboard</span>
-                                               </a>
-                                            </li>
-                                            <li class="nav-item">
-                                               <a class="nav-link menu-arrow justify-content-start gap-2 rounded-0 "
-                                                  aria-current="page" href="./index.html">
-                                                  <i class="icon" data-bs-toggle="tooltip" title="Dashboard" data-bs-placement="right">
-                                                     <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                           d="M9.14373 20.7821V17.7152C9.14372 16.9381 9.77567 16.3067 10.5584 16.3018H13.4326C14.2189 16.3018 14.8563 16.9346 14.8563 17.7152V20.7732C14.8562 21.4473 15.404 21.9951 16.0829 22H18.0438C18.9596 22.0023 19.8388 21.6428 20.4872 21.0007C21.1356 20.3586 21.5 19.4868 21.5 18.5775V9.86585C21.5 9.13139 21.1721 8.43471 20.6046 7.9635L13.943 2.67427C12.7785 1.74912 11.1154 1.77901 9.98539 2.74538L3.46701 7.9635C2.87274 8.42082 2.51755 9.11956 2.5 9.86585V18.5686C2.5 20.4637 4.04738 22 5.95617 22H7.87229C8.19917 22.0023 8.51349 21.8751 8.74547 21.6464C8.97746 21.4178 9.10793 21.1067 9.10792 20.7821H9.14373Z"
-                                                           fill="currentColor"></path>
-                                                     </svg>
-                                                  </i>
-                                                  <span class="item-name">Admin Dashboard</span>
-                                               </a>
-                                            </li>
-                                         </ul>
-                                      </li>
-                                      <li class="nav-item">
-                                         <a class="nav-link menu-arrow justify-content-start gap-2 rounded-0 active"
-                                            aria-current="page" href="./patient-appointment.html">
-                                            <i class="icon" data-bs-toggle="tooltip" title="Appointments" data-bs-placement="right">
-                                               <svg width="20" class="icon-20" viewBox="0 0 24 24" fill="none"
-                                                  xmlns="http://www.w3.org/2000/svg">
-                                                  <path fill-rule="evenodd" clip-rule="evenodd"
-                                                     d="M3 16.87V9.25699H21V16.931C21 20.07 19.0241 22 15.8628 22H8.12733C4.99561 22 3 20.03 3 16.87ZM7.95938 14.41C7.50494 14.431 7.12953 14.07 7.10977 13.611C7.10977 13.151 7.46542 12.771 7.91987 12.75C8.36443 12.75 8.72997 13.101 8.73985 13.55C8.7596 14.011 8.40395 14.391 7.95938 14.41ZM12.0198 14.41C11.5653 14.431 11.1899 14.07 11.1701 13.611C11.1701 13.151 11.5258 12.771 11.9802 12.75C12.4248 12.75 12.7903 13.101 12.8002 13.55C12.82 14.011 12.4643 14.391 12.0198 14.41ZM16.0505 18.09C15.596 18.08 15.2305 17.7 15.2305 17.24C15.2206 16.78 15.5862 16.401 16.0406 16.391H16.0505C16.5148 16.391 16.8902 16.771 16.8902 17.24C16.8902 17.71 16.5148 18.09 16.0505 18.09ZM11.1701 17.24C11.1899 17.7 11.5653 18.061 12.0198 18.04C12.4643 18.021 12.82 17.641 12.8002 17.181C12.7903 16.731 12.4248 16.38 11.9802 16.38C11.5258 16.401 11.1701 16.78 11.1701 17.24ZM7.09989 17.24C7.11965 17.7 7.49506 18.061 7.94951 18.04C8.39407 18.021 8.74973 17.641 8.72997 17.181C8.72009 16.731 8.35456 16.38 7.90999 16.38C7.45554 16.401 7.09989 16.78 7.09989 17.24ZM15.2404 13.601C15.2404 13.141 15.596 12.771 16.0505 12.761C16.4951 12.761 16.8507 13.12 16.8705 13.561C16.8804 14.021 16.5247 14.401 16.0801 14.41C15.6257 14.42 15.2503 14.07 15.2404 13.611V13.601Z"
-                                                     fill="currentColor" />
-                                                  <path opacity="0.4"
-                                                     d="M3.00336 9.2569C3.0162 8.6699 3.0656 7.5049 3.15846 7.1299C3.63267 5.0209 5.24298 3.6809 7.54485 3.4899H16.4559C18.738 3.6909 20.3681 5.0399 20.8423 7.1299C20.9342 7.4949 20.9836 8.6689 20.9964 9.2569H3.00336Z"
-                                                     fill="currentColor" />
-                                                  <path
-                                                     d="M8.30486 6.59C8.73955 6.59 9.06556 6.261 9.06556 5.82V2.771C9.06556 2.33 8.73955 2 8.30486 2C7.87017 2 7.54416 2.33 7.54416 2.771V5.82C7.54416 6.261 7.87017 6.59 8.30486 6.59Z"
-                                                     fill="currentColor" />
-                                                  <path
-                                                     d="M15.6949 6.59C16.1197 6.59 16.4556 6.261 16.4556 5.82V2.771C16.4556 2.33 16.1197 2 15.6949 2C15.2603 2 14.9342 2.33 14.9342 2.771V5.82C14.9342 6.261 15.2603 6.59 15.6949 6.59Z"
-                                                     fill="currentColor" />
-                                               </svg>
-                                            </i>
-                                            <span class="item-name">Appointments</span>
-                                         </a>
-                                      </li>
-                                      <li class="nav-item">
-                                         <a class="nav-link menu-arrow justify-content-start" data-bs-toggle="collapse"
-                                            href="#allPatitentPages" role="button" aria-expanded="false" aria-controls="allPatitentPages">
-                                            <i class="icon" data-bs-toggle="tooltip" title="Pages" data-bs-placement="right">
-                                               <svg class="icon-20" height="20" width="20" viewBox="0 0 24 24" fill="none"
-                                                  xmlns="http://www.w3.org/2000/svg">
-                                                  <path opacity="0.4"
-                                                     d="M16.191 2H7.81C4.77 2 3 3.78 3 6.83V17.16C3 20.26 4.77 22 7.81 22H16.191C19.28 22 21 20.26 21 17.16V6.83C21 3.78 19.28 2 16.191 2Z"
-                                                     fill="currentColor"></path>
-                                                  <path fill-rule="evenodd" clip-rule="evenodd"
-                                                     d="M8.07996 6.6499V6.6599C7.64896 6.6599 7.29996 7.0099 7.29996 7.4399C7.29996 7.8699 7.64896 8.2199 8.07996 8.2199H11.069C11.5 8.2199 11.85 7.8699 11.85 7.4289C11.85 6.9999 11.5 6.6499 11.069 6.6499H8.07996ZM15.92 12.7399H8.07996C7.64896 12.7399 7.29996 12.3899 7.29996 11.9599C7.29996 11.5299 7.64896 11.1789 8.07996 11.1789H15.92C16.35 11.1789 16.7 11.5299 16.7 11.9599C16.7 12.3899 16.35 12.7399 15.92 12.7399ZM15.92 17.3099H8.07996C7.77996 17.3499 7.48996 17.1999 7.32996 16.9499C7.16996 16.6899 7.16996 16.3599 7.32996 16.1099C7.48996 15.8499 7.77996 15.7099 8.07996 15.7399H15.92C16.319 15.7799 16.62 16.1199 16.62 16.5299C16.62 16.9289 16.319 17.2699 15.92 17.3099Z"
-                                                     fill="currentColor"></path>
-                                               </svg>
-                                            </i>
-                                            <span class="nav-text ms-2">Pages</span>
-                                         </a>
-                                         <ul class="iq-header-sub-menu list-unstyled collapse" id="allPatitentPages">
-                                            <li class="nav-item">
-                                               <a class="nav-link menu-arrow justify-content-start gap-2 rounded-0 "
-                                                  aria-current="page" href="./patient-encounters.html">
-                                                  <i class="icon" data-bs-toggle="tooltip" title="Encounters" data-bs-placement="right">
-                                                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path opacity="0.4"
-                                                           d="M16.3125 6.60938C16.3125 11.25 9 15.1875 9 15.1875C9 15.1875 1.6875 11.25 1.6875 6.60938C1.6875 5.60238 2.08753 4.63663 2.79958 3.92458C3.51163 3.21253 4.47738 2.8125 5.48438 2.8125C7.07273 2.8125 8.43328 3.67805 9 5.0625C9.56672 3.67805 10.9273 2.8125 12.5156 2.8125C13.5226 2.8125 14.4884 3.21253 15.2004 3.92458C15.9125 4.63663 16.3125 5.60238 16.3125 6.60938Z"
-                                                           fill="currentColor" />
-                                                        <path
-                                                           d="M5.0625 9.5625H2.25C2.10082 9.5625 1.95774 9.50324 1.85225 9.39775C1.74676 9.29226 1.6875 9.14918 1.6875 9C1.6875 8.85082 1.74676 8.70774 1.85225 8.60225C1.95774 8.49676 2.10082 8.4375 2.25 8.4375H4.76156L5.71922 7.00031C5.77057 6.92316 5.84018 6.85988 5.92188 6.81612C6.00357 6.77235 6.09482 6.74945 6.1875 6.74945C6.28018 6.74945 6.37143 6.77235 6.45312 6.81612C6.53482 6.85988 6.60443 6.92316 6.65578 7.00031L8.4375 9.67219L9.09422 8.68781C9.14563 8.61076 9.21527 8.54759 9.29696 8.50392C9.37866 8.46026 9.46987 8.43744 9.5625 8.4375H11.25C11.3992 8.4375 11.5423 8.49676 11.6477 8.60225C11.7532 8.70774 11.8125 8.85082 11.8125 9C11.8125 9.14918 11.7532 9.29226 11.6477 9.39775C11.5423 9.50324 11.3992 9.5625 11.25 9.5625H9.86344L8.90578 10.9997C8.85443 11.0768 8.78482 11.1401 8.70312 11.1839C8.62143 11.2276 8.53018 11.2505 8.4375 11.2505C8.34482 11.2505 8.25357 11.2276 8.17188 11.1839C8.09018 11.1401 8.02057 11.0768 7.96922 10.9997L6.1875 8.32641L5.53078 9.31078C5.47953 9.3881 5.40996 9.45154 5.32826 9.49546C5.24655 9.53937 5.15526 9.56241 5.0625 9.5625ZM12.5156 2.25C11.0637 2.25 9.79242 2.87437 9 3.92977C8.20758 2.87437 6.93633 2.25 5.48438 2.25C4.3286 2.2513 3.22053 2.71101 2.40327 3.52827C1.58601 4.34553 1.1263 5.4536 1.125 6.60938C1.125 6.66211 1.125 6.71484 1.125 6.76758C1.12966 6.91676 1.1934 7.05798 1.30218 7.16018C1.41097 7.26237 1.55589 7.31716 1.70508 7.3125C1.85426 7.30784 1.99548 7.2441 2.09768 7.13532C2.19987 7.02653 2.25466 6.88161 2.25 6.73242C2.25 6.69164 2.25 6.65016 2.25 6.60938C2.25112 5.75191 2.59224 4.92988 3.19856 4.32356C3.80488 3.71724 4.62691 3.37612 5.48438 3.375C6.85195 3.375 8.00016 4.10344 8.47969 5.27344C8.52207 5.37661 8.59416 5.46485 8.6868 5.52695C8.77945 5.58905 8.88847 5.62221 9 5.62221C9.11153 5.62221 9.22055 5.58905 9.3132 5.52695C9.40584 5.46485 9.47793 5.37661 9.52031 5.27344C9.99984 4.10133 11.148 3.375 12.5156 3.375C13.3731 3.37612 14.1951 3.71724 14.8014 4.32356C15.4078 4.92988 15.7489 5.75191 15.75 6.60938C15.75 10.3788 10.2825 13.7918 9 14.5406C8.23852 14.097 6.00258 12.7125 4.31156 10.8696C4.21068 10.7596 4.07022 10.6941 3.92108 10.6877C3.77195 10.6812 3.62635 10.7343 3.51633 10.8352C3.4063 10.936 3.34086 11.0765 3.3344 11.2256C3.32794 11.3748 3.38099 11.5204 3.48187 11.6304C5.67352 14.021 8.60977 15.6157 8.73352 15.6825C8.81543 15.7266 8.90699 15.7496 9 15.7496C9.09301 15.7496 9.18457 15.7266 9.26648 15.6825C9.57726 15.5152 16.875 11.5312 16.875 6.60938C16.8737 5.4536 16.414 4.34553 15.5967 3.52827C14.7795 2.71101 13.6714 2.2513 12.5156 2.25Z"
-                                                           fill="currentColor" />
-                                                     </svg>
-                                                  </i>
-                                                  <span class="item-name">Encounters</span>
-                                               </a>
-                                            </li>
-                                            <li class="nav-item">
-                                               <a class="nav-link menu-arrow justify-content-start gap-2 rounded-0 "
-                                                  aria-current="page" href="./patient-doctors.html">
-                                                  <i class="icon" data-bs-toggle="tooltip" title="Doctors" data-bs-placement="right">
-                                                     <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                           d="M11.997 15.1746C7.684 15.1746 4 15.8546 4 18.5746C4 21.2956 7.661 21.9996 11.997 21.9996C16.31 21.9996 19.994 21.3206 19.994 18.5996C19.994 15.8786 16.334 15.1746 11.997 15.1746Z"
-                                                           fill="currentColor"></path>
-                                                        <path opacity="0.4"
-                                                           d="M11.9971 12.5838C14.9351 12.5838 17.2891 10.2288 17.2891 7.29176C17.2891 4.35476 14.9351 1.99976 11.9971 1.99976C9.06008 1.99976 6.70508 4.35476 6.70508 7.29176C6.70508 10.2288 9.06008 12.5838 11.9971 12.5838Z"
-                                                           fill="currentColor"></path>
-                                                     </svg>
-                                                  </i>
-                                                  <span class="item-name">Doctors</span>
-                                               </a>
-                                            </li>
-                                            <li class="nav-item">
-                                               <a class="nav-link menu-arrow justify-content-start gap-2 rounded-0 "
-                                                  aria-current="page" href="./patient-payments.html">
-                                                  <i class="icon" data-bs-toggle="tooltip" title="Payments" data-bs-placement="right">
-                                                     <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                                           d="M21.9964 8.37513H17.7618C15.7911 8.37859 14.1947 9.93514 14.1911 11.8566C14.1884 13.7823 15.7867 15.3458 17.7618 15.3484H22V15.6543C22 19.0136 19.9636 21 16.5173 21H7.48356C4.03644 21 2 19.0136 2 15.6543V8.33786C2 4.97862 4.03644 3 7.48356 3H16.5138C19.96 3 21.9964 4.97862 21.9964 8.33786V8.37513ZM6.73956 8.36733H12.3796H12.3831H12.3902C12.8124 8.36559 13.1538 8.03019 13.152 7.61765C13.1502 7.20598 12.8053 6.87318 12.3831 6.87491H6.73956C6.32 6.87664 5.97956 7.20858 5.97778 7.61852C5.976 8.03019 6.31733 8.36559 6.73956 8.36733Z"
-                                                           fill="currentColor"></path>
-                                                        <path opacity="0.4"
-                                                           d="M16.0374 12.2966C16.2465 13.2478 17.0805 13.917 18.0326 13.8996H21.2825C21.6787 13.8996 22 13.5715 22 13.166V10.6344C21.9991 10.2297 21.6787 9.90077 21.2825 9.8999H17.9561C16.8731 9.90338 15.9983 10.8024 16 11.9102C16 12.0398 16.0128 12.1695 16.0374 12.2966Z"
-                                                           fill="currentColor"></path>
-                                                        <circle cx="18" cy="11.8999" r="1" fill="currentColor"></circle>
-                                                     </svg>
-                                                  </i>
-                                                  <span class="item-name">Payments</span>
-                                               </a>
-                                            </li>
-                                         </ul>
-                                      </li>
-                                      <li class="nav-item">
-                                         <a class="nav-link menu-arrow justify-content-start gap-2 rounded-0 "
-                                            aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#setting-modal">
-                                            <i class="icon" data-bs-toggle="tooltip" title="Setting" data-bs-placement="right">
-                                               <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
-                                                  xmlns="http://www.w3.org/2000/svg">
-                                                  <path
-                                                     d="M12.0122 14.8299C10.4077 14.8299 9.10986 13.5799 9.10986 12.0099C9.10986 10.4399 10.4077 9.17993 12.0122 9.17993C13.6167 9.17993 14.8839 10.4399 14.8839 12.0099C14.8839 13.5799 13.6167 14.8299 12.0122 14.8299Z"
-                                                     fill="currentColor"></path>
-                                                  <path opacity="0.4"
-                                                     d="M21.2301 14.37C21.036 14.07 20.76 13.77 20.4023 13.58C20.1162 13.44 19.9322 13.21 19.7687 12.94C19.2475 12.08 19.5541 10.95 20.4228 10.44C21.4447 9.87 21.7718 8.6 21.179 7.61L20.4943 6.43C19.9118 5.44 18.6344 5.09 17.6226 5.67C16.7233 6.15 15.5685 5.83 15.0473 4.98C14.8838 4.7 14.7918 4.4 14.8122 4.1C14.8429 3.71 14.7203 3.34 14.5363 3.04C14.1582 2.42 13.4735 2 12.7172 2H11.2763C10.5302 2.02 9.84553 2.42 9.4674 3.04C9.27323 3.34 9.16081 3.71 9.18125 4.1C9.20169 4.4 9.10972 4.7 8.9462 4.98C8.425 5.83 7.27019 6.15 6.38109 5.67C5.35913 5.09 4.09191 5.44 3.49917 6.43L2.81446 7.61C2.23194 8.6 2.55897 9.87 3.57071 10.44C4.43937 10.95 4.74596 12.08 4.23498 12.94C4.06125 13.21 3.87729 13.44 3.59115 13.58C3.24368 13.77 2.93709 14.07 2.77358 14.37C2.39546 14.99 2.4159 15.77 2.79402 16.42L3.49917 17.62C3.87729 18.26 4.58245 18.66 5.31825 18.66C5.66572 18.66 6.0745 18.56 6.40153 18.36C6.65702 18.19 6.96361 18.13 7.30085 18.13C8.31259 18.13 9.16081 18.96 9.18125 19.95C9.18125 21.1 10.1215 22 11.3069 22H12.6968C13.872 22 14.8122 21.1 14.8122 19.95C14.8429 18.96 15.6911 18.13 16.7029 18.13C17.0299 18.13 17.3365 18.19 17.6022 18.36C17.9292 18.56 18.3278 18.66 18.6855 18.66C19.411 18.66 20.1162 18.26 20.4943 17.62L21.2097 16.42C21.5776 15.75 21.6083 14.99 21.2301 14.37Z"
-                                                     fill="currentColor"></path>
-                                               </svg>
-                                            </i>
-                                            <span class="item-name">Setting</span>
-                                         </a>
-                                      </li>
+
+
+
+
                                    </ul>
                                 </div>
                              </div>
@@ -287,346 +151,12 @@
                                       </label>
                                    </div>
                                 </li>
-                                <li class="nav-item dropdown pe-3 d-none d-xl-block">
-                                   <div class="form-group input-group mb-0 search-input">
-                                      <input type="text" class="form-control" placeholder="Search...">
-                                      <span class="input-group-text">
-                                         <svg class="icon-20" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="11.7669" cy="11.7666" r="8.98856" stroke="currentColor" stroke-width="1.5"
-                                               stroke-linecap="round" stroke-linejoin="round"></circle>
-                                            <path d="M18.0186 18.4851L21.5426 22" stroke="currentColor" stroke-width="1.5"
-                                               stroke-linecap="round" stroke-linejoin="round"></path>
-                                         </svg>
-                                      </span>
-                                   </div>
-                                </li>
-                                <li class="nav-item dropdown iq-responsive-menu d-block d-xl-none">
-                                   <div class="btn btn-sm px-0 border-0" id="navbarDropdown-search-11" role="button"
-                                      data-bs-toggle="dropdown" aria-expanded="false">
-                                      <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                         <circle cx="11.7669" cy="11.7666" r="8.98856" stroke="currentColor" stroke-width="1.5"
-                                            stroke-linecap="round" stroke-linejoin="round"></circle>
-                                         <path d="M18.0186 18.4851L21.5426 22" stroke="currentColor" stroke-width="1.5"
-                                            stroke-linecap="round" stroke-linejoin="round"></path>
-                                      </svg>
-                                   </div>
-                                   <ul class="dropdown-menu dropdown-menu-end" style="width: 25rem;">
-                                      <li class="px-3 py-0">
-                                         <div class="form-group input-group mb-0">
-                                            <input type="text" class="form-control" placeholder="Search...">
-                                            <span class="input-group-text">
-                                               <svg class="icon-20" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                                  xmlns="http://www.w3.org/2000/svg">
-                                                  <circle cx="11.7669" cy="11.7666" r="8.98856" stroke="currentColor" stroke-width="1.5"
-                                                     stroke-linecap="round" stroke-linejoin="round"></circle>
-                                                  <path d="M18.0186 18.4851L21.5426 22" stroke="currentColor" stroke-width="1.5"
-                                                     stroke-linecap="round" stroke-linejoin="round"></path>
-                                               </svg>
-                                            </span>
-                                         </div>
-                                      </li>
-                                   </ul>
-                                </li>
-                                <li class="nav-item dropdown">
-                                   <a href="#" class="nav-link" id="notification-drop" data-bs-toggle="dropdown">
-                                      <div class="nav-list-icon">
-                                         <div class="btn-inner">
-                                            <svg class="icon-20" width="19" height="22" viewBox="0 0 19 22" fill="none"
-                                               xmlns="http://www.w3.org/2000/svg">
-                                               <mask style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="19"
-                                                  height="18">
-                                                  <path fill-rule="evenodd" clip-rule="evenodd"
-                                                     d="M9.15527e-05 0H18.497V17.348H9.15527e-05V0Z" fill="white" />
-                                               </mask>
-                                               <g>
-                                                  <path fill-rule="evenodd" clip-rule="evenodd"
-                                                     d="M9.2471 1.5C5.75211 1.5 3.3161 4.238 3.3161 6.695C3.3161 8.774 2.7391 9.735 2.2291 10.583C1.8201 11.264 1.4971 11.802 1.4971 12.971C1.6641 14.857 2.90911 15.848 9.2471 15.848C15.5501 15.848 16.8341 14.813 17.0001 12.906C16.9971 11.802 16.6741 11.264 16.2651 10.583C15.7551 9.735 15.1781 8.774 15.1781 6.695C15.1781 4.238 12.7421 1.5 9.2471 1.5ZM9.2471 17.348C4.5711 17.348 0.345105 17.018 0.000104907 13.035C-0.00289509 11.387 0.500105 10.549 0.944105 9.811C1.3931 9.063 1.8161 8.358 1.8161 6.695C1.8161 3.462 4.8021 0 9.2471 0C13.6921 0 16.6781 3.462 16.6781 6.695C16.6781 8.358 17.1011 9.063 17.5501 9.811C17.9941 10.549 18.4971 11.387 18.4971 12.971C18.1481 17.018 13.9231 17.348 9.2471 17.348Z"
-                                                     fill="currentColor" />
-                                               </g>
-                                               <path fill-rule="evenodd" clip-rule="evenodd"
-                                                  d="M9.1983 21.5001H9.1963C8.0753 21.4991 7.0143 21.0051 6.2093 20.1081C5.9323 19.8011 5.9573 19.3261 6.2653 19.0501C6.5733 18.7721 7.0473 18.7971 7.3243 19.1061C7.8423 19.6831 8.5073 20.0001 9.1973 20.0001H9.1983C9.8913 20.0001 10.5593 19.6831 11.0783 19.1051C11.3563 18.7981 11.8303 18.7731 12.1373 19.0501C12.4453 19.3271 12.4703 19.8021 12.1933 20.1091C11.3853 21.0061 10.3223 21.5001 9.1983 21.5001Z"
-                                                  fill="currentColor" />
-                                            </svg>
-                                            <span class="bg-danger dots"></span>
-                                         </div>
-                                      </div>
-                                   </a>
-                                   <div class="p-0 sub-drop dropdown-menu dropdown-menu-end" aria-labelledby="notification-drop">
-                                      <div class="m-0 shadow-none card">
-                                         <div class="py-3 card-header d-flex justify-content-between bg-primary mb-0">
-                                            <div class="header-title">
-                                               <h5 class="mb-0 text-white">All Notifications</h5>
-                                            </div>
-                                         </div>
-                                         <div class="p-0 card-body">
-                                            <a href="#" class="iq-sub-card">
-                                               <div class="d-flex align-items-center">
-                                                  <img class="p-1 avatar-40 rounded-pill bg-primary-subtle"
-                                                     src="./assets/images/shapes/01.png" loading="lazy" />
-                                                  <div class="ms-3 flex-grow-1 text-start">
-                                                     <h6 class="mb-0 ">Emma Watson Bni</h6>
-                                                     <p class="mb-0">95 MB</p>
-                                                  </div>
-                                                  <small class="float-end font-size-12">Just Now</small>
-                                               </div>
-                                            </a>
-                                            <a href="#" class="iq-sub-card">
-                                               <div class="d-flex align-items-center">
-                                                  <img class="p-1 avatar-40 rounded-pill bg-primary-subtle"
-                                                     src="./assets/images/shapes/02.png" loading="lazy" />
-                                                  <div class="ms-3 flex-grow-1 text-start">
-                                                     <h6 class="mb-0 ">New customer is join</h6>
-                                                     <p class="mb-0">Cyst Bni</p>
-                                                  </div>
-                                                  <small class="float-end font-size-12">5 days ago</small>
-                                               </div>
-                                            </a>
-                                            <a href="#" class="iq-sub-card">
-                                               <div class="d-flex align-items-center">
-                                                  <img class="p-1 avatar-40 rounded-pill bg-primary-subtle"
-                                                     src="./assets/images/shapes/03.png" loading="lazy" />
-                                                  <div class="ms-3 flex-grow-1 text-start">
-                                                     <h6 class="mb-0 ">Two customer is left</h6>
-                                                     <p class="mb-0">Cyst Bni</p>
-                                                  </div>
-                                                  <small class="float-end font-size-12">2 days ago</small>
-                                               </div>
-                                            </a>
-                                            <a href="#" class="iq-sub-card">
-                                               <div class="d-flex align-items-center">
-                                                  <img class="p-1 avatar-40 rounded-pill bg-primary-subtle"
-                                                     src="./assets/images/shapes/04.png" loading="lazy" />
-                                                  <div class="ms-3 flex-grow-1 text-start">
-                                                     <h6 class="mb-0 ">New Mail from Fenny</h6>
-                                                     <p class="mb-0">Cyst Bni</p>
-                                                  </div>
-                                                  <small class="float-end font-size-12">3 days ago</small>
-                                               </div>
-                                            </a>
-                                         </div>
-                                      </div>
-                                   </div>
-                                </li>
-                                <li class="nav-item dropdown">
-                                   <a href="#" class="nav-link" id="notification-cart" data-bs-toggle="dropdown">
-                                      <div class="btn-action position-relative nav-list-icon">
-                                         <span class="btn-inner">
-                                            <svg class="cart-icons icon-20" xmlns="http://www.w3.org/2000/svg" width="18" height="17"
-                                               viewBox="0 0 18 17" fill="none">
-                                               <path fill-rule="evenodd" clip-rule="evenodd"
-                                                  d="M4.27385 4.95616L4.77635 10.9328C4.81302 11.3928 5.18885 11.7378 5.64802 11.7378H5.65135H14.7439H14.7455C15.1797 11.7378 15.5505 11.4145 15.6122 10.9853L16.4039 5.51949C16.4222 5.38949 16.3897 5.25949 16.3105 5.15449C16.2322 5.04866 16.1172 4.98033 15.9872 4.96199C15.813 4.96866 8.58552 4.95866 4.27385 4.95616ZM5.64631 12.9878C4.54881 12.9878 3.61964 12.1311 3.53047 11.0353L2.76714 1.95695L1.51131 1.74028C1.17048 1.68028 0.942975 1.35778 1.00131 1.01695C1.06131 0.676117 1.39047 0.45445 1.72381 0.507784L3.45714 0.807784C3.73631 0.85695 3.94881 1.08862 3.97297 1.37195L4.16881 3.70612C16.0655 3.71112 16.1038 3.71695 16.1613 3.72362C16.6255 3.79112 17.0338 4.03362 17.3121 4.40695C17.5905 4.77945 17.7071 5.23862 17.6405 5.69862L16.8496 11.1636C16.7005 12.2036 15.7971 12.9878 14.7471 12.9878H14.743H5.65297H5.64631Z"
-                                                  fill="currentColor"></path>
-                                               <path fill-rule="evenodd" clip-rule="evenodd"
-                                                  d="M13.4077 8.03638H11.0977C10.7518 8.03638 10.4727 7.75638 10.4727 7.41138C10.4727 7.06638 10.7518 6.78638 11.0977 6.78638H13.4077C13.7527 6.78638 14.0327 7.06638 14.0327 7.41138C14.0327 7.75638 13.7527 8.03638 13.4077 8.03638Z"
-                                                  fill="currentColor"></path>
-                                               <path fill-rule="evenodd" clip-rule="evenodd"
-                                                  d="M5.28815 15.2516C5.53898 15.2516 5.74148 15.4541 5.74148 15.7049C5.74148 15.9558 5.53898 16.1591 5.28815 16.1591C5.03648 16.1591 4.83398 15.9558 4.83398 15.7049C4.83398 15.4541 5.03648 15.2516 5.28815 15.2516Z"
-                                                  fill="currentColor"></path>
-                                               <path fill-rule="evenodd" clip-rule="evenodd"
-                                                  d="M5.28732 16.784C4.69232 16.784 4.20898 16.2998 4.20898 15.7048C4.20898 15.1098 4.69232 14.6265 5.28732 14.6265C5.88232 14.6265 6.36648 15.1098 6.36648 15.7048C6.36648 16.2998 5.88232 16.784 5.28732 16.784"
-                                                  fill="currentColor"></path>
-                                               <path fill-rule="evenodd" clip-rule="evenodd"
-                                                  d="M14.6877 16.784C14.0927 16.784 13.6094 16.2998 13.6094 15.7048C13.6094 15.1098 14.0927 14.6265 14.6877 14.6265C15.2835 14.6265 15.7677 15.1098 15.7677 15.7048C15.7677 16.2998 15.2835 16.784 14.6877 16.784"
-                                                  fill="currentColor"></path>
-                                            </svg>
-                                         </span>
-                                         <span class="badge-notification">4</span>
-                                      </div>
-                                   </a>
-                                   <div class="p-0 sub-drop dropdown-menu dropdown-menu-end" aria-labelledby="notification-cart">
-                                      <div class="m-0 shadow-none card">
-                                         <div class="py-3 card-header d-flex justify-content-between bg-primary mb-0">
-                                            <div class="header-title">
-                                               <h5 class="mb-0 text-white">All Carts</h5>
-                                            </div>
-                                         </div>
-                                         <div class="p-0 card-body max-17 scroll-thin">
-                                            <div class="iq-sub-card">
-                                               <div class="d-flex align-items-center">
-                                                  <img class="p-1 avatar-40 rounded-pill bg-primary-subtle"
-                                                     src="./assets/images/shapes/01.png" loading="lazy" />
-                                                  <div class="ms-3 flex-grow-1 text-start">
-                                                     <h6 class="mb-0 ">Biker’s Jacket</h6>
-                                                     <p class="mb-0">$56.00</p>
-                                                  </div>
-                                                  <button type="button" class="btn btn-icon text-danger btn-sm">
-                                                     <span class="btn-inner">
-                                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                           <path opacity="0.4"
-                                                              d="M19.643 9.48851C19.643 9.5565 19.11 16.2973 18.8056 19.1342C18.615 20.8751 17.4927 21.9311 15.8092 21.9611C14.5157 21.9901 13.2494 22.0001 12.0036 22.0001C10.6809 22.0001 9.38741 21.9901 8.13185 21.9611C6.50477 21.9221 5.38147 20.8451 5.20057 19.1342C4.88741 16.2873 4.36418 9.5565 4.35445 9.48851C4.34473 9.28351 4.41086 9.08852 4.54507 8.93053C4.67734 8.78453 4.86796 8.69653 5.06831 8.69653H18.9388C19.1382 8.69653 19.3191 8.78453 19.4621 8.93053C19.5953 9.08852 19.6624 9.28351 19.643 9.48851Z"
-                                                              fill="currentColor"></path>
-                                                           <path
-                                                              d="M21 5.97686C21 5.56588 20.6761 5.24389 20.2871 5.24389H17.3714C16.7781 5.24389 16.2627 4.8219 16.1304 4.22692L15.967 3.49795C15.7385 2.61698 14.9498 2 14.0647 2H9.93624C9.0415 2 8.26054 2.61698 8.02323 3.54595L7.87054 4.22792C7.7373 4.8219 7.22185 5.24389 6.62957 5.24389H3.71385C3.32386 5.24389 3 5.56588 3 5.97686V6.35685C3 6.75783 3.32386 7.08982 3.71385 7.08982H20.2871C20.6761 7.08982 21 6.75783 21 6.35685V5.97686Z"
-                                                              fill="currentColor"></path>
-                                                        </svg>
-                                                     </span>
-                                                  </button>
-                                               </div>
-                                            </div>
-                                            <div class="iq-sub-card">
-                                               <div class="d-flex align-items-center">
-                                                  <img class="p-1 avatar-40 rounded-pill bg-primary-subtle"
-                                                     src="./assets/images/shapes/02.png" loading="lazy" />
-                                                  <div class="ms-3 flex-grow-1 text-start">
-                                                     <h6 class="mb-0 ">Casual Shoes</h6>
-                                                     <p class="mb-0">$56.00</p>
-                                                  </div>
-                                                  <button type="button" class="btn btn-icon text-danger btn-sm">
-                                                     <span class="btn-inner">
-                                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                           <path opacity="0.4"
-                                                              d="M19.643 9.48851C19.643 9.5565 19.11 16.2973 18.8056 19.1342C18.615 20.8751 17.4927 21.9311 15.8092 21.9611C14.5157 21.9901 13.2494 22.0001 12.0036 22.0001C10.6809 22.0001 9.38741 21.9901 8.13185 21.9611C6.50477 21.9221 5.38147 20.8451 5.20057 19.1342C4.88741 16.2873 4.36418 9.5565 4.35445 9.48851C4.34473 9.28351 4.41086 9.08852 4.54507 8.93053C4.67734 8.78453 4.86796 8.69653 5.06831 8.69653H18.9388C19.1382 8.69653 19.3191 8.78453 19.4621 8.93053C19.5953 9.08852 19.6624 9.28351 19.643 9.48851Z"
-                                                              fill="currentColor"></path>
-                                                           <path
-                                                              d="M21 5.97686C21 5.56588 20.6761 5.24389 20.2871 5.24389H17.3714C16.7781 5.24389 16.2627 4.8219 16.1304 4.22692L15.967 3.49795C15.7385 2.61698 14.9498 2 14.0647 2H9.93624C9.0415 2 8.26054 2.61698 8.02323 3.54595L7.87054 4.22792C7.7373 4.8219 7.22185 5.24389 6.62957 5.24389H3.71385C3.32386 5.24389 3 5.56588 3 5.97686V6.35685C3 6.75783 3.32386 7.08982 3.71385 7.08982H20.2871C20.6761 7.08982 21 6.75783 21 6.35685V5.97686Z"
-                                                              fill="currentColor"></path>
-                                                        </svg>
-                                                     </span>
-                                                  </button>
-                                               </div>
-                                            </div>
-                                            <div class="iq-sub-card">
-                                               <div class="d-flex align-items-center">
-                                                  <img class="p-1 avatar-40 rounded-pill bg-primary-subtle"
-                                                     src="./assets/images/shapes/03.png" loading="lazy" />
-                                                  <div class="ms-3 flex-grow-1 text-start">
-                                                     <h6 class="mb-0 ">Knitted Shrug</h6>
-                                                     <p class="mb-0">$56.00</p>
-                                                  </div>
-                                                  <button type="button" class="btn btn-icon text-danger btn-sm">
-                                                     <span class="btn-inner">
-                                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                           <path opacity="0.4"
-                                                              d="M19.643 9.48851C19.643 9.5565 19.11 16.2973 18.8056 19.1342C18.615 20.8751 17.4927 21.9311 15.8092 21.9611C14.5157 21.9901 13.2494 22.0001 12.0036 22.0001C10.6809 22.0001 9.38741 21.9901 8.13185 21.9611C6.50477 21.9221 5.38147 20.8451 5.20057 19.1342C4.88741 16.2873 4.36418 9.5565 4.35445 9.48851C4.34473 9.28351 4.41086 9.08852 4.54507 8.93053C4.67734 8.78453 4.86796 8.69653 5.06831 8.69653H18.9388C19.1382 8.69653 19.3191 8.78453 19.4621 8.93053C19.5953 9.08852 19.6624 9.28351 19.643 9.48851Z"
-                                                              fill="currentColor"></path>
-                                                           <path
-                                                              d="M21 5.97686C21 5.56588 20.6761 5.24389 20.2871 5.24389H17.3714C16.7781 5.24389 16.2627 4.8219 16.1304 4.22692L15.967 3.49795C15.7385 2.61698 14.9498 2 14.0647 2H9.93624C9.0415 2 8.26054 2.61698 8.02323 3.54595L7.87054 4.22792C7.7373 4.8219 7.22185 5.24389 6.62957 5.24389H3.71385C3.32386 5.24389 3 5.56588 3 5.97686V6.35685C3 6.75783 3.32386 7.08982 3.71385 7.08982H20.2871C20.6761 7.08982 21 6.75783 21 6.35685V5.97686Z"
-                                                              fill="currentColor"></path>
-                                                        </svg>
-                                                     </span>
-                                                  </button>
-                                               </div>
-                                            </div>
-                                            <div class="iq-sub-card">
-                                               <div class="d-flex align-items-center">
-                                                  <img class="p-1 avatar-40 rounded-pill bg-primary-subtle"
-                                                     src="./assets/images/shapes/04.png" loading="lazy" />
-                                                  <div class="ms-3 flex-grow-1 text-start">
-                                                     <h6 class="mb-0 ">Blue Handbag</h6>
-                                                     <p class="mb-0">$56.00</p>
-                                                  </div>
-                                                  <button type="button" class="btn btn-icon text-danger btn-sm">
-                                                     <span class="btn-inner">
-                                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                           <path opacity="0.4"
-                                                              d="M19.643 9.48851C19.643 9.5565 19.11 16.2973 18.8056 19.1342C18.615 20.8751 17.4927 21.9311 15.8092 21.9611C14.5157 21.9901 13.2494 22.0001 12.0036 22.0001C10.6809 22.0001 9.38741 21.9901 8.13185 21.9611C6.50477 21.9221 5.38147 20.8451 5.20057 19.1342C4.88741 16.2873 4.36418 9.5565 4.35445 9.48851C4.34473 9.28351 4.41086 9.08852 4.54507 8.93053C4.67734 8.78453 4.86796 8.69653 5.06831 8.69653H18.9388C19.1382 8.69653 19.3191 8.78453 19.4621 8.93053C19.5953 9.08852 19.6624 9.28351 19.643 9.48851Z"
-                                                              fill="currentColor"></path>
-                                                           <path
-                                                              d="M21 5.97686C21 5.56588 20.6761 5.24389 20.2871 5.24389H17.3714C16.7781 5.24389 16.2627 4.8219 16.1304 4.22692L15.967 3.49795C15.7385 2.61698 14.9498 2 14.0647 2H9.93624C9.0415 2 8.26054 2.61698 8.02323 3.54595L7.87054 4.22792C7.7373 4.8219 7.22185 5.24389 6.62957 5.24389H3.71385C3.32386 5.24389 3 5.56588 3 5.97686V6.35685C3 6.75783 3.32386 7.08982 3.71385 7.08982H20.2871C20.6761 7.08982 21 6.75783 21 6.35685V5.97686Z"
-                                                              fill="currentColor"></path>
-                                                        </svg>
-                                                     </span>
-                                                  </button>
-                                               </div>
-                                            </div>
-                                            <div class="iq-sub-card">
-                                               <div class="d-flex align-items-center">
-                                                  <img class="p-1 avatar-40 rounded-pill bg-primary-subtle"
-                                                     src="./assets/images/shapes/01.png" loading="lazy" />
-                                                  <div class="ms-3 flex-grow-1 text-start">
-                                                     <h6 class="mb-0 ">Biker’s Jacket</h6>
-                                                     <p class="mb-0">$56.00</p>
-                                                  </div>
-                                                  <button type="button" class="btn btn-icon text-danger btn-sm">
-                                                     <span class="btn-inner">
-                                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                           <path opacity="0.4"
-                                                              d="M19.643 9.48851C19.643 9.5565 19.11 16.2973 18.8056 19.1342C18.615 20.8751 17.4927 21.9311 15.8092 21.9611C14.5157 21.9901 13.2494 22.0001 12.0036 22.0001C10.6809 22.0001 9.38741 21.9901 8.13185 21.9611C6.50477 21.9221 5.38147 20.8451 5.20057 19.1342C4.88741 16.2873 4.36418 9.5565 4.35445 9.48851C4.34473 9.28351 4.41086 9.08852 4.54507 8.93053C4.67734 8.78453 4.86796 8.69653 5.06831 8.69653H18.9388C19.1382 8.69653 19.3191 8.78453 19.4621 8.93053C19.5953 9.08852 19.6624 9.28351 19.643 9.48851Z"
-                                                              fill="currentColor"></path>
-                                                           <path
-                                                              d="M21 5.97686C21 5.56588 20.6761 5.24389 20.2871 5.24389H17.3714C16.7781 5.24389 16.2627 4.8219 16.1304 4.22692L15.967 3.49795C15.7385 2.61698 14.9498 2 14.0647 2H9.93624C9.0415 2 8.26054 2.61698 8.02323 3.54595L7.87054 4.22792C7.7373 4.8219 7.22185 5.24389 6.62957 5.24389H3.71385C3.32386 5.24389 3 5.56588 3 5.97686V6.35685C3 6.75783 3.32386 7.08982 3.71385 7.08982H20.2871C20.6761 7.08982 21 6.75783 21 6.35685V5.97686Z"
-                                                              fill="currentColor"></path>
-                                                        </svg>
-                                                     </span>
-                                                  </button>
-                                               </div>
-                                            </div>
-                                            <div class="iq-sub-card">
-                                               <div class="d-flex align-items-center">
-                                                  <img class="p-1 avatar-40 rounded-pill bg-primary-subtle"
-                                                     src="./assets/images/shapes/02.png" loading="lazy" />
-                                                  <div class="ms-3 flex-grow-1 text-start">
-                                                     <h6 class="mb-0 ">Casual Shoes</h6>
-                                                     <p class="mb-0">$56.00</p>
-                                                  </div>
-                                                  <button type="button" class="btn btn-icon text-danger btn-sm">
-                                                     <span class="btn-inner">
-                                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                           <path opacity="0.4"
-                                                              d="M19.643 9.48851C19.643 9.5565 19.11 16.2973 18.8056 19.1342C18.615 20.8751 17.4927 21.9311 15.8092 21.9611C14.5157 21.9901 13.2494 22.0001 12.0036 22.0001C10.6809 22.0001 9.38741 21.9901 8.13185 21.9611C6.50477 21.9221 5.38147 20.8451 5.20057 19.1342C4.88741 16.2873 4.36418 9.5565 4.35445 9.48851C4.34473 9.28351 4.41086 9.08852 4.54507 8.93053C4.67734 8.78453 4.86796 8.69653 5.06831 8.69653H18.9388C19.1382 8.69653 19.3191 8.78453 19.4621 8.93053C19.5953 9.08852 19.6624 9.28351 19.643 9.48851Z"
-                                                              fill="currentColor"></path>
-                                                           <path
-                                                              d="M21 5.97686C21 5.56588 20.6761 5.24389 20.2871 5.24389H17.3714C16.7781 5.24389 16.2627 4.8219 16.1304 4.22692L15.967 3.49795C15.7385 2.61698 14.9498 2 14.0647 2H9.93624C9.0415 2 8.26054 2.61698 8.02323 3.54595L7.87054 4.22792C7.7373 4.8219 7.22185 5.24389 6.62957 5.24389H3.71385C3.32386 5.24389 3 5.56588 3 5.97686V6.35685C3 6.75783 3.32386 7.08982 3.71385 7.08982H20.2871C20.6761 7.08982 21 6.75783 21 6.35685V5.97686Z"
-                                                              fill="currentColor"></path>
-                                                        </svg>
-                                                     </span>
-                                                  </button>
-                                               </div>
-                                            </div>
-                                            <div class="iq-sub-card">
-                                               <div class="d-flex align-items-center">
-                                                  <img class="p-1 avatar-40 rounded-pill bg-primary-subtle"
-                                                     src="./assets/images/shapes/03.png" loading="lazy" />
-                                                  <div class="ms-3 flex-grow-1 text-start">
-                                                     <h6 class="mb-0 ">Knitted Shrug</h6>
-                                                     <p class="mb-0">$56.00</p>
-                                                  </div>
-                                                  <button type="button" class="btn btn-icon text-danger btn-sm">
-                                                     <span class="btn-inner">
-                                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                           <path opacity="0.4"
-                                                              d="M19.643 9.48851C19.643 9.5565 19.11 16.2973 18.8056 19.1342C18.615 20.8751 17.4927 21.9311 15.8092 21.9611C14.5157 21.9901 13.2494 22.0001 12.0036 22.0001C10.6809 22.0001 9.38741 21.9901 8.13185 21.9611C6.50477 21.9221 5.38147 20.8451 5.20057 19.1342C4.88741 16.2873 4.36418 9.5565 4.35445 9.48851C4.34473 9.28351 4.41086 9.08852 4.54507 8.93053C4.67734 8.78453 4.86796 8.69653 5.06831 8.69653H18.9388C19.1382 8.69653 19.3191 8.78453 19.4621 8.93053C19.5953 9.08852 19.6624 9.28351 19.643 9.48851Z"
-                                                              fill="currentColor"></path>
-                                                           <path
-                                                              d="M21 5.97686C21 5.56588 20.6761 5.24389 20.2871 5.24389H17.3714C16.7781 5.24389 16.2627 4.8219 16.1304 4.22692L15.967 3.49795C15.7385 2.61698 14.9498 2 14.0647 2H9.93624C9.0415 2 8.26054 2.61698 8.02323 3.54595L7.87054 4.22792C7.7373 4.8219 7.22185 5.24389 6.62957 5.24389H3.71385C3.32386 5.24389 3 5.56588 3 5.97686V6.35685C3 6.75783 3.32386 7.08982 3.71385 7.08982H20.2871C20.6761 7.08982 21 6.75783 21 6.35685V5.97686Z"
-                                                              fill="currentColor"></path>
-                                                        </svg>
-                                                     </span>
-                                                  </button>
-                                               </div>
-                                            </div>
-                                            <div class="iq-sub-card">
-                                               <div class="d-flex align-items-center">
-                                                  <img class="p-1 avatar-40 rounded-pill bg-primary-subtle"
-                                                     src="./assets/images/shapes/04.png" loading="lazy" />
-                                                  <div class="ms-3 flex-grow-1 text-start">
-                                                     <h6 class="mb-0 ">Blue Handbag</h6>
-                                                     <p class="mb-0">$56.00</p>
-                                                  </div>
-                                                  <button type="button" class="btn btn-icon text-danger btn-sm">
-                                                     <span class="btn-inner">
-                                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                           <path opacity="0.4"
-                                                              d="M19.643 9.48851C19.643 9.5565 19.11 16.2973 18.8056 19.1342C18.615 20.8751 17.4927 21.9311 15.8092 21.9611C14.5157 21.9901 13.2494 22.0001 12.0036 22.0001C10.6809 22.0001 9.38741 21.9901 8.13185 21.9611C6.50477 21.9221 5.38147 20.8451 5.20057 19.1342C4.88741 16.2873 4.36418 9.5565 4.35445 9.48851C4.34473 9.28351 4.41086 9.08852 4.54507 8.93053C4.67734 8.78453 4.86796 8.69653 5.06831 8.69653H18.9388C19.1382 8.69653 19.3191 8.78453 19.4621 8.93053C19.5953 9.08852 19.6624 9.28351 19.643 9.48851Z"
-                                                              fill="currentColor"></path>
-                                                           <path
-                                                              d="M21 5.97686C21 5.56588 20.6761 5.24389 20.2871 5.24389H17.3714C16.7781 5.24389 16.2627 4.8219 16.1304 4.22692L15.967 3.49795C15.7385 2.61698 14.9498 2 14.0647 2H9.93624C9.0415 2 8.26054 2.61698 8.02323 3.54595L7.87054 4.22792C7.7373 4.8219 7.22185 5.24389 6.62957 5.24389H3.71385C3.32386 5.24389 3 5.56588 3 5.97686V6.35685C3 6.75783 3.32386 7.08982 3.71385 7.08982H20.2871C20.6761 7.08982 21 6.75783 21 6.35685V5.97686Z"
-                                                              fill="currentColor"></path>
-                                                        </svg>
-                                                     </span>
-                                                  </button>
-                                               </div>
-                                            </div>
-                                         </div>
-                                         <div class="card-footer p-0 text-center">
-                                            <div class="d-grid">
-                                               <a href="#" class="btn btn-primary">View All</a>
-                                            </div>
-                                         </div>
-                                      </div>
-                                   </div>
-                                </li>
+
+
+
+
+
+
                                 <li class="nav-item iq-full-screen d-none d-xl-block" id="fullscreen-item">
                                    <a href="#" class="nav-link" id="btnFullscreen" data-bs-toggle="dropdown">
                                       <div class="icon nav-list-icon">
@@ -671,16 +201,17 @@
                                    </a>
                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                       <li>
-                                         <a class="dropdown-item" href="./app/user-profile.html">Profile</a>
-                                      </li>
-                                      <li>
-                                         <a class="dropdown-item" href="./app/user-privacy-setting.html">Privacy Setting</a>
+                                         <a class="dropdown-item" href="../frontend/my-account.html">
+                                            <i class="fas fa-user-cog me-2"></i>Tài khoản của tôi
+                                         </a>
                                       </li>
                                       <li>
                                          <hr class="dropdown-divider">
                                       </li>
                                       <li>
-                                         <a class="dropdown-item" href="./auth/sign-in.html">Logout</a>
+                                         <a class="dropdown-item" href="#" onclick="simpleLogout()">
+                                            <i class="fas fa-sign-out-alt me-2"></i>Đăng Xuất
+                                         </a>
                                       </li>
                                    </ul>
                                 </li>
@@ -693,29 +224,39 @@
 
 <div class="d-flex justify-content-between align-items-center mb-5 gap-3 flex-wrap">
     <div>
-        <h1 class="mt-5">Appointments</h1>
-        <span class="mb-4">Your All Appointment Schedule Is Here.Check Now!</span>
+        <span class="mb-4">Tất cả lịch hẹn của bạn ở đây. Kiểm tra ngay!</span>
     </div>
-    <button class="btn btn-primary " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddAppointment"
-        aria-controls="offcanvasAddAppointment">
-        <span class="btn-inner">
-            <span class="text d-inline-block align-middle">Add Appointment</span>
-            <span class="icon d-inline-block align-middle ms-1 ps-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                    <path
-                        d="M7.32046 4.70834H4.74952V7.25698C4.74952 7.66734 4.41395 8 4 8C3.58605 8 3.25048 7.66734 3.25048 7.25698V4.70834H0.679545C0.293423 4.6687 0 4.34614 0 3.96132C0 3.5765 0.293423 3.25394 0.679545 3.21431H3.24242V0.673653C3.28241 0.290878 3.60778 0 3.99597 0C4.38416 0 4.70954 0.290878 4.74952 0.673653V3.21431H7.32046C7.70658 3.25394 8 3.5765 8 3.96132C8 4.34614 7.70658 4.6687 7.32046 4.70834Z"
-                        fill="currentColor" />
-                </svg>
+    <div class="d-flex gap-2">
+        <a href="../frontend/appointment.html" class="btn btn-primary" id="addAppointmentBtn">
+            <span class="btn-inner">
+                <span class="text d-inline-block align-middle">Thêm Lịch Hẹn</span>
+                <span class="icon d-inline-block align-middle ms-1 ps-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                        <path
+                            d="M7.32046 4.70834H4.74952V7.25698C4.74952 7.66734 4.41395 8 4 8C3.58605 8 3.25048 7.66734 3.25048 7.25698V4.70834H0.679545C0.293423 4.6687 0 4.34614 0 3.96132C0 3.5765 0.293423 3.25394 0.679545 3.21431H3.24242V0.673653C3.28241 0.290878 3.60778 0 3.99597 0C4.38416 0 4.70954 0.290878 4.74952 0.673653V3.21431H7.32046C7.70658 3.25394 8 3.5765 8 3.96132C8 4.34614 7.70658 4.6687 7.32046 4.70834Z"
+                            fill="currentColor" />
+                    </svg>
+                </span>
             </span>
-        </span>
-    </button>
+        </a>
+        <a href="../frontend/login.html" class="btn btn-outline-primary" id="loginBtn" style="display: none;">
+            <span class="btn-inner">
+                <span class="text d-inline-block align-middle">Đăng Nhập</span>
+                <span class="icon d-inline-block align-middle ms-1 ps-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                    </svg>
+                </span>
+            </span>
+        </a>
+    </div>
 </div>
 <div class="row">
     <div class="modal fade" id="add-appointment" data-bs-keyboard="true" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Appointment</h5>
+                    <h5 class="modal-title">Thêm Lịch Hẹn</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -727,7 +268,7 @@
                                 <div class="fade active show" id="-3">
                                     <div class="row g-3 align-items-center form-group">
                                         <div class="col-2">
-                                            <label for="addtitle" class="col-form-label">Title</label>
+                                            <label for="addtitle" class="col-form-label">Tiêu Đề</label>
                                         </div>
                                         <div class="col-10">
                                             <input type="text" id="addtitle" class="form-control"
@@ -736,7 +277,7 @@
                                     </div>
                                     <div class="row g-3 align-items-center form-group">
                                         <div class="col-2">
-                                            <label for="addname" class="col-form-label">Doctor Name</label>
+                                            <label for="addname" class="col-form-label">Tên Bác Sĩ</label>
                                         </div>
                                         <div class="col-10">
                                             <input type="text" id="addname" class="form-control"
@@ -784,7 +325,7 @@
                                         </div>
                                         <div class="col-5">
                                             <input type="text" name="start_date" id="nametitle"
-                                                class="form-control date_flatpicker" placeholder="Select Start Date ">
+                                                class="form-control date_flatpicker" placeholder="Chọn Ngày Bắt Đầu ">
                                         </div>
                                         <div class="col-5">
                                             <input type="text" name="end_date" class="form-control date_flatpicker"
@@ -872,13 +413,13 @@
                     <div class="d-flex align-items-center justify-content-center form-check">
                         <input type="checkbox" class="form-check-input m-0" id="addconfirm2" name="confirm"
                             value="Bike">
-                        <label class="form-check-label ms-2" for="addconfirm2">Confirm Information</label>
+                        <label class="form-check-label ms-2" for="addconfirm2">Xác Nhận Thông Tin</label>
                     </div>
                 </div>
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
                         <span class="btn-inner">
-                            <span class="text d-inline-block align-middle">Discard Changes</span>
+                            <span class="text d-inline-block align-middle">Hủy Thay Đổi</span>
                             <span class="icon d-inline-block align-middle ms-1 ps-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8"
                                     fill="none">
@@ -891,7 +432,7 @@
                     </button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="save">
                         <span class="btn-inner">
-                            <span class="text d-inline-block align-middle">Save</span>
+                            <span class="text d-inline-block align-middle">Lưu</span>
                             <span class="icon d-inline-block align-middle ms-1 ps-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8"
                                     fill="none">
@@ -911,7 +452,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Appointment</h5>
+                    <h5 class="modal-title">Chỉnh Sửa Lịch Hẹn</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -923,7 +464,7 @@
                                 <div class="fade active show" id="v-pills-home-3">
                                     <div class="row g-3 align-items-center form-group">
                                         <div class="col-2">
-                                            <label for="title-drop-1" class="col-form-label">Title</label>
+                                            <label for="title-drop-1" class="col-form-label">Tiêu Đề</label>
                                         </div>
                                         <div class="col-10">
                                             <input type="text" id="title-drop-1" class="form-control"
@@ -932,7 +473,7 @@
                                     </div>
                                     <div class="row g-3 align-items-center form-group">
                                         <div class="col-2">
-                                            <label for="dr-name-1" class="col-form-label">Doctor Name</label>
+                                            <label for="dr-name-1" class="col-form-label">Tên Bác Sĩ</label>
                                         </div>
                                         <div class="col-10">
                                             <input type="text" id="dr-name-1" class="form-control"
@@ -1067,7 +608,7 @@
                     </form>
                     <div class="d-flex align-items-center justify-content-center">
                         <input type="checkbox" id="editconfirm" name="confirm" value="Bike">
-                        <label for="editconfirm" class="ms-2"> Confirm Information</label>
+                        <label for="editconfirm" class="ms-2"> Xác Nhận Thông Tin</label>
                     </div>
                 </div>
                 <div class="modal-footer border-0">
@@ -1124,7 +665,7 @@
                                         d="M15.6949 6.59C16.1197 6.59 16.4556 6.261 16.4556 5.82V2.771C16.4556 2.33 16.1197 2 15.6949 2C15.2603 2 14.9342 2.33 14.9342 2.771V5.82C14.9342 6.261 15.2603 6.59 15.6949 6.59Z"
                                         fill="currentColor"></path>
                                 </svg>
-                                <span class="fw-500 text-primary">All Appointments</span>
+                                <span class="fw-500 text-primary">Tất Cả Lịch Hẹn</span>
                                 <svg width="8" class="ms-1 transform-up" viewBox="0 0 12 8" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -1134,11 +675,10 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-soft-primary"
                                 aria-labelledby="dropdownMenuAppointment" style="">
-                                <li><a class="dropdown-item active" href="#">View</a></li>
-                                <li><a class="dropdown-item" href="#">Edit</a></li>
-                                <li><a class="dropdown-item" href="#">Delete</a></li>
-                                <li><a class="dropdown-item" href="#">Update</a></li>
-                                <li><a class="dropdown-item" href="#">Download</a></li>
+                                <li><a class="dropdown-item active" href="#" onclick="filterAppointments('all')">Tất Cả Lịch Hẹn</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="filterAppointments('today')">Lịch Hẹn Hôm Nay</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="filterAppointments('completed')">Lịch Hẹn Đã Hoàn Thành</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="filterAppointments('cancelled')">Lịch Hẹn Đã Hủy</a></li>
                             </ul>
                         </div>
                     </div>
@@ -1156,12 +696,12 @@
                                         </path>
                                     </svg>
                                 </span>
-                                <input type="text" class="form-control" placeholder="Search Here...">
+                                <input type="text" class="form-control" placeholder="Tìm Kiếm Tại Đây...">
                             </div>
                             <div>
                                 <button class="btn btn-outline-primary px-4">
                                     <span class="btn-inner">
-                                        <span class="text d-inline-block align-middle">Find Appointments</span>
+                                        <span class="text d-inline-block align-middle">Tìm Lịch Hẹn</span>
                                         <span class="icon d-inline-block align-middle ms-1 ps-2">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"
                                                 viewBox="0 0 8 8" fill="none">
@@ -1186,44 +726,44 @@
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAddAppointment" aria-labelledby="offcanvasAddAppointmentLabel">
   <div class="offcanvas-header border-bottom">
-    <h3 class="offcanvas-title" id="offcanvasAddAppointmentLabel">Add Appointment</h3>
+    <h3 class="offcanvas-title" id="offcanvasAddAppointmentLabel">Thêm Lịch Hẹn</h3>
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
     <div class="form-group col-md-12">
-        <label class="form-label" >Title <span class="text-danger">*</span></label>
+        <label class="form-label" >Tiêu Đề <span class="text-danger">*</span></label>
         <input type="text" class="form-control">
         <span class="text-danger"></span>
     </div>
     <div class="form-group col-md-12">
-        <label class="form-label" >Doctor Name <span class="text-danger">*</span></label>
+        <label class="form-label" >Tên Bác Sĩ <span class="text-danger">*</span></label>
         <input type="text" class="form-control">
         <span class="text-danger"></span>
     </div>
     <div class="form-group col-md-12">
-         <label class="form-label" >Date And Time <span class="text-danger">*</span></label>
+         <label class="form-label" >Ngày Và Giờ <span class="text-danger">*</span></label>
          <input type="text" class="form-control date_flatpicker flatpickr-input active" readonly="readonly">
       </div>
     <div class="form-group">
-        <label class="form-label">Select Services <span class="text-danger">*</span></label>
+        <label class="form-label">Chọn Dịch Vụ <span class="text-danger">*</span></label>
         <select class="form-control select2-basic-single" >
-            <option>Select</option>
-            <option>Anesthetics</option>
-            <option>Cardiology</option>
-            <option>ENT</option>
-            <option>Gastroenterology</option>
+            <option>Chọn</option>
+            <option>Gây Mê</option>
+            <option>Tim Mạch</option>
+            <option>Tai Mũi Họng</option>
+            <option>Tiêu Hóa</option>
         </select>
     </div>
     <div class="form-group col-md-12">
-            <label class="form-label" for="add_note">Description </label>
-            <textarea class="form-control" rows="2">Provide Description</textarea>
+            <label class="form-label" for="add_note">Mô Tả </label>
+            <textarea class="form-control" rows="2">Cung Cấp Mô Tả</textarea>
         </div>
   </div>
   <div class="offcanvas-footer border-top">
         <div class="d-grid d-md-flex gap-3 p-3">
             <button type="reset" class="btn btn-primary d-block">  
                 <span class="btn-inner">
-                    <span class="text d-inline-block align-middle">Save</span>
+                    <span class="text d-inline-block align-middle">Lưu</span>
                     <span class="icon d-inline-block align-middle ms-1 ps-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
                             <path d="M7.32046 4.70834H4.74952V7.25698C4.74952 7.66734 4.41395 8 4 8C3.58605 8 3.25048 7.66734 3.25048 7.25698V4.70834H0.679545C0.293423 4.6687 0 4.34614 0 3.96132C0 3.5765 0.293423 3.25394 0.679545 3.21431H3.24242V0.673653C3.28241 0.290878 3.60778 0 3.99597 0C4.38416 0 4.70954 0.290878 4.74952 0.673653V3.21431H7.32046C7.70658 3.25394 8 3.5765 8 3.96132C8 4.34614 7.70658 4.6687 7.32046 4.70834Z" fill="currentColor" />
@@ -1233,7 +773,7 @@
             </button>
             <button class="btn btn-secondary d-block" type="button" data-bs-dismiss="offcanvas"> 
                 <span class="btn-inner">
-                    <span class="text d-inline-block align-middle">Close</span>
+                    <span class="text d-inline-block align-middle">Đóng</span>
                     <span class="icon d-inline-block align-middle ms-1 ps-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
                             <path d="M7.32046 4.70834H4.74952V7.25698C4.74952 7.66734 4.41395 8 4 8C3.58605 8 3.25048 7.66734 3.25048 7.25698V4.70834H0.679545C0.293423 4.6687 0 4.34614 0 3.96132C0 3.5765 0.293423 3.25394 0.679545 3.21431H3.24242V0.673653C3.28241 0.290878 3.60778 0 3.99597 0C4.38416 0 4.70954 0.290878 4.74952 0.673653V3.21431H7.32046C7.70658 3.25394 8 3.5765 8 3.96132C8 4.34614 7.70658 4.6687 7.32046 4.70834Z" fill="currentColor" />
@@ -1250,8 +790,8 @@
             <footer class="footer">
                 <div class="footer-body">
                     <ul class="left-panel list-inline mb-0 p-0">
-                        <li class="list-inline-item fw-500"><a class="footer-link" href="./extra/privacy-policy.html">Privacy Policy</a></li>
-                        <li class="list-inline-item fw-500"><a class="footer-link" href="./extra/terms-of-service.html">Terms of Use</a></li>
+                        <li class="list-inline-item fw-500"><a class="footer-link" href="./extra/privacy-policy.html">Chính Sách Bảo Mật</a></li>
+                        <li class="list-inline-item fw-500"><a class="footer-link" href="./extra/terms-of-service.html">Điều Khoản Sử Dụng</a></li>
                     </ul>
                     <h6 class="right-panel mb-0">
                         © <script>document.write(new Date().getFullYear())</script> <span data-setting="app_name">KiviCare</span> with
@@ -1296,10 +836,10 @@
                                 <g opacity="0.4">
                                     <path
                                         d="M4.88076 14.6713C4.74978 14.2784 4.32504 14.066 3.93208 14.197C3.53912 14.328 3.32675 14.7527 3.45774 15.1457L4.88076 14.6713ZM20.8808 15.1457C21.0117 14.7527 20.7994 14.328 20.4064 14.197C20.0135 14.066 19.5887 14.2784 19.4577 14.6713L20.8808 15.1457ZM4.16925 14.9085C3.45774 15.1457 3.45785 15.146 3.45797 15.1464C3.45802 15.1465 3.45815 15.1469 3.45825 15.1472C3.45845 15.1478 3.45868 15.1485 3.45895 15.1493C3.45948 15.1509 3.46013 15.1528 3.46092 15.1551C3.46249 15.1597 3.46456 15.1657 3.46716 15.1731C3.47235 15.188 3.47961 15.2084 3.48902 15.2341C3.50782 15.2854 3.53521 15.3576 3.5717 15.4477C3.64461 15.6279 3.7542 15.8805 3.90468 16.1814C4.2048 16.7817 4.67223 17.5836 5.34308 18.3886C6.68942 20.0043 8.88343 21.6585 12.1693 21.6585V20.1585C9.45507 20.1585 7.64908 18.8128 6.49542 17.4284C5.91627 16.7334 5.5087 16.0354 5.24632 15.5106C5.11555 15.2491 5.02201 15.0329 4.96212 14.8849C4.9322 14.811 4.91076 14.7543 4.89733 14.7177C4.89062 14.6994 4.88593 14.6861 4.88318 14.6783C4.88181 14.6744 4.88093 14.6718 4.88053 14.6706C4.88033 14.67 4.88025 14.6698 4.88029 14.6699C4.88031 14.67 4.88036 14.6701 4.88044 14.6704C4.88047 14.6705 4.88056 14.6707 4.88058 14.6708C4.88067 14.671 4.88076 14.6713 4.16925 14.9085ZM12.1693 21.6585C15.4551 21.6585 17.6491 20.0043 18.9954 18.3886C19.6663 17.5836 20.1337 16.7817 20.4338 16.1814C20.5843 15.8805 20.6939 15.6279 20.7668 15.4477C20.8033 15.3576 20.8307 15.2854 20.8495 15.2341C20.8589 15.2084 20.8662 15.188 20.8713 15.1731C20.8739 15.1657 20.876 15.1597 20.8776 15.1551C20.8784 15.1528 20.879 15.1509 20.8796 15.1493C20.8798 15.1485 20.8801 15.1478 20.8803 15.1472C20.8804 15.1469 20.8805 15.1465 20.8805 15.1464C20.8807 15.146 20.8808 15.1457 20.1693 14.9085C19.4577 14.6713 19.4578 14.671 19.4579 14.6708C19.4579 14.6707 19.458 14.6705 19.4581 14.6704C19.4581 14.6701 19.4582 14.67 19.4582 14.6699C19.4583 14.6698 19.4582 14.67 19.458 14.6706C19.4576 14.6718 19.4567 14.6744 19.4553 14.6783C19.4526 14.6861 19.4479 14.6994 19.4412 14.7177C19.4277 14.7543 19.4063 14.811 19.3764 14.8849C19.3165 15.0329 19.223 15.2491 19.0922 15.5106C18.8298 16.0354 18.4222 16.7334 17.8431 17.4284C16.6894 18.8128 14.8834 20.1585 12.1693 20.1585V21.6585Z"
-                                        fill="currentColor"></path>
-                                    <path
-                                        d="M21.5183 19.2271C21.4293 19.2234 21.3427 19.196 21.2671 19.1465L16.3546 15.8924C16.2197 15.8026 16.1413 15.6537 16.148 15.4969C16.1546 15.34 16.2452 15.1982 16.3873 15.1202L21.5571 12.2926C21.7075 12.2106 21.8932 12.213 22.0416 12.3003C22.1907 12.387 22.2783 12.5436 22.2712 12.7096L22.014 18.7913C22.007 18.9573 21.9065 19.1059 21.7506 19.1797C21.6772 19.215 21.597 19.2305 21.5183 19.2271"
-                                        fill="currentColor"></path>
+                                fill="currentColor"></path>
+                            <path
+                                d="M21.5183 19.2271C21.4293 19.2234 21.3427 19.196 21.2671 19.1465L16.3546 15.8924C16.2197 15.8026 16.1413 15.6537 16.148 15.4969C16.1546 15.34 16.2452 15.1982 16.3873 15.1202L21.5571 12.2926C21.7075 12.2106 21.8932 12.213 22.0416 12.3003C22.1907 12.387 22.2783 12.5436 22.2712 12.7096L22.014 18.7913C22.007 18.9573 21.9065 19.1059 21.7506 19.1797C21.6772 19.215 21.597 19.2305 21.5183 19.2271"
+                                fill="currentColor"></path>
                                 </g>
                                 <path
                                     d="M20.0742 10.0265C20.1886 10.4246 20.6041 10.6546 21.0022 10.5401C21.4003 10.4257 21.6302 10.0102 21.5158 9.61214L20.0742 10.0265ZM4.10803 8.88317C3.96071 9.27031 4.15513 9.70356 4.54226 9.85087C4.92939 9.99818 5.36265 9.80377 5.50996 9.41664L4.10803 8.88317ZM20.795 9.81934C21.5158 9.61214 21.5157 9.6118 21.5156 9.61144C21.5155 9.61129 21.5154 9.6109 21.5153 9.61059C21.5152 9.60998 21.515 9.60928 21.5147 9.60848C21.5143 9.60689 21.5137 9.60493 21.513 9.6026C21.5116 9.59795 21.5098 9.59184 21.5075 9.58431C21.503 9.56925 21.4966 9.54853 21.4882 9.52251C21.4716 9.47048 21.4473 9.39719 21.4146 9.3056C21.3493 9.12256 21.2503 8.8656 21.1126 8.55861C20.8378 7.94634 20.4044 7.12552 19.7678 6.29313C18.4902 4.62261 16.3673 2.87801 13.0844 2.74053L13.0216 4.23922C15.7334 4.35278 17.4816 5.77291 18.5763 7.20436C19.1258 7.92295 19.5038 8.63743 19.744 9.17271C19.8638 9.43949 19.9482 9.65937 20.0018 9.80972C20.0286 9.88483 20.0477 9.94238 20.0596 9.97951C20.0655 9.99808 20.0696 10.0115 20.072 10.0195C20.0732 10.0235 20.074 10.0261 20.0744 10.0273C20.0746 10.0278 20.0746 10.0281 20.0746 10.028C20.0746 10.0279 20.0745 10.0278 20.0745 10.0275C20.0744 10.0274 20.0744 10.0272 20.0743 10.0271C20.0743 10.0268 20.0742 10.0265 20.795 9.81934ZM13.0844 2.74053C9.80146 2.60306 7.54016 4.16407 6.12741 5.72193C5.42345 6.49818 4.92288 7.27989 4.59791 7.86704C4.43497 8.16144 4.31491 8.40923 4.23452 8.58617C4.1943 8.67471 4.16391 8.7457 4.14298 8.79616C4.13251 8.82139 4.1244 8.84151 4.11859 8.85613C4.11568 8.86344 4.11336 8.86938 4.1116 8.8739C4.11072 8.87616 4.10998 8.87807 4.10939 8.87962C4.10909 8.88039 4.10883 8.88108 4.1086 8.88167C4.10849 8.88196 4.10834 8.88234 4.10829 8.88249C4.10815 8.88284 4.10803 8.88317 4.80899 9.14991C5.50996 9.41664 5.50985 9.41692 5.50975 9.41719C5.50973 9.41725 5.50964 9.41749 5.50959 9.4176C5.5095 9.41784 5.50945 9.41798 5.50942 9.41804C5.50938 9.41816 5.50947 9.41792 5.50969 9.41734C5.51014 9.41619 5.51113 9.41365 5.51267 9.40979C5.51574 9.40206 5.52099 9.38901 5.52846 9.37101C5.5434 9.335 5.56719 9.27924 5.60018 9.20664C5.66621 9.0613 5.76871 8.84925 5.91031 8.59341C6.19442 8.08008 6.63084 7.39971 7.23855 6.72958C8.44912 5.39466 10.3098 4.12566 13.0216 4.23922L13.0844 2.74053Z"
@@ -1674,7 +1214,7 @@
                                                 fill="currentColor" />
                                             <path
                                                 d="M20.0941 18.5594C21.3117 16.848 21.9736 14.8163 21.9993 12.7329C22.0027 12.4569 21.7699 12.2413 21.4941 12.2512L19.5244 12.3213C19.2482 12.3311 19.0342 12.5633 19.0254 12.8395C18.9796 14.283 18.5078 15.6861 17.6628 16.8739C16.7203 18.1986 15.3651 19.183 13.8035 19.6772C12.2419 20.1714 10.5595 20.1483 9.01246 19.6114C7.4654 19.0746 6.13845 18.0534 5.23367 16.7033C4.66562 15.8557 4.28352 14.9076 4.10367 13.9196C4.00935 18.0934 6.49194 21.37 10.008 22.6416C10.697 22.8908 11.4336 22.9852 12.1652 22.9465C13.075 22.8983 13.8508 22.742 14.7105 22.4699C16.8889 21.7805 18.7794 20.4073 20.0941 18.5594Z"
-                                                fill="currentColor" />
+                                                fill="#0169CA" />
                                         </svg>
                                     </a>
                                 </div>
@@ -2119,14 +1659,176 @@
         
         <!-- Icons -->
         <script src="./assets/js/solid-icon-search-filter.js?v=1.4.1" defer></script>
-<!-- Fullcalender Javascript -->
-<script src="./assets/js/plugins/bookappointment.js"></script>
+<!-- FullCalendar Javascript -->
 <script src='./assets/vendor/fullcalendar/core/main.js'></script>
+<script src='./assets/vendor/fullcalendar/core/locales/vi.js'></script>
 <script src='./assets/vendor/fullcalendar/daygrid/main.js'></script>
 <script src='./assets/vendor/fullcalendar/timegrid/main.js'></script>
 <script src='./assets/vendor/fullcalendar/list/main.js'></script>
 <script src='./assets/vendor/fullcalendar/interaction/main.js'></script>
 <script src='./assets/vendor/moment.min.js'></script>
-<script src='./assets/js/plugins/calender.js'></script>
+<!-- bookappointment.js - Đã vô hiệu hóa để tránh xung đột -->
+<!-- <script src="./assets/js/plugins/bookappointment.js"></script> -->
+<script>
+// Đảm bảo locale tiếng Việt được load trước
+setTimeout(function() {
+    console.log('🔧 Đang kiểm tra locale tiếng Việt...');
+    if (typeof FullCalendar !== 'undefined') {
+        console.log('✅ FullCalendar đã load');
+        console.log('🌍 Available locales:', Object.keys(FullCalendar.locales || {}));
+        
+        if (FullCalendar.locales && FullCalendar.locales.vi) {
+            console.log('✅ Locale tiếng Việt đã sẵn sàng');
+        } else {
+            console.log('❌ Locale tiếng Việt chưa có - tạo thủ công');
+            // Tạo locale thủ công
+            FullCalendar.locales = FullCalendar.locales || {};
+            FullCalendar.locales.vi = {
+                code: "vi",
+                week: {
+                    dow: 1,
+                    doy: 4
+                },
+                buttonText: {
+                    prev: "Trước",
+                    next: "Tiếp",
+                    today: "Hôm nay",
+                    month: "Tháng",
+                    week: "Tuần",
+                    day: "Ngày",
+                    list: "Lịch biểu"
+                },
+                weekLabel: "Tu",
+                allDayText: "Cả ngày",
+                eventLimitText: function (n) {
+                    return "+ thêm " + n;
+                },
+                noEventsMessage: "Không có sự kiện để hiển thị"
+            };
+            console.log('✅ Đã tạo locale tiếng Việt thủ công');
+        }
+    } else {
+        console.log('❌ FullCalendar chưa load');
+    }
+}, 1000);
+</script>
+<!-- Calendar gốc với locale tiếng Việt - Đã vô hiệu hóa để tránh xung đột -->
+<!-- <script src='./assets/js/plugins/calender.js'></script> -->
+
+<!-- Calendar Locale Fix - Đã vô hiệu hóa vì xung đột -->
+<!-- <script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🔧 Đang kiểm tra calendar locale...');
+    
+    // Đảm bảo FullCalendar đã load
+    if (typeof FullCalendar !== 'undefined') {
+        console.log('✅ FullCalendar đã load');
+        console.log('🌍 Available locales:', Object.keys(FullCalendar.locales || {}));
+        
+        // Kiểm tra locale tiếng Việt
+        if (FullCalendar.locales && FullCalendar.locales.vi) {
+            console.log('✅ Locale tiếng Việt đã sẵn sàng');
+        } else {
+            console.log('❌ Locale tiếng Việt chưa có');
+            
+            // Thử tạo locale thủ công
+            console.log('🔧 Thử tạo locale thủ công...');
+            FullCalendar.locales = FullCalendar.locales || {};
+            FullCalendar.locales.vi = {
+                code: "vi",
+                week: {
+                    dow: 1,
+                    doy: 4
+                },
+                buttonText: {
+                    prev: "Trước",
+                    next: "Tiếp",
+                    today: "Hôm nay",
+                    month: "Tháng",
+                    week: "Tuần",
+                    day: "Ngày",
+                    list: "Lịch biểu"
+                },
+                weekLabel: "Tu",
+                allDayText: "Cả ngày",
+                eventLimitText: function (n) {
+                    return "+ thêm " + n;
+                },
+                noEventsMessage: "Không có sự kiện để hiển thị"
+            };
+            console.log('✅ Đã tạo locale tiếng Việt thủ công');
+        }
+        
+        // Calendar đã được khởi tạo bởi PatientAppointmentManager
+        console.log('✅ Calendar sẽ được khởi tạo bởi PatientAppointmentManager');
+        
+    } else {
+        console.log('❌ FullCalendar chưa load');
+    }
+});
+</script> -->
+
+<!-- Appointment Filter Script -->
+<script>
+// Function để lọc lịch hẹn
+function filterAppointments(filterType) {
+    console.log('🔍 Đang lọc lịch hẹn:', filterType);
+    
+    // Cập nhật active state cho dropdown items
+    const dropdownItems = document.querySelectorAll('.dropdown-menu .dropdown-item');
+    dropdownItems.forEach(item => {
+        item.classList.remove('active');
+    });
+    
+    // Tìm và active item được click
+    event.target.classList.add('active');
+    
+    // Cập nhật text của dropdown button
+    const dropdownButton = document.querySelector('#dropdownMenuAppointment .fw-500');
+    if (dropdownButton) {
+        switch(filterType) {
+            case 'all':
+                dropdownButton.textContent = 'Tất Cả Lịch Hẹn';
+                break;
+            case 'today':
+                dropdownButton.textContent = 'Lịch Hẹn Hôm Nay';
+                break;
+            case 'completed':
+                dropdownButton.textContent = 'Lịch Hẹn Đã Hoàn Thành';
+                break;
+            case 'cancelled':
+                dropdownButton.textContent = 'Lịch Hẹn Đã Hủy';
+                break;
+        }
+    }
+    
+    // TODO: Thêm logic lọc lịch hẹn thực tế ở đây
+    // Có thể gọi API hoặc lọc dữ liệu local
+    console.log('✅ Đã áp dụng filter:', filterType);
+}
+
+// Function logout đơn giản và mạnh mẽ
+function simpleLogout() {
+    console.log('🚪 Đang đăng xuất...');
+    
+    // Xóa tất cả dữ liệu
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    // Xóa cookies
+    document.cookie.split(";").forEach(function(c) { 
+        document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+    });
+    
+    console.log('✅ Đã xóa tất cả dữ liệu');
+    
+    // Chuyển về trang chủ ngay lập tức
+    window.location.href = '../frontend/index.html';
+}
+</script>
+
+<!-- Patient Appointment JavaScript -->
+<script src="./assets/js/patientAppointmentJS/patient-appointment.js"></script>
+
     </body>
 </html>

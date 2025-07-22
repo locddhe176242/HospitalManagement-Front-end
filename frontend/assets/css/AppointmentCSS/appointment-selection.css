@@ -1,0 +1,153 @@
+/* Appointment Selection Styles */
+
+/* Selected state for cards */
+.clinic-card.selected,
+.doctor-card.selected,
+.service-card.selected {
+    border: 2px solid #007bff !important;
+    background-color: #f8f9ff !important;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15) !important;
+}
+
+.clinic-card.selected .card-title,
+.doctor-card.selected .card-title,
+.service-card.selected .card-title {
+    color: #007bff !important;
+}
+
+/* Active state for time slots */
+.time-slot.selected,
+.time-slot.active {
+    background-color: #007bff !important;
+    color: white !important;
+    border-color: #007bff !important;
+}
+
+/* Radio button selected states */
+input[type="radio"]:checked + label,
+input[type="radio"]:checked ~ .card {
+    border-color: #007bff !important;
+    background-color: #f8f9ff !important;
+}
+
+/* Hover effects */
+.clinic-card:hover,
+.doctor-card:hover,
+.service-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Date picker styling */
+input[type="date"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Selected date indicator */
+.selected-date {
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-weight: 500;
+}
+
+/* Confirmation section highlighting */
+.confirmation-clinic-name,
+.confirmation-doctor,
+.confirmation-date,
+.confirmation-time,
+.confirmation-service {
+    font-weight: 600;
+    color: #007bff;
+}
+
+.confirmation-patient-name,
+.confirmation-patient-phone,
+.confirmation-patient-email {
+    font-weight: 500;
+    color: #495057;
+}
+
+/* Loading states */
+.loading-selection {
+    opacity: 0.6;
+    pointer-events: none;
+    position: relative;
+}
+
+.loading-selection::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Step indicator updates */
+.step-completed {
+    background-color: #28a745 !important;
+    color: white !important;
+}
+
+.step-active {
+    background-color: #007bff !important;
+    color: white !important;
+}
+
+/* Card selection animations */
+.card-selection-enter {
+    animation: cardSelectEnter 0.3s ease-out;
+}
+
+.card-selection-leave {
+    animation: cardSelectLeave 0.3s ease-out;
+}
+
+@keyframes cardSelectEnter {
+    from {
+        transform: scale(0.95);
+        opacity: 0.8;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes cardSelectLeave {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: scale(0.95);
+        opacity: 0.8;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .clinic-card.selected,
+    .doctor-card.selected,
+    .service-card.selected {
+        margin-bottom: 1rem;
+    }
+    
+    .time-slot.selected {
+        margin-bottom: 0.5rem;
+    }
+} 

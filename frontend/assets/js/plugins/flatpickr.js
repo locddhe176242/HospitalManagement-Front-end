@@ -87,8 +87,8 @@ const date= document.querySelectorAll('.flatpickrdate')
 Array.from(date, (elem) => {
   if(typeof flatpickr !== typeof undefined) {
     flatpickr(elem, {
-      minDate: "today",
-      dateFormat: "Y-m-d",
+      maxDate: "today", // Chỉ giới hạn đến hôm nay, không giới hạn ngày quá khứ
+      dateFormat: "d/m/Y", // Định dạng ngày tháng năm kiểu Việt Nam
     })
   }
 })
