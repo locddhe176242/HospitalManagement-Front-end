@@ -210,9 +210,15 @@
                         </div>
                         
                         <div class="col-md-6 mb-3">
-                            <label for="prescriptionId" class="form-label">ID Đơn thuốc</label>
-                            <input type="number" class="form-control" id="prescriptionId" placeholder="Để trống nếu chưa có">
-                        </div>
+    <label for="prescriptionName" class="form-label">Đơn thuốc</label>
+    <div class="input-group">
+        <input type="text" class="form-control" id="prescriptionName" placeholder="Tạo đơn thuốc" readonly>
+        <button type="button" class="btn btn-outline-primary" id="choosePrescriptionBtn">
+            <i class="fas fa-search"></i> Tạo
+        </button>
+    </div>
+    <input type="hidden" id="prescriptionId">
+</div>
                     </div>
                 </div>
 

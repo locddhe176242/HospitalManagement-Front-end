@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5082';
+const API_BASE_URL = 'https://localhost:7097';
 let currentPatientId = null;
 let currentPatientName = '';
 let medicalRecords = [];
@@ -54,7 +54,7 @@ async function loadPatientInfo() {
         `;
 
         // Gọi API để lấy thông tin chi tiết - SỬA ENDPOINT
-        const response = await fetch(`${API_BASE_URL}/api/Patient/FindById/${currentPatientId}`, {
+        const response = await fetch(`${API_BASE_URL}/api/Patient/findId/${currentPatientId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -322,7 +322,7 @@ function showNotification(message, type) {
 
 // Thêm các hàm xử lý (placeholder)
 function editMedicalRecord(recordId) {
-    window.location.href = `./medical-record.html?recordId=${recordId}&mode=edit`;
+    window.location.href = `./update-medical-record.html?recordId=${recordId}`;
 }
 
 function deleteMedicalRecord(recordId) {

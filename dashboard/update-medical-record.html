@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Cập nhật hồ sơ bệnh án - KiviCare</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./assets/css/core/libs.min.css" />
+    <link rel="stylesheet" href="./assets/css/kivicare.min.css?v=1.4.1" />
+    <link rel="stylesheet" href="./assets/css/custom.min.css?v=1.4.1" />
+</head>
+<body>
+    <main class="main-content">
+        <div class="container py-4">
+            <h2 class="text-primary mb-4">Cập nhật hồ sơ bệnh án</h2>
+            <form id="updateMedicalRecordForm" class="card p-4">
+                <div class="mb-3">
+                    <label for="diseaseName" class="form-label">Bệnh</label>
+                    <input type="text" class="form-control" id="diseaseName" name="diseaseName" required>
+                </div>
+                <div class="mb-3">
+                    <label for="diagnosis" class="form-label">Chẩn đoán</label>
+                    <input type="text" class="form-control" id="diagnosis" name="diagnosis" required>
+                </div>
+                <div class="mb-3">
+                    <label for="appointmentId" class="form-label">ID Cuộc hẹn</label>
+                    <input type="text" class="form-control" id="appointmentId" name="appointmentId" required>
+                </div>
+                <div class="mb-3">
+                    <label for="prescriptionId" class="form-label">ID Đơn thuốc</label>
+                    <input type="text" class="form-control" id="prescriptionId" name="prescriptionId">
+                </div>
+                <div class="mb-3">
+                    <label for="testResults" class="form-label">Kết quả xét nghiệm</label>
+                    <textarea class="form-control" id="testResults" name="testResults" rows="3"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="notes" class="form-label">Ghi chú bổ sung</label>
+                    <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Lưu cập nhật</button>
+                <button type="button" class="btn btn-secondary ms-2" onclick="window.history.back()">Quay lại</button>
+            </form>
+            <div id="notificationArea"></div>
+        </div>
+    </main>
+    <script src="./assets/js/core/libs.min.js"></script>
+    <script src="./assets/js/update-medical-record.js"></script>
+</body>
+</html>
