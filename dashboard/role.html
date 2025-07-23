@@ -16,7 +16,7 @@
       data-setting="app_name"
       data-rightJoin=" Clinic And Patient Management Dashboard"
     >
-      KiviCare Clinic And Patient Management Dashboard
+      Quản lý bệnh viện - KiviCare
     </title>
     <meta
       name="description"
@@ -221,7 +221,7 @@
                     ></path>
                   </svg>
                 </i>
-                <span class="item-name">Dashboard</span>
+                <span class="item-name">Quản lý</span>
                 <i class="right-icon">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -273,7 +273,7 @@
                       data-bs-placement="right"
                       >AD</i
                     >
-                    <span class="item-name">Admin Dashboard</span>
+                    <span class="item-name">Quản lý bệnh viện</span>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -316,7 +316,7 @@
                       data-bs-placement="right"
                       >PD</i
                     >
-                    <span class="item-name">patient dashboard</span>
+                    <span class="item-name">quản lý bệnh nhân</span>
                   </a>
                 </li>
               </ul>
@@ -444,7 +444,7 @@
                   data-bs-placement="right"
                   >DR</i
                 >
-                <span class="item-name">Bác Sĩ</span>
+                <span class="item-name">Bác sĩ</span>
               </a>
             </li>
             <li class="nav-item">
@@ -2795,12 +2795,13 @@
                     </label>
                   </div>
                 </li>
-                <li class="nav-item dropdown pe-3 d-none d-xl-block">
+                <!-- <li class="nav-item dropdown pe-3 d-none d-xl-block">
                   <div class="form-group input-group mb-0 search-input">
                     <input
                       type="text"
                       class="form-control"
-                      placeholder="Search..."
+                      id="searchRoleInput"
+                      placeholder="Tìm kiếm..."
                     />
                     <span class="input-group-text">
                       <svg
@@ -2830,6 +2831,24 @@
                       </svg>
                     </span>
                   </div>
+                </li> -->
+                <li class="nav-item dropdown pe-3 d-none d-xl-block">
+                  <div class="form-group input-group mb-0 search-input">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="searchRoleInput"
+                      placeholder="Tìm kiếm vai trò..."
+                    />
+                    <span
+                      class="input-group-text"
+                      id="searchRoleBtn"
+                      role="button"
+                      style="cursor: pointer"
+                    >
+                    </span>
+                  </div>
+                  <div id="searchRoleResult" class="mt-2 px-1"></div>
                 </li>
                 <li
                   class="nav-item dropdown iq-responsive-menu d-block d-xl-none"
@@ -2909,6 +2928,7 @@
                     </li>
                   </ul>
                 </li>
+
                 <li class="nav-item dropdown">
                   <a
                     href="#"
@@ -3569,11 +3589,11 @@
               stroke-linejoin="round"
             ></path>
           </svg>
-          <span class="head-title fw-500 mt-1">Khoa khám</span>
+          <span class="head-title fw-500 mt-1">Vai trò</span>
         </div>
         <div class="card">
           <div class="card-header">
-            <h4>Khoa khám</h4>
+            <h4>Các vai trò</h4>
           </div>
           <!-- Add Department Offcanvas -->
           <div
@@ -3582,44 +3602,80 @@
             id="offcanvasDepartmentAdd"
             aria-labelledby="offcanvasDepartmentAddLabel"
           >
-            <div
-              class="offcanvas-header border-bottom d-flex justify-content-between align-items-center px-3"
-            >
-              <h5 class="offcanvas-title mb-0" id="offcanvasDepartmentAddLabel">
-                Thêm khoa khám
-              </h5>
+            <div class="offcanvas-header border-bottom">
+              <h3 class="offcanvas-title" id="offcanvasDepartmentAddLabel">
+                Thêm vai trò
+              </h3>
               <button
                 type="button"
-                class="btn-close btn-sm ms-auto"
+                class="btn-close text-reset"
                 data-bs-dismiss="offcanvas"
                 aria-label="Close"
               ></button>
             </div>
-
-            <form id="addDepartmentForm">
+            <form id="addRoleForm">
               <div class="offcanvas-body">
                 <div class="form-group">
-                  <label class="form-label" for="dep_name"
-                    >Khoa khám <span class="text-danger">*</span></label
+                  <label class="form-label" for="role_name"
+                    >Vai trò <span class="text-danger">*</span></label
+                  >
+
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="role_name"
+                    required
+                  />
+                </div>
+                <!-- <div class="form-group">
+                  <label class="form-label" for="dep_code"
+                    >Code <span class="text-danger">*</span></label
                   >
                   <input
                     type="text"
                     class="form-control"
-                    id="dep_name"
+                    id="dep_code"
                     required
+                    type="hidden"
                   />
-                </div>
-                <div class="form-group">
+                </div> -->
+                <!-- <div class="form-group">
                   <label class="form-label" for="dep_description"
-                    >Mô tả <span class="text-danger">*</span></label
+                    >Description</label
                   >
                   <input
                     type="text"
                     class="form-control"
                     id="dep_description"
-                    required
                   />
+                </div> -->
+                <!-- <div class="form-group">
+                  <label class="form-label" for="dep_total"
+                    >Total Amount Of People</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="dep_total"
+                    value="0"
+                    min="0"
+                  />
+                </div> -->
+                <!-- <div class="form-group">
+                  <label class="form-label" for="dep_status">Status</label>
+                  <select class="form-control" id="dep_status">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
                 </div>
+                <div class="form-group">
+                  <label class="form-label" for="dep_createBy">Create By</label>
+                  <input type="text" class="form-control" id="dep_createBy" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="dep_updateBy">Update By</label>
+                  <input type="text" class="form-control" id="dep_updateBy" />
+                </div> -->
               </div>
               <div class="offcanvas-footer border-top">
                 <div class="d-grid d-md-flex gap-3 p-3">
@@ -3637,18 +3693,11 @@
                       <span class="text d-inline-block align-middle">Đóng</span>
                     </span>
                   </button>
-                  <!-- Nút đóng nếu đang dùng offcanvas -->
-                  <button
-                    type="button"
-                    class="btn-close d-none"
-                    aria-label="Close"
-                    id="closeCanvasBtn"
-                  ></button>
                 </div>
               </div>
             </form>
           </div>
-          <button
+          <!-- <button
             class="btn btn-success"
             type="button"
             data-bs-toggle="offcanvas"
@@ -3656,101 +3705,254 @@
             aria-controls="offcanvasDepartmentAdd"
           >
             <span class="btn-inner">
-              <span class="text d-inline-block align-middle"
-                >Thêm khoa khám</span
-              >
+              <span class="text d-inline-block align-middle">Thêm Vai trò</span>
             </span>
-          </button>
-          <!-- Edit Department Offcanvas -->
-          <div
-            class="offcanvas offcanvas-end"
-            tabindex="-1"
-            id="offcanvasDepartmentEdit"
-            aria-labelledby="offcanvasDepartmentEditLabel"
-          >
-            <div class="offcanvas-header border-bottom">
-              <h3 class="offcanvas-title" id="offcanvasDepartmentEditLabel">
-                Sửa khoa khám
-              </h3>
-              <button
-                type="button"
-                class="btn-close text-reset"
-                data-bs-dismiss="offcanvas"
-                aria-label="Close"
-              ></button>
-            </div>
-
-            <form id="editDepartmentForm">
-              <div class="offcanvas-body">
-                <input type="hidden" id="edit_dep_id" />
-                <div class="form-group">
-                  <label class="form-label" for="edit_dep_name"
-                    >Khoa khám</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="edit_dep_name"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label" for="edit_dep_description"
-                    >Mô tả</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="edit_dep_description"
-                    required
-                  />
-                </div>
-              </div>
-              <div class="offcanvas-footer border-top">
-                <div class="d-grid d-md-flex gap-3 p-3">
-                  <button type="submit" class="btn btn-primary">Lưu</button>
-                  <button
-                    class="btn btn-secondary"
-                    type="button"
-                    data-bs-dismiss="offcanvas"
-                  >
-                    Đóng
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div
-            class="modal fade"
-            id="doctorModal"
-            tabindex="-1"
-            aria-labelledby="doctorModalLabel"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="doctorModalLabel">
-                    Danh sách bác sĩ
-                  </h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Đóng"
-                  ></button>
-                </div>
-                <div class="modal-body">
-                  <ul id="doctorList" class="list-group"></ul>
-                </div>
-              </div>
-            </div>
+          </button> -->
+          <div class="d-flex justify-content-end mb-3">
+            <button
+              class="btn btn-success btn-sm"
+              type="button"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasDepartmentAdd"
+              aria-controls="offcanvasDepartmentAdd"
+            >
+              <span class="btn-inner">
+                <span class="text d-inline-block align-middle"
+                  >Thêm Vai trò</span
+                >
+              </span>
+            </button>
           </div>
           <div class="card-body pt-0">
             <div
               class="row row-cols-xl-3 row-cols-md-2 row-cols-sm-2 row-cols-1"
-              id="departmentList"
-            ></div>
+            >
+              <div class="col">
+                <div
+                  class="bg-light-subtle p-4 d-flex justify-content-between mb-5 flex-column flex-md-row gap-2 align-items-md-center rounded"
+                >
+                  <div
+                    class="d-flex align-items-start align-items-md-center gap-3 flex-column flex-md-row"
+                  >
+                    <img
+                      class="img-fluid avatar avatar-80"
+                      src="./assets/images/doctor/1.webp"
+                      alt="Dr-profile"
+                      loading="lazy"
+                    />
+                    <div>
+                      <h5 class="mb-1 text-capitalize">Skin and beauty</h5>
+                      <span class="text-body"
+                        >Total 300+ Appointments Completed</span
+                      >
+                    </div>
+                  </div>
+                  <span class="text-primary fw-500 text-capitalize"
+                    >03 Doctors</span
+                  >
+                </div>
+              </div>
+              <div class="col">
+                <div
+                  class="bg-light-subtle p-4 d-flex justify-content-between mb-5 flex-column flex-md-row gap-2 align-items-md-center rounded"
+                >
+                  <div
+                    class="d-flex align-items-start align-items-md-center gap-3 flex-column flex-md-row"
+                  >
+                    <img
+                      class="img-fluid avatar avatar-80"
+                      src="./assets/images/doctor/2.webp"
+                      alt="Dr-profile"
+                      loading="lazy"
+                    />
+                    <div>
+                      <h5 class="mb-1 text-capitalize">Psychiatrist</h5>
+                      <span class="text-body"
+                        >Total 300+ Appointments Completed</span
+                      >
+                    </div>
+                  </div>
+                  <span class="text-primary fw-500 text-capitalize"
+                    >03 Doctors</span
+                  >
+                </div>
+              </div>
+              <div class="col">
+                <div
+                  class="bg-light-subtle p-4 d-flex justify-content-between mb-5 flex-column flex-md-row gap-2 align-items-md-center rounded"
+                >
+                  <div
+                    class="d-flex align-items-start align-items-md-center gap-3 flex-column flex-md-row"
+                  >
+                    <img
+                      class="img-fluid avatar avatar-80"
+                      src="./assets/images/doctor/3.webp"
+                      alt="Dr-profile"
+                      loading="lazy"
+                    />
+                    <div>
+                      <h5 class="mb-1 text-capitalize">Cardiac</h5>
+                      <span class="text-body"
+                        >Total 300+ Appointments Completed</span
+                      >
+                    </div>
+                  </div>
+                  <span class="text-primary fw-500 text-capitalize"
+                    >03 Doctors</span
+                  >
+                </div>
+              </div>
+              <div class="col">
+                <div
+                  class="bg-light-subtle p-4 d-flex justify-content-between mb-5 flex-column flex-md-row gap-2 align-items-md-center rounded"
+                >
+                  <div
+                    class="d-flex align-items-start align-items-md-center gap-3 flex-column flex-md-row"
+                  >
+                    <img
+                      class="img-fluid avatar avatar-80"
+                      src="./assets/images/doctor/4.webp"
+                      alt="Dr-profile"
+                      loading="lazy"
+                    />
+                    <div>
+                      <h5 class="mb-1 text-capitalize">Pediatrician</h5>
+                      <span class="text-body"
+                        >Total 300+ Appointments Completed</span
+                      >
+                    </div>
+                  </div>
+                  <span class="text-primary fw-500 text-capitalize"
+                    >03 Doctors</span
+                  >
+                </div>
+              </div>
+              <div class="col">
+                <div
+                  class="bg-light-subtle p-4 d-flex justify-content-between mb-5 flex-column flex-md-row gap-2 align-items-md-center rounded"
+                >
+                  <div
+                    class="d-flex align-items-start align-items-md-center gap-3 flex-column flex-md-row"
+                  >
+                    <img
+                      class="img-fluid avatar avatar-80"
+                      src="./assets/images/doctor/5.webp"
+                      alt="Dr-profile"
+                      loading="lazy"
+                    />
+                    <div>
+                      <h5 class="mb-1 text-capitalize">Orthopedics</h5>
+                      <span class="text-body"
+                        >Total 300+ Appointments Completed</span
+                      >
+                    </div>
+                  </div>
+                  <span class="text-primary fw-500 text-capitalize"
+                    >03 Doctors</span
+                  >
+                </div>
+              </div>
+              <div class="col">
+                <div
+                  class="bg-light-subtle p-4 d-flex justify-content-between mb-5 flex-column flex-md-row gap-2 align-items-md-center rounded"
+                >
+                  <div
+                    class="d-flex align-items-start align-items-md-center gap-3 flex-column flex-md-row"
+                  >
+                    <img
+                      class="img-fluid avatar avatar-80"
+                      src="./assets/images/doctor/6.webp"
+                      alt="Dr-profile"
+                      loading="lazy"
+                    />
+                    <div>
+                      <h5 class="mb-1 text-capitalize">Dentist</h5>
+                      <span class="text-body"
+                        >Total 300+ Appointments Completed</span
+                      >
+                    </div>
+                  </div>
+                  <span class="text-primary fw-500 text-capitalize"
+                    >03 Doctors</span
+                  >
+                </div>
+              </div>
+              <div class="col">
+                <div
+                  class="bg-light-subtle p-4 d-flex justify-content-between mb-5 flex-column flex-md-row gap-2 align-items-md-center rounded"
+                >
+                  <div
+                    class="d-flex align-items-start align-items-md-center gap-3 flex-column flex-md-row"
+                  >
+                    <img
+                      class="img-fluid avatar avatar-80"
+                      src="./assets/images/doctor/7.webp"
+                      alt="Dr-profile"
+                      loading="lazy"
+                    />
+                    <div>
+                      <h5 class="mb-1 text-capitalize">General Checkup</h5>
+                      <span class="text-body"
+                        >Total 300+ Appointments Completed</span
+                      >
+                    </div>
+                  </div>
+                  <span class="text-primary fw-500 text-capitalize"
+                    >03 Doctors</span
+                  >
+                </div>
+              </div>
+              <div class="col">
+                <div
+                  class="bg-light-subtle p-4 d-flex justify-content-between mb-5 flex-column flex-md-row gap-2 align-items-md-center rounded"
+                >
+                  <div
+                    class="d-flex align-items-start align-items-md-center gap-3 flex-column flex-md-row"
+                  >
+                    <img
+                      class="img-fluid avatar avatar-80"
+                      src="./assets/images/doctor/8.webp"
+                      alt="Dr-profile"
+                      loading="lazy"
+                    />
+                    <div>
+                      <h5 class="mb-1 text-capitalize">Eye Care</h5>
+                      <span class="text-body"
+                        >Total 300+ Appointments Completed</span
+                      >
+                    </div>
+                  </div>
+                  <span class="text-primary fw-500 text-capitalize"
+                    >03 Doctors</span
+                  >
+                </div>
+              </div>
+              <div class="col">
+                <div
+                  class="bg-light-subtle p-4 d-flex justify-content-between mb-5 flex-column flex-md-row gap-2 align-items-md-center rounded"
+                >
+                  <div
+                    class="d-flex align-items-start align-items-md-center gap-3 flex-column flex-md-row"
+                  >
+                    <img
+                      class="img-fluid avatar avatar-80"
+                      src="./assets/images/doctor/9.webp"
+                      alt="Dr-profile"
+                      loading="lazy"
+                    />
+                    <div>
+                      <h5 class="mb-1 text-capitalize">Fertility</h5>
+                      <span class="text-body"
+                        >Total 300+ Appointments Completed</span
+                      >
+                    </div>
+                  </div>
+                  <span class="text-primary fw-500 text-capitalize"
+                    >03 Doctors</span
+                  >
+                </div>
+              </div>
+            </div>
           </div>
           <div class="card-footer pt-0">
             <div
@@ -5582,6 +5784,6 @@
       src="./assets/js/solid-icon-search-filter.js?v=1.4.1"
       defer
     ></script>
-    <script src="./assets/js/AminUI/category.js" defer></script>
+    <script src="./assets/js/AminUI/role.js" defer></script>
   </body>
 </html>
