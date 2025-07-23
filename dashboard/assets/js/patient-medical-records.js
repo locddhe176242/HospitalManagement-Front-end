@@ -1,7 +1,9 @@
-const API_BASE_URL = 'http://localhost:5082';
+const API_BASE_URL = 'https://localhost:7097';
 let currentPatientId = null;
 let currentPatientName = '';
 let medicalRecords = [];
+let currentAppointmentId = null; 
+
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
@@ -12,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     currentPatientId = urlParams.get('patientId');
     currentPatientName = urlParams.get('patientName') || 'Bệnh nhân';
+    currentAppointmentId = urlParams.get('appointmentId');
 
     console.log('URL Params:', {
         patientId: currentPatientId,
@@ -54,7 +57,7 @@ async function loadPatientInfo() {
         `;
 
         // Gọi API để lấy thông tin chi tiết - SỬA ENDPOINT
-        const response = await fetch(`${API_BASE_URL}/api/Patient/FindById/${currentPatientId}`, {
+        const response = await fetch(`${API_BASE_URL}/api/Patient/findId/${currentPatientId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -85,6 +88,7 @@ function displayPatientInfo(patientData) {
                 <div>
                     <h6 class="mb-1">${patientData.name || currentPatientName}</h6>
                     <p class="text-muted mb-0">Mã BN: ${patientData.id || currentPatientId}</p>
+                    <p class="text-muted mb-0">ID cuộc hẹn: ${currentAppointmentId || 'N/A'}</p> <!-- Thêm dòng này -->
                 </div>
             </div>
         </div>
@@ -273,12 +277,14 @@ function showError(message) {
 }
 
 function createNewMedicalRecord() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const appointmentId = urlParams.get('appointmentId');
     const params = new URLSearchParams({
         patientId: currentPatientId,
         patientName: currentPatientName,
-        mode: 'create'
+        mode: 'create',
+        appointmentId: appointmentId
     });
-    
     window.location.href = `./medical-record.html?${params.toString()}`;
 }
 
@@ -322,7 +328,7 @@ function showNotification(message, type) {
 
 // Thêm các hàm xử lý (placeholder)
 function editMedicalRecord(recordId) {
-    window.location.href = `./medical-record.html?recordId=${recordId}&mode=edit`;
+    window.location.href = `./update-medical-record.html?recordId=${recordId}`;
 }
 
 function deleteMedicalRecord(recordId) {

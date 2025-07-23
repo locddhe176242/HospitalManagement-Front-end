@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5082';
+const API_BASE_URL = 'https://localhost:7097';
 let currentRecordId = null;
 let medicalRecordData = null;
 
@@ -117,9 +117,15 @@ function displayMedicalRecordDetail(data) {
             <span class="float-end">${data.appointmentId || 'N/A'}</span>
         </div>
         <div class="detail-row">
-            <strong>ID Đơn thuốc:</strong>
-            <span class="float-end">${data.prescriptionId || 'Chưa có'}</span>
-        </div>
+    <strong>Đơn thuốc:</strong>
+    <span class="float-end">
+        ${
+            data.prescriptionId
+            ? `<button class="btn btn-sm btn-outline-primary" onclick="viewPrescription(${data.prescriptionId})">Xem đơn thuốc</button>`
+            : '<span class="text-muted">Chưa có</span>'
+        }
+    </span>
+</div>
     `;
 
     // Test Results
@@ -224,4 +230,8 @@ function showNotification(message, type) {
     setTimeout(() => {
         notification.remove();
     }, 5000);
+
+}
+function viewPrescription(prescriptionId) {
+    window.open(`../frontend/precriptionDetail.html?prescriptionId=${prescriptionId}`, '_blank');
 }

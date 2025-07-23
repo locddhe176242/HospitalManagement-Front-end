@@ -178,12 +178,12 @@
                     
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="appointmentId" class="form-label">
-                                ID Cuộc hẹn <span class="required">*</span>
-                            </label>
-                            <input type="number" class="form-control" id="appointmentId" required>
-                            <div class="invalid-feedback">Vui lòng nhập ID cuộc hẹn</div>
-                        </div>
+    <label for="appointmentId" class="form-label">
+        ID Cuộc hẹn <span class="required">*</span>
+    </label>
+    <input type="number" class="form-control" id="appointmentId" required>
+    <div class="invalid-feedback">Vui lòng nhập ID cuộc hẹn</div>
+</div>
                         
                         <div class="col-md-6 mb-3">
                             <label for="diseaseSelect" class="form-label">
@@ -210,10 +210,15 @@
                         </div>
                         
                         <div class="col-md-6 mb-3">
-                            <label for="prescriptionId" class="form-label">ID Đơn thuốc</label>
-                            <input type="number" class="form-control" id="prescriptionId" placeholder="Để trống nếu chưa có">
-                        </div>
-                    </div>
+    <label for="prescriptionId" class="form-label">ID Đơn thuốc</label>
+    <div class="input-group">
+        <input type="number" class="form-control" id="prescriptionId" placeholder="Nhập ID đơn thuốc">
+        <button type="button" class="btn btn-outline-primary" id="createPrescriptionBtn">
+            Tạo đơn thuốc
+        </button>
+    </div>
+    <div class="invalid-feedback">Vui lòng nhập ID đơn thuốc nếu có</div>
+</div>
                 </div>
 
                 <!-- Medical Details Section -->
