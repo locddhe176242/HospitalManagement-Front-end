@@ -6,8 +6,11 @@ async function loadSuppliers() {
         const res = await fetch("https://localhost:7097/api/Supplier/get-all");
         const suppliers = await res.json();
 
+        const activeSuppliers = suppliers.filter(s => s.status === 'Active');
+
+
         const supplierSelect = document.getElementById("supplierSelect");
-        suppliers.forEach(s => {
+        activeSuppliers.forEach(s => {
             const option = document.createElement("option");
             option.value = s.id;
             option.textContent = s.name;
@@ -26,9 +29,10 @@ document.getElementById("importForm").addEventListener("submit", async function 
     const formData = new FormData(this);
     const supplierId = formData.get("supplierId");
     const file = formData.get("file");
+    const importName = formData.get("importName");
 
-    if (!supplierId || !file) {
-        alert("Vui lòng chọn nhà cung cấp và file Excel!");
+    if (!supplierId || !file || !importName) {
+        alert("Vui lòng chọn nhà cung cấp, nhập tên đơn nhập và file Excel!");
         return;
     }
 
@@ -96,7 +100,7 @@ document.getElementById("confirmImportBtn").addEventListener("click", async func
         }
 
         alert("Nhập kho thành công!");
-        location.reload(); 
+        location.reload();
     } catch (err) {
         alert("Lỗi khi xác nhận:\n" + err.message);
     }

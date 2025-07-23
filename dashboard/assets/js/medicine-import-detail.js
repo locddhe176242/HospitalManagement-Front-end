@@ -144,6 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const row = document.createElement("tr");
             row.innerHTML = `
             <td>${index + 1}</td>
+            <td>${item.importName}</td>
             <td>${item.medicineCode ?? ''}</td>
             <td>${item.medicineName ?? ''}</td>
             <td>${item.quantity ?? ''}</td>
