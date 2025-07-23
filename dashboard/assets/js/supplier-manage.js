@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const inputEmail = document.getElementById("Email");
   const inputAddress = document.getElementById("Address");
   const inputCode = document.getElementById("Code");
+  const statusDropdown = document.getElementById("Status");
 
   // Data & Pagination
   let data = [];
@@ -84,18 +85,26 @@ document.addEventListener("DOMContentLoaded", () => {
         : "";
 
       const row = document.createElement("tr");
+
+      let status = '';
+      if(item.status === 'Active') {
+        status = 'Cung Cấp';
+      } else if (item.status === 'Inactive') {
+        status = 'Ngừng hoạt động';
+      } 
       row.innerHTML = `
         <td>${serialNumber}</td>
         <td>${item.id ?? ''}</td>
         <td>${item.name ?? ''}</td>
         <td>${item.phone ?? ''}</td>
         <td>${item.email ?? ''}</td>
+        <td>${status}</td>
         <td>${item.address ?? ''}</td>
         <td>${item.code ?? ''}</td>
         <td>${createDateFormatted}</td>
         <td>${item.createBy ?? ''}</td>
         <td>
-          <button class="btn btn-sm btn-primary edit-btn" data-id="${item.id}">Edit</button>
+          <button class="btn btn-sm btn-primary edit-btn" data-id="${item.id}">Chỉnh sửa</button>
         </td>
       `;
       outputSupplier.appendChild(row);
@@ -127,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
     inputEmail.value = supplier.email ?? '';
     inputAddress.value = supplier.address ?? '';
     inputCode.value = supplier.code ?? '';
-
+    statusDropdown.value = supplier.status;
     // Open offcanvas
     const editOffcanvas = new bootstrap.Offcanvas('#offcanvasPatientEdit');
     editOffcanvas.show();
@@ -274,6 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const semail = inputEmail.value.trim();
     const saddress = inputAddress.value.trim();
     const scode = inputCode.value.trim();
+    const sstatus = document.getElementById("Status").value;
 
     // Kiểm tra các trường dữ liệu
     if (!sid || !sname || !sphone || !semail || !saddress || !scode) {
@@ -307,6 +317,7 @@ document.addEventListener("DOMContentLoaded", () => {
       phone: sphone,
       email: semail,
       address: saddress,
+      status: sstatus,
       code: scode,
       updateDate: new Date().toISOString(),
       updateBy: "system"
