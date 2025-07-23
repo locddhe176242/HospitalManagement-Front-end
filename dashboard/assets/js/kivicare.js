@@ -308,9 +308,11 @@ Index Of Script
   if (typeof Scrollbar !== typeof null) {
     if (document.querySelectorAll(".data-scrollbar").length) {
       Scrollbar = window.Scrollbar
-      Scrollbar.init(document.querySelector('.data-scrollbar'), {
-        continuousScrolling: false,
-      })
+      if (Scrollbar && typeof Scrollbar.init === 'function') {
+        Scrollbar.init(document.querySelector('.data-scrollbar'), {
+          continuousScrolling: false,
+        })
+      }
     }
   }
   /*-------------Data tables---------------*/

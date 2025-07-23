@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light" class="theme-fs-sm" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>Sắp xếp lịch làm việc bác sĩ | KiviCare Clinic And Patient Management Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content="Quản lý ca trực, lịch làm việc bác sĩ - KiviCare"/>
+    <link rel="shortcut icon" href="../assets/images/favicon.ico" />
+    <link rel="stylesheet" href="../assets/css/core/libs.min.css" />
+    <link rel="stylesheet" href="../assets/vendor/flaticon/css/flaticon.css" />
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="../assets/vendor/flatpickr/dist/flatpickr.min.css" />
+    <link rel="stylesheet" href="../assets/css/kivicare.min.css?v=1.4.1" />
+    <link rel="stylesheet" href="../assets/css/custom.min.css?v=1.4.1" />
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h2 class="fw-bold text-primary">
+                    <i class="fas fa-calendar-alt me-2"></i>
+                    Sắp xếp lịch làm việc cho bác sĩ
+                </h2>
+            </div>
+        </div>
+        <!-- Thanh tìm kiếm -->
+        <form id="filterForm" class="row g-3 mb-4">
+            <div class="col-md-4">
+                <label for="filterName" class="form-label">Tên bác sĩ</label>
+                <input type="text" id="filterName" name="filterName" class="form-control" placeholder="Nhập tên bác sĩ">
+            </div>
+            <div class="col-md-4">
+                <label for="filterDate" class="form-label">Ngày làm việc</label>
+                <input type="date" id="filterDate" name="filterDate" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <label for="filterType" class="form-label">Loại ca</label>
+                <select id="filterType" name="filterType" class="form-select">
+                    <option value="">Tất cả</option>
+                    <option value="Sáng">Sáng</option>
+                    <option value="Chiều">Chiều</option>
+                    <option value="Tối">Tối</option>
+                </select>
+            </div>
+            <div class="col-md-1 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search me-1"></i> Tìm
+                </button>
+            </div>
+        </form>
+        <!-- Nút thêm ca trực -->
+        <div class="mb-4">
+            <button id="addScheduleBtn" class="btn btn-primary">
+                <i class="fas fa-plus me-1"></i> Thêm ca trực
+            </button>
+        </div>
+        <!-- Danh sách ca trực -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4 class="mb-3 fw-semibold text-secondary">
+                    <i class="fas fa-list me-2"></i>
+                    Danh sách ca trực
+                </h4>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle mb-0 text-center">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th class="text-center">ID Bác sĩ</th>
+                                <th class="text-center">Tên bác sĩ</th>
+                                <th class="text-center">Ngày làm việc</th>
+                                <th class="text-center">Loại ca</th>
+                                <th class="text-center">Giờ bắt đầu</th>
+                                <th class="text-center">Giờ kết thúc</th>
+                                <th class="text-center">Ghi chú</th>
+                                <th class="text-center">Người tạo</th>
+                                <th class="text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scheduleList">
+                            <!-- JS sẽ render dữ liệu tại đây -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/js/doctor-schedule.js"></script>
+</body>
+</html>
