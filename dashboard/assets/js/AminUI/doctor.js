@@ -297,38 +297,39 @@ async function showDoctorsDetail(userId, departmentName) {
       list.innerHTML = `<p class="text-danger">Không có thông tin bác sĩ</p>`;
     } else {
       list.innerHTML = `
-        <div class="table-responsive">
-          <table class="table table-bordered table-hover">
-            <thead class="table-light">
-              <tr>
-                <th>Họ tên</th>
-                <th>Giới tính</th>
-                <th>Căn cước công dân</th>
-                
-                <th>Ngày sinh</th>
-                <th>Điện thoại</th>
-                <th>Mã giấy phép</th>
-                <th>Kinh nghiệm(năm)</th>
-                <th>Số giờ làm việc</th>
-                <th>Trạng thái</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>${doctor.name}</td>
-                <td>${doctor.gender}</td>
-                <td>${doctor.cccd}</td>
-                <td>${new Date(doctor.dob).toLocaleDateString('vi-VN')}</td>
-                <td>${doctor.phone}</td>
-                <td>${doctor.licenseNumber}</td>
-                <td>${doctor.yearOfExperience || 'Chưa cập nhật'}</td>
-                <td>${doctor.workingHours || 'Chưa cập nhật'}</td>
-                <td>${doctor.status}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      `;
+  <div class="p-4 border rounded bg-white">
+    <h5 class="mb-4 text-primary">Thông tin bác sĩ</h5>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <strong>Họ tên:</strong> <span class="text-muted">${doctor.name}</span>
+      </div>
+      <div class="col-md-6">
+        <strong>Giới tính:</strong> <span class="text-muted">${doctor.gender}</span>
+      </div>
+      <div class="col-md-6">
+        <strong>Ngày sinh:</strong> <span class="text-muted">${new Date(doctor.dob).toLocaleDateString('vi-VN')}</span>
+      </div>
+      <div class="col-md-6">
+        <strong>Căn cước công dân:</strong> <span class="text-muted">${doctor.cccd}</span>
+      </div>
+      <div class="col-md-6">
+        <strong>Điện thoại:</strong> <span class="text-muted">${doctor.phone}</span>
+      </div>
+      <div class="col-md-6">
+        <strong>Mã giấy phép:</strong> <span class="text-muted">${doctor.licenseNumber}</span>
+      </div>
+      <div class="col-md-6">
+        <strong>Kinh nghiệm:</strong> <span class="text-muted">${doctor.yearOfExperience || 'Chưa cập nhật'} năm</span>
+      </div>
+      <div class="col-md-6">
+        <strong>Giờ làm việc:</strong> <span class="text-muted">${doctor.workingHours || 'Chưa cập nhật'} giờ</span>
+      </div>
+      <div class="col-md-6">
+        <strong>Trạng thái:</strong> <span class="text-muted">${doctor.status}</span>
+      </div>
+    </div>
+  </div>
+`;
     }
 
     new bootstrap.Modal(document.getElementById('doctorModal')).show();
