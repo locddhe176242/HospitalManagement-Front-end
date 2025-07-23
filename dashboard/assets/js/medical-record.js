@@ -1,22 +1,22 @@
 const API_BASE_URL = 'https://localhost:7097';
 let currentPatientId = null;
 let currentPatientName = '';
-let currentDoctorId = 1; // TODO: Get from authentication
+let currentDoctorId = localStorage.getItem('doctorId');
 let diseases = [];
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('=== CREATE MEDICAL RECORD PAGE ===');
-    
     // Lấy parameters từ URL
     const urlParams = new URLSearchParams(window.location.search);
     currentPatientId = urlParams.get('patientId');
     currentPatientName = urlParams.get('patientName') || 'Bệnh nhân';
-
-    console.log('Parameters:', {
-        patientId: currentPatientId,
-        patientName: currentPatientName
-    });
+    const appointmentId = urlParams.get('appointmentId');
+    const createBtn = document.getElementById('createPrescriptionBtn');
+    if (createBtn) {
+        createBtn.addEventListener('click', function() {
+            window.open(`./prescription-create.html?patientId=${currentPatientId}`, '_blank');
+        });
+    }
 
     if (!currentPatientId) {
         showNotification('Thiếu thông tin bệnh nhân', 'error');
@@ -30,10 +30,26 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('patientId').value = currentPatientId;
     document.getElementById('doctorId').value = currentDoctorId;
 
+
+    if (appointmentId) {
+        document.getElementById('appointmentId').value = appointmentId;
+        
+    } else {
+        document.getElementById('appointmentId').value = '';
+    }
+
     loadPatientInfo();
     loadDiseases();
     setupFormValidation();
     setupCharCounters();
+
+    // Prescription button event
+    const btn = document.getElementById('choosePrescriptionBtn');
+    if (btn) {
+        btn.addEventListener('click', function() {
+            window.open(`../frontend/precriptionDetail.html?patientId=${currentPatientId}`, '_blank');
+        });
+    }
 });
 
 // Load patient information
@@ -257,7 +273,6 @@ async function submitForm() {
 // Get form data
 function getFormData() {
     const data = {
-        // ĐỔI SANG PASCALCASE để match với backend
         Diagnosis: document.getElementById('diagnosis').value.trim(),
         TestResults: document.getElementById('testResults').value.trim(),
         Notes: document.getElementById('notes').value.trim() || null,
@@ -267,16 +282,14 @@ function getFormData() {
         DiseaseId: parseInt(document.getElementById('diseaseSelect').value),
         AppointmentId: parseInt(document.getElementById('appointmentId').value),
         PrescriptionId: document.getElementById('prescriptionId').value ? 
-                       parseInt(document.getElementById('prescriptionId').value) : 0 // Backend expect int, không phải null
+                       parseInt(document.getElementById('prescriptionId').value) : 0
     };
-    
-    console.log('Formatted data for API (PascalCase):', data);
-    
+
     // Validation
     if (!data.Diagnosis || !data.TestResults || !data.DiseaseId || !data.AppointmentId) {
         throw new Error('Missing required fields');
     }
-    
+
     return data;
 }
 

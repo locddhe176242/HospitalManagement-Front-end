@@ -282,29 +282,13 @@ function getStatusDropdown(currentStatus, appointmentId) {
     return dropdown;
 }
 
-function getViewReportButton(status, patientId, patientName) {
-    if (status === 'Completed') {
-        return `
-            <button class="btn btn-sm btn-success" onclick="viewMedicalRecords('${patientId}', '${patientName}')">
-                <i class="fas fa-file-medical me-1"></i>
-                Xem báo cáo khám
-            </button>
-        `;
-    } else if (status === 'InProgress') {
-        return `
-            <button class="btn btn-sm btn-info" onclick="createMedicalRecord('${patientId}', '${patientName}')">
-                <i class="fas fa-plus me-1"></i>
-                Tạo báo cáo
-            </button>
-        `;
-    } else {
-        return `
-            <span class="text-muted small">
-                <i class="fas fa-clock me-1"></i>
-                Chưa khám
-            </span>
-        `;
-    }
+function getViewReportButton(status, patientId, patientName, appointmentId) {
+    return `
+        <button class="btn btn-sm btn-success" onclick="viewMedicalRecords('${patientId}', '${patientName}', '${appointmentId}')">
+            <i class="fas fa-file-medical me-1"></i>
+            Xem báo cáo khám
+        </button>
+    `;
 }
 
 // ====== STATUS UPDATE & REPORT ======
