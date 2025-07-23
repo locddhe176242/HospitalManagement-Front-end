@@ -1,22 +1,22 @@
-const API_BASE_URL = 'http://localhost:5082';
+const API_BASE_URL = 'https://localhost:7097';
 let currentPatientId = null;
 let currentPatientName = '';
-let currentDoctorId = 1; // TODO: Get from authentication
+let currentDoctorId = localStorage.getItem('doctorId');
 let diseases = [];
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('=== CREATE MEDICAL RECORD PAGE ===');
-    
     // Lấy parameters từ URL
     const urlParams = new URLSearchParams(window.location.search);
     currentPatientId = urlParams.get('patientId');
     currentPatientName = urlParams.get('patientName') || 'Bệnh nhân';
-
-    console.log('Parameters:', {
-        patientId: currentPatientId,
-        patientName: currentPatientName
-    });
+    const appointmentId = urlParams.get('appointmentId');
+    const createBtn = document.getElementById('createPrescriptionBtn');
+    if (createBtn) {
+        createBtn.addEventListener('click', function() {
+            window.open(`./prescription-create.html?patientId=${currentPatientId}`, '_blank');
+        });
+    }
 
     if (!currentPatientId) {
         showNotification('Thiếu thông tin bệnh nhân', 'error');
@@ -30,10 +30,26 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('patientId').value = currentPatientId;
     document.getElementById('doctorId').value = currentDoctorId;
 
+
+    if (appointmentId) {
+        document.getElementById('appointmentId').value = appointmentId;
+        
+    } else {
+        document.getElementById('appointmentId').value = '';
+    }
+
     loadPatientInfo();
     loadDiseases();
     setupFormValidation();
     setupCharCounters();
+
+    // Prescription button event
+    const btn = document.getElementById('choosePrescriptionBtn');
+    if (btn) {
+        btn.addEventListener('click', function() {
+            window.open(`../frontend/precriptionDetail.html?patientId=${currentPatientId}`, '_blank');
+        });
+    }
 });
 
 // Load patient information
@@ -60,7 +76,7 @@ async function loadPatientInfo() {
         `;
 
         // Gọi API để lấy thông tin chi tiết
-        const response = await fetch(`${API_BASE_URL}/api/Patient/FindById/${currentPatientId}`, {
+        const response = await fetch(`${API_BASE_URL}/api/Patient/findId/${currentPatientId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -111,36 +127,17 @@ function displayPatientInfo(patientData) {
 
 // Load diseases list
 async function loadDiseases() {
-    console.log('Loading diseases - Using mock data temporarily');
-    
-    // MOCK DATA - Danh sách bệnh thường gặp
-    diseases = [
-        { id: 1, name: 'Cảm cúm thông thường' },
-        { id: 2, name: 'Đau đầu căng thẳng' },
-        { id: 3, name: 'Đau bụng dạ dày' },
-        { id: 4, name: 'Sốt virus' },
-        { id: 5, name: 'Ho khan' },
-        { id: 6, name: 'Viêm họng cấp' },
-        { id: 7, name: 'Đau lưng mãn tính' },
-        { id: 8, name: 'Tăng huyết áp' },
-        { id: 9, name: 'Tiểu đường type 2' },
-        { id: 10, name: 'Dị ứng da' },
-        { id: 11, name: 'Viêm xoang' },
-        { id: 12, name: 'Đau khớp' },
-        { id: 13, name: 'Rối loạn tiêu hóa' },
-        { id: 14, name: 'Mất ngủ' },
-        { id: 15, name: 'Stress và lo âu' },
-        { id: 16, name: 'Viêm phế quản' },
-        { id: 17, name: 'Đau răng' },
-        { id: 18, name: 'Chấn thương thể thao' },
-        { id: 19, name: 'Nhiễm trùng đường tiết niệu' },
-        { id: 20, name: 'Bệnh khác (ghi rõ trong chẩn đoán)' }
-    ];
-    
-    populateDiseaseSelect();
-    showNotification('Đang sử dụng danh sách bệnh mặc định', 'info');
-    
-    console.log('Mock diseases loaded:', diseases.length, 'items');
+    try {
+        const response = await fetch('https://localhost:7097/api/Disease/get-all');
+        if (response.ok) {
+            diseases = await response.json();
+            populateDiseaseSelect();
+        } else {
+            showNotification('Lỗi tải danh sách bệnh', 'error');
+        }
+    } catch (error) {
+        showNotification('Không thể kết nối API bệnh', 'error');
+    }
 }
 
 // Populate disease select
@@ -276,7 +273,6 @@ async function submitForm() {
 // Get form data
 function getFormData() {
     const data = {
-        // ĐỔI SANG PASCALCASE để match với backend
         Diagnosis: document.getElementById('diagnosis').value.trim(),
         TestResults: document.getElementById('testResults').value.trim(),
         Notes: document.getElementById('notes').value.trim() || null,
@@ -286,16 +282,14 @@ function getFormData() {
         DiseaseId: parseInt(document.getElementById('diseaseSelect').value),
         AppointmentId: parseInt(document.getElementById('appointmentId').value),
         PrescriptionId: document.getElementById('prescriptionId').value ? 
-                       parseInt(document.getElementById('prescriptionId').value) : 0 // Backend expect int, không phải null
+                       parseInt(document.getElementById('prescriptionId').value) : 0
     };
-    
-    console.log('Formatted data for API (PascalCase):', data);
-    
+
     // Validation
     if (!data.Diagnosis || !data.TestResults || !data.DiseaseId || !data.AppointmentId) {
         throw new Error('Missing required fields');
     }
-    
+
     return data;
 }
 
@@ -425,3 +419,11 @@ function showNotification(message, type = 'info') {
         }
     }, 5000);
 }
+document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('choosePrescriptionBtn');
+    if (btn) {
+        btn.addEventListener('click', function() {
+            window.open(`../frontend/precriptionDetail.html?patientId=${currentPatientId}`, '_blank');
+        });
+    }
+});
