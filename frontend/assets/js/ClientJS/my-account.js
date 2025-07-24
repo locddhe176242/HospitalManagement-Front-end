@@ -188,7 +188,7 @@ async function loadInvoices() {
   try {
     const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
     const userId = userInfo.id;
-
+    
     if (!userId) {
       console.error("Không tìm thấy userId trong localStorage.");
       return;
@@ -204,13 +204,26 @@ async function loadInvoices() {
       const row = document.createElement("tr");
 
       row.innerHTML = `
-        <td class="p-3">${index + 1}</td>
-        <td class="p-3">${invoice.totalAmount.toLocaleString()} VNĐ</td>
-        <td class="p-3">${new Date(invoice.createDate).toLocaleDateString()}</td>
-        <td class="p-3">${invoice.payments[0]?.payer || "N/A"}</td>
-        <td class="p-3">${invoice.payments[0]?.notes || "N/A"}</td>
-        <td class="p-3">${getStatusText(invoice.status)}</td>
-      `;
+  <td class="p-3">${index + 1}</td>
+  <td class="p-3">${invoice.totalAmount.toLocaleString()} VNĐ</td>
+  <td class="p-3">${new Date(invoice.createDate).toLocaleDateString()}</td>
+  <td class="p-3">${invoice.payments[0]?.payer || "N/A"}</td>
+  <td class="p-3">${invoice.payments[0]?.notes || "N/A"}</td>
+  <td class="p-3">${getStatusText(invoice.status)}</td>
+  <td class="p-3">
+    ${
+      invoice.status.toLowerCase() === "unpaid"
+        ? `<button class="btn btn-sm btn-success" onclick="openPaymentModal(${invoice.id}, ${invoice.totalAmount})">
+            Thanh toán
+          </button>`
+        : invoice.status.toLowerCase() === "paid"
+          ? (invoice.hasFeedback
+              ? `<span class="text-muted">Hoàn thành</span>`
+              : `<button class="btn btn-sm btn-warning" onclick="openFeedbackModal(${invoice.appointmentId})">Gửi Feedback</button>`)
+          : `<span class="text-muted">Không khả dụng</span>`
+    }
+  </td>
+`;
 
       tbody.appendChild(row);
     });
@@ -218,4 +231,112 @@ async function loadInvoices() {
     console.error("Lỗi khi tải danh sách hóa đơn:", err);
   }
 }
+
+function openPaymentModal(invoiceId, totalAmount) {
+  document.getElementById("invoiceId").value = invoiceId;
+  document.getElementById("amount").value = totalAmount;
+  document.getElementById("payer").value = "";
+  document.getElementById("notes").value = "";
+  document.getElementById("method").value = "Chuyển khoản";
+
+  const modal = new bootstrap.Modal(document.getElementById('paymentModal'));
+  modal.show();
+}
+
+document.getElementById("btnSubmitPayment").addEventListener("click", async function () {
+  const invoiceId = document.getElementById("invoiceId").value;
+  const payer = document.getElementById("payer").value;
+  const amount = document.getElementById("amount").value;
+  const notes = document.getElementById("notes").value;
+  const method = document.getElementById("method").value;
+
+  const now = new Date().toISOString(); // ngày hiện tại ISO format
+
+const paymentData = {
+  invoiceId: parseInt(invoiceId),
+  amount: parseFloat(amount),
+  paymentMethod: method,
+  payer: payer,
+  notes: notes,
+  paymentDate: now,
+  name: "string",
+  code: "string",
+  createDate: now,
+  updateDate: now,
+  createBy: "string",
+  updateBy: "string"
+};
+
+  try {
+    const res = await fetch(`https://localhost:7097/api/Payment/make-payment`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(paymentData)
+    });
+
+    if (res.ok) {
+      alert("Thanh toán thành công!");
+      loadInvoices();
+      bootstrap.Modal.getInstance(document.getElementById("paymentModal")).hide();
+    } else {
+      alert("Thanh toán thất bại!");
+    }
+  } catch (err) {
+    console.error("Lỗi khi thanh toán:", err);
+    alert("Có lỗi xảy ra khi thanh toán.");
+  }
+});
 loadInvoices();
+
+function openFeedbackModal(appointmentId) {
+  document.getElementById("feedbackAppointmentId").value = appointmentId;
+  document.getElementById("feedbackContent").value = "";
+  const modal = new bootstrap.Modal(document.getElementById("feedbackModal"));
+  modal.show();
+}
+
+async function submitFeedback() {
+  const content = document.getElementById("feedbackContent").value;
+  const appointmentId = document.getElementById("feedbackAppointmentId").value;
+
+  if (!content.trim()) {
+    alert("Vui lòng nhập nội dung feedback.");
+    return;
+  }
+
+  try {
+    const response = await fetch("https://localhost:7097/api/Feedback/add-feedback", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // Nếu cần token thì thêm Authorization
+      },
+      body: JSON.stringify({
+        content: content,
+        appointmentId: parseInt(appointmentId),
+        doctorId: 0 // Sẽ được backend xử lý như bạn viết
+      }),
+    });
+
+    if (!response.ok) throw new Error(await response.text());
+
+    alert("Gửi feedback thành công!");
+    bootstrap.Modal.getInstance(document.getElementById("feedbackModal")).hide();
+    await loadInvoices(); // refresh lại danh sách hóa đơn
+  } catch (err) {
+    console.error("Lỗi khi gửi feedback:", err);
+    alert("Lỗi: " + err.message);
+  }
+}
+
+
+document.getElementById("btnLogout").addEventListener("click", function () {
+  if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userInfo");
+    localStorage.clear();
+    window.location.href = "login.html";
+  }
+});
