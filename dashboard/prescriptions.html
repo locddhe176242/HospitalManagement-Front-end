@@ -527,8 +527,10 @@
     </style>
 </head>
 <body>
+  
     <!-- Sidebar -->
     <div class="sidebar">
+      
         <div class="logo">
             <div class="logo-icon">KC</div>
             <div class="logo-text">KiviCare</div>
@@ -551,9 +553,14 @@
     <!-- Main Content -->
     <div class="main-content">
         <!-- Top Bar -->
+        
         <div class="top-bar">
+          
             <div class="greeting">
+              
                 <div class="greeting-text">
+                  <a href="./medical-record.html?${params.toString()}" class="back-link">&larr; Quay lại</a>
+                  
                     <h1>Chào Buổi Sáng, Bác Sĩ Nguyễn Văn A</h1>
                     <p>Chúc bạn có một ngày làm việc tốt lành. Hãy chăm sóc sức khỏe của mình!</p>
                 </div>
@@ -682,6 +689,8 @@ async function loadPrescriptions() {
       const res = await authFetch(`${baseApi}/my-prescriptions`);
       if (!res.ok) throw new Error('Không tải được dữ liệu');
       prescriptions = await res.json();
+      // Sắp xếp lại: Đơn mới nhất lên đầu
+      prescriptions.sort((a, b) => b.id - a.id);
       useMock = false;
     } catch (err) {
       prescriptions = [...mockPrescriptions];
@@ -712,9 +721,9 @@ function displayFilteredResults(list, page) {
   pageItems.forEach((prescription) => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td>${prescription.code}</td>
+      <td>${prescription.id}</td>
       <td>${prescription.patientName || 'Chưa có tên'}</td>
-      <td><a class="prescription-link" href="/frontend/precriptionDetail.html?id=${prescription.id}" target="_blank">${prescription.name}</a></td>
+      <td><a class="prescription-link" href="./precriptionDetail.html?id=${prescription.id}" target="_blank">${prescription.name}</a></td>
       <td>${prescription.note || 'Chưa có ghi chú'}</td>
       <td>${getStatusVN(prescription.status)}</td>
       <td>
@@ -862,50 +871,102 @@ document.getElementById('searchInput').addEventListener('input', function () {
 });
 
 // ========== Thêm đơn thuốc mới ==========
-document.getElementById('btnCreate').onclick = async () => {
-  const body = {
-    note: document.getElementById('createNote').value.trim(),
-    status: +document.getElementById('createStatus').value,
-    patientName: document.getElementById('createPatientName').value.trim(),
-    patientCCCD: document.getElementById('createPatientCCCD').value.trim(),
-    name: document.getElementById('createName').value.trim(),
-    code: document.getElementById('createCode').value.trim()
-  };
-
-  if (!body.patientName || !body.patientCCCD || !body.name || !body.code) {
-    showBackendMessage('Vui lòng nhập đủ thông tin!', "error");
-    return;
+document.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const patientId = urlParams.get('patientId');
+  if (patientId) {
+    fetchAndFillPatient(patientId);
   }
 
-  if (useMock) {
-    const newId = prescriptions.length ? Math.max(...prescriptions.map(x => x.id)) + 1 : 1;
-    prescriptions.push({ ...body, id: newId });
-    filteredPrescriptions = [...prescriptions];
-    showBackendMessage("Tạo thành công!", "success");
-    renderTableAndPaging();
-  } else {
-    try {
-      const res = await authFetch(`${baseApi}/add-prescription`, { method: 'POST', body: JSON.stringify(body) });
-      if (res.ok) {
-        showBackendMessage('Tạo thành công!', "success");
-        loadPrescriptions();
-      } else {
-        let errMsg = await extractErrorMessage(res);
-        showBackendMessage('Tạo thất bại: ' + errMsg, "error");
-      }
-    } catch (err) {
-      showBackendMessage('Tạo thất bại: ' + err.message, "error");
+  document.getElementById('btnCreate').onclick = async () => {
+    if (!patientId) {
+      showBackendMessage('Không xác định được bệnh nhân!', "error");
+      return;
     }
-  }
+    let patientName = '', patientCCCD = '';
+    try {
+      const res = await fetch(`https://localhost:7097/api/Patient/findId/${patientId}`);
+      if (!res.ok) throw new Error("Không tìm thấy bệnh nhân");
+      const data = await res.json();
+      patientName = data.name || '';
+      patientCCCD = data.cccd || '';
+    } catch (err) {
+      showBackendMessage("Không thể lấy thông tin bệnh nhân: " + err.message, "error");
+      return;
+    }
 
-  // Reset form
-  document.getElementById('createNote').value = '';
-  document.getElementById('createStatus').value = 0;
-  document.getElementById('createPatientName').value = '';
-  document.getElementById('createPatientCCCD').value = '';
-  document.getElementById('createName').value = '';
-  document.getElementById('createCode').value = '';
-};
+    const note = document.getElementById('createNote').value.trim();
+    const status = +document.getElementById('createStatus').value;
+    const prescriptionName = document.getElementById('createName').value.trim();
+    const prescriptionCode = document.getElementById('createCode').value.trim();
+
+    if (!patientName || !patientCCCD || !prescriptionName || !prescriptionCode) {
+      showBackendMessage('Vui lòng nhập đủ thông tin!', "error");
+      return;
+    }
+
+    const body = {
+      note: note,
+      status: status,
+      patientId: patientId,
+      patientName: patientName,
+      patientCCCD: patientCCCD,
+      name: prescriptionName,
+      code: prescriptionCode
+    };
+
+    if (typeof useMock !== 'undefined' && useMock) {
+      const newId = prescriptions.length ? Math.max(...prescriptions.map(x => x.id)) + 1 : 1;
+      prescriptions.unshift({ ...body, id: newId }); // Thêm vào đầu mảng!
+      filteredPrescriptions = [...prescriptions];
+      showBackendMessage("Tạo thành công!", "success");
+      renderTableAndPaging();
+    } else {
+      try {
+        const res = await authFetch(`${baseApi}/add-prescription`, {
+          method: 'POST',
+          body: JSON.stringify(body),
+          headers: { 'Content-Type': 'application/json' }
+        });
+        if (res.ok) {
+          showBackendMessage('Tạo thành công!', "success");
+          // Gọi lại loadPrescriptions(); 
+          // => Nếu muốn chắc chắn đơn mới luôn ở đầu, có thể sửa lại logic loadPrescriptions (sắp xếp theo id giảm dần).
+          loadPrescriptions();
+        } else {
+          let errMsg = await extractErrorMessage(res);
+          showBackendMessage('Tạo thất bại: ' + errMsg, "error");
+        }
+      } catch (err) {
+        showBackendMessage('Tạo thất bại: ' + err.message, "error");
+      }
+    }
+
+    // Reset các trường nhập tay, giữ info bệnh nhân
+    document.getElementById('createNote').value = '';
+    document.getElementById('createStatus').value = 0;
+    document.getElementById('createName').value = '';
+    document.getElementById('createCode').value = '';
+  };
+});
+
+async function fetchAndFillPatient(patientId) {
+  try {
+    const res = await fetch(`https://localhost:7097/api/Patient/findId/${patientId}`);
+    if (!res.ok) throw new Error("Không tìm thấy bệnh nhân");
+    const data = await res.json();
+    document.getElementById('createPatientName').value = data.name || '';
+    document.getElementById('createPatientCCCD').value = data.cccd || '';
+    document.getElementById('createPatientName').readOnly = true;
+    document.getElementById('createPatientCCCD').readOnly = true;
+  } catch (err) {
+    showBackendMessage("Không thể lấy thông tin bệnh nhân: " + err.message, "error");
+  }
+}
+
+
+
+
 
 // ======= Khởi động =======
 loadPrescriptions();

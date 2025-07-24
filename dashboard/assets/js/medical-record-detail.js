@@ -233,5 +233,5 @@ function showNotification(message, type) {
 
 }
 function viewPrescription(prescriptionId) {
-    window.open(`../frontend/precriptionDetail.html?prescriptionId=${prescriptionId}`, '_blank');
+    window.open(`./precriptionDetail.html?id=${prescriptionId}`, '_blank');
 }
