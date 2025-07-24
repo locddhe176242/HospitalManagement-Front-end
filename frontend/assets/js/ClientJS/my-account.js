@@ -174,3 +174,48 @@ $("#profileForm").submit(function (e) {
     },
   });
 });
+
+function getStatusText(status) {
+  switch (status.toLowerCase()) {
+    case "unpaid": return "Chưa thanh toán";
+    case "paid": return "Đã thanh toán";
+    case "partiallypaid": return "Thanh toán một phần";
+    case "cancelled": return "Đã hủy";
+    default: return "Không xác định";
+  }
+}
+async function loadInvoices() {
+  try {
+    const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+    const userId = userInfo.id;
+
+    if (!userId) {
+      console.error("Không tìm thấy userId trong localStorage.");
+      return;
+    }
+
+    const response = await fetch(`https://localhost:7097/api/Invoice/get-by-id/${userId}`);
+    const data = await response.json();
+
+    const tbody = document.getElementById("invoice-table-body");
+    tbody.innerHTML = "";
+
+    data.forEach((invoice, index) => {
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+        <td class="p-3">${index + 1}</td>
+        <td class="p-3">${invoice.totalAmount.toLocaleString()} VNĐ</td>
+        <td class="p-3">${new Date(invoice.createDate).toLocaleDateString()}</td>
+        <td class="p-3">${invoice.payments[0]?.payer || "N/A"}</td>
+        <td class="p-3">${invoice.payments[0]?.notes || "N/A"}</td>
+        <td class="p-3">${getStatusText(invoice.status)}</td>
+      `;
+
+      tbody.appendChild(row);
+    });
+  } catch (err) {
+    console.error("Lỗi khi tải danh sách hóa đơn:", err);
+  }
+}
+loadInvoices();
