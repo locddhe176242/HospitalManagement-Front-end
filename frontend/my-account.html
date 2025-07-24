@@ -1827,7 +1827,7 @@
                         aria-selected="true"
                       >
                         <i class="fas fa-list"></i
-                        ><span class="ms-2">Đơn hàng</span>
+                        ><span class="ms-2">Hóa đơn</span>
                       </button>
                     </li>
                     <li class="py-3 border-bottom nav-item">
@@ -1871,16 +1871,16 @@
                     </li>
                     <li class="pt-3 nav-item">
                       <button
-                        class="nav-link p-0 bg-transparent"
-                        data-bs-toggle="tab"
-                        data-bs-target="#logout"
-                        type="button"
-                        role="tab"
-                        aria-selected="true"
-                      >
-                        <i class="fas fa-sign-out-alt"></i
-                        ><span class="ms-2">Đăng xuất</span>
-                      </button>
+  id="btnLogout"
+  class="nav-link p-0 bg-transparent"
+  data-bs-toggle="tab"
+  data-bs-target="#logout"
+  type="button"
+  role="tab"
+  aria-selected="true"
+>
+  <i class="fas fa-sign-out-alt"></i><span class="ms-2">Đăng xuất</span>
+</button>
                     </li>
                   </ul>
                 </div>
@@ -1932,6 +1932,60 @@
                           
                         </tbody>
                       </table>
+                      <!-- Modal thanh toán -->
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Thanh toán hóa đơn</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="invoiceId">
+        <div class="mb-3">
+          <label for="payer" class="form-label">Người thanh toán</label>
+          <input type="text" class="form-control" id="payer" required>
+        </div>
+        <div class="mb-3">
+          <label for="amount" class="form-label">Số tiền</label>
+          <input type="number" class="form-control" id="amount" readonly>
+        </div>
+        <div class="mb-3">
+          <label for="notes" class="form-label">Ghi chú</label>
+          <input type="text" class="form-control" id="notes">
+        </div>
+        <div class="mb-3">
+          <label for="method" class="form-label">Phương thức</label>
+          <select class="form-select" id="method">
+            <option value="Chuyển khoản">Chuyển khoản</option>
+            <option value="Tiền mặt">Tiền mặt</option>
+            <option value="Khác">Khác</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" id="btnSubmitPayment">Xác nhận thanh toán</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Feedback -->
+<div class="modal fade" id="feedbackModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Gửi Feedback</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control" id="feedbackContent" rows="4" placeholder="Nhận xét của bạn..."></textarea>
+        <input type="hidden" id="feedbackAppointmentId" />
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="submitFeedback()">Gửi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
                     </div>
                   </div>
                 </div>
