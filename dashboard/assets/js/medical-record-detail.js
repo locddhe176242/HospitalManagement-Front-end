@@ -72,7 +72,7 @@ function displayMedicalRecordDetail(data) {
         </div>
         <div class="detail-row">
             <strong>Mã bệnh nhân:</strong>
-            <span class="float-end">${data.appointmentId || 'N/A'}</span>
+            <span class="float-end">${data.patientId || 'N/A'}</span>
         </div>
     `;
 
@@ -117,15 +117,15 @@ function displayMedicalRecordDetail(data) {
             <span class="float-end">${data.appointmentId || 'N/A'}</span>
         </div>
         <div class="detail-row">
-    <strong>Đơn thuốc:</strong>
-    <span class="float-end">
-        ${
-            data.prescriptionId
-            ? `<button class="btn btn-sm btn-outline-primary" onclick="viewPrescription(${data.prescriptionId})">Xem đơn thuốc</button>`
-            : '<span class="text-muted">Chưa có</span>'
-        }
-    </span>
-</div>
+            <strong>Đơn thuốc:</strong>
+            <span class="float-end">
+                ${
+                    data.prescriptionId
+                    ? `<button class="btn btn-sm btn-outline-primary" onclick="viewPrescription(${data.prescriptionId})">Xem đơn thuốc</button>`
+                    : '<span class="text-muted">Chưa có</span>'
+                }
+            </span>
+        </div>
     `;
 
     // Test Results
@@ -150,7 +150,7 @@ function displayMedicalRecordDetail(data) {
     document.getElementById('doctorSignature').textContent = data.doctorName || '________________';
 
     // Report Date
-    document.getElementById('reportDate').textContent = new Date().toLocaleString('vi-VN');
+    document.getElementById('reportDate').textContent = createDate.toLocaleString('vi-VN');
 }
 
 // Show loading state
