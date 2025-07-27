@@ -87,8 +87,8 @@ function displayPatientInfo(patientData) {
                 </div>
                 <div>
                     <h6 class="mb-1">${patientData.name || currentPatientName}</h6>
-                    <p class="text-muted mb-0">Mã BN: ${patientData.id || currentPatientId}</p>
-                    <p class="text-muted mb-0">ID cuộc hẹn: ${currentAppointmentId || 'N/A'}</p> <!-- Thêm dòng này -->
+                    <p class="text-muted mb-0">ID cuộc hẹn: ${currentAppointmentId || 'N/A'}</p>
+                    <p class="text-muted mb-0">Ngày sinh: ${patientData.dob ? new Date(patientData.dob).toLocaleDateString('vi-VN') : 'N/A'}</p>
                 </div>
             </div>
         </div>
@@ -99,16 +99,16 @@ function displayPatientInfo(patientData) {
                     <p class="mb-1">${patientData.gender || 'N/A'}</p>
                 </div>
                 <div class="col-6">
-                    <small class="text-muted">Ngày sinh:</small>
-                    <p class="mb-1">${patientData.dob ? new Date(patientData.dob).toLocaleDateString('vi-VN') : 'N/A'}</p>
-                </div>
-                <div class="col-6">
                     <small class="text-muted">Điện thoại:</small>
                     <p class="mb-1">${patientData.phone || 'N/A'}</p>
                 </div>
                 <div class="col-6">
                     <small class="text-muted">CCCD:</small>
                     <p class="mb-1">${patientData.cccd || 'N/A'}</p>
+                </div>
+                <div class="col-6">
+                    <small class="text-muted">Địa chỉ nơi ở:</small>
+                    <p class="mb-1">${patientData.address || 'N/A'}</p>
                 </div>
             </div>
         </div>
@@ -171,10 +171,9 @@ function displayMedicalRecords(records) {
     tbody.innerHTML = '';
 
     if (!Array.isArray(records)) {
-        console.error('displayMedicalRecords: records is not an array:', records);
         tbody.innerHTML = `
             <tr>
-                <td colspan="7" class="text-center py-4">
+                <td colspan="6" class="text-center py-4">
                     <i class="fas fa-exclamation-triangle fa-2x text-warning mb-2"></i>
                     <p class="text-muted">Dữ liệu không đúng định dạng</p>
                     <button class="btn btn-sm btn-outline-primary" onclick="refreshRecords()">
@@ -189,7 +188,7 @@ function displayMedicalRecords(records) {
     if (records.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="7" class="text-center py-4">
+                <td colspan="6" class="text-center py-4">
                     <i class="fas fa-file-medical fa-2x text-muted mb-2"></i>
                     <p class="text-muted">Chưa có báo cáo y tế nào</p>
                 </td>
@@ -202,8 +201,6 @@ function displayMedicalRecords(records) {
         const createDate = new Date(record.createDate || Date.now());
         const formattedDate = createDate.toLocaleDateString('vi-VN');
         const formattedTime = createDate.toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
-        const statusClass = getStatusClass(record.status);
-        const statusText = getStatusText(record.status);
 
         const row = `
             <tr>
@@ -221,9 +218,6 @@ function displayMedicalRecords(records) {
                     </div>
                 </td>
                 <td>${record.diseaseName || 'N/A'}</td>
-                <td>
-                    <span class="badge ${statusClass}">${statusText}</span>
-                </td>
                 <td>
                     <div class="d-flex gap-2 flex-wrap justify-content-center">
                         <button class="btn btn-sm btn-success" title="Xem chi tiết" onclick="viewMedicalRecordDetail(${record.id})">
@@ -264,7 +258,7 @@ function showError(message) {
     const tbody = document.getElementById('medicalRecordsTableBody');
     tbody.innerHTML = `
         <tr>
-            <td colspan="7" class="text-center py-4">
+            <td colspan="6" class="text-center py-4">
                 <i class="fas fa-exclamation-triangle fa-2x text-warning mb-2"></i>
                 <p class="text-muted">${message}</p>
                 <button class="btn btn-sm btn-outline-primary" onclick="refreshRecords()">
@@ -326,14 +320,12 @@ function showNotification(message, type) {
     }, 5000);
 }
 
-// Thêm các hàm xử lý (placeholder)
 function editMedicalRecord(recordId) {
     window.location.href = `./update-medical-record.html?recordId=${recordId}`;
 }
 
 function deleteMedicalRecord(recordId) {
     if (confirm('Bạn có chắc chắn muốn xoá hồ sơ này?')) {
-        // TODO: Gọi API xoá, sau đó refreshRecords()
         showNotification('Chức năng xoá hồ sơ đang được phát triển', 'info');
     }
 }

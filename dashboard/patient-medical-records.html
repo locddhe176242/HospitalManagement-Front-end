@@ -113,11 +113,39 @@
                 </div>
                 <div class="card-body">
                     <div class="row" id="patientInfo">
-                        <div class="col-12 text-center">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Đang tải...</span>
+                        <!-- Left: Avatar + Tên + ID cuộc hẹn + Ngày sinh -->
+                        <div class="col-md-6 d-flex align-items-center">
+                            <div class="avatar avatar-lg me-3">
+                                <span class="avatar-title bg-primary rounded-circle fs-4">
+                                    <!-- JS sẽ render ký tự đầu tên -->
+                                </span>
                             </div>
-                            <p class="mt-2 text-muted">Đang tải thông tin bệnh nhân...</p>
+                            <div>
+                                <h6 class="mb-1" id="patientName"></h6>
+                                <p class="mb-1 text-muted">ID cuộc hẹn: <span id="appointmentId"></span></p>
+                                <p class="mb-1 text-muted">Ngày sinh: <span id="dob"></span></p>
+                            </div>
+                        </div>
+                        <!-- Right: Thông tin chi tiết, căn giữa và chia đều -->
+                        <div class="col-md-6">
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <small class="text-muted">Giới tính:</small>
+                                    <p class="mb-1" id="gender"></p>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted">Điện thoại:</small>
+                                    <p class="mb-1" id="phone"></p>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted">CCCD:</small>
+                                    <p class="mb-1" id="cccd"></p>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted">Địa chỉ nơi ở:</small>
+                                    <p class="mb-1" id="address"></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -149,13 +177,12 @@
                                     <th>Bác sĩ</th>
                                     <th>Chẩn đoán</th>
                                     <th>Bệnh</th>
-                                    <th>Trạng thái</th>
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody id="medicalRecordsTableBody">
                                 <tr>
-                                    <td colspan="7" class="text-center py-4">
+                                    <td colspan="6" class="text-center py-4">
                                         <div class="spinner-border text-primary" role="status">
                                             <span class="visually-hidden">Đang tải...</span>
                                         </div>
