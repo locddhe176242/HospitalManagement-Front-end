@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en" class="theme-fs-sm" data-bs-theme="light" data-bs-theme-color="default" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Cập nhật hồ sơ bệnh án - KiviCare</title>
+    <link rel="shortcut icon" href="./assets/images/favicon.ico" />
+    <link rel="stylesheet" href="./assets/css/core/libs.min.css" />
+    <link rel="stylesheet" href="./assets/css/kivicare.min.css?v=1.4.1" />
+    <link rel="stylesheet" href="./assets/css/custom.min.css?v=1.4.1" />
+    <style>
+        .form-section {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.375rem;
+        }
+        .required {
+            color: #dc3545;
+        }
+        .char-counter {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+        .char-counter.warning {
+            color: #ffc107;
+        }
+        .char-counter.danger {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body class="">
+    <!-- Sidebar -->
+    <aside class="sidebar sidebar-base" id="first-tour" data-toggle="main-sidebar" data-sidebar="responsive">
+        <!-- ...sidebar code... -->
+    </aside>
+
+    <main class="main-content">
+        <div class="position-relative">
+            <!-- Navigation -->
+            <!-- ...navigation code... -->
+        </div>
+
+        <div class="content-inner container-fluid pb-0" id="page_layout">
+
+            <!-- Breadcrumb -->
+            <!-- ...breadcrumb code... -->
+
+            <!-- Action Buttons -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <button type="button" class="btn btn-outline-secondary" onclick="goBackToMedicalRecords()">
+                        <i class="fas fa-arrow-left"></i> Quay lại
+                    </button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-outline-warning me-2" id="saveDraftBtn">
+                        <i class="fas fa-save"></i> Huỷ lưu
+                    </button>
+                    <button type="button" class="btn btn-success" id="submitBtn">
+                        <i class="fas fa-check"></i> Hoàn thành
+                    </button>
+                </div>
+            </div>
+
+            <!-- Patient Info Section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0 text-primary">
+                        <i class="fas fa-user me-2"></i>Thông tin bệnh nhân
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="patientInfo">
+                        <div class="col-12 text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Đang tải...</span>
+                            </div>
+                            <p class="mt-2 text-muted">Đang tải thông tin bệnh nhân...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medical Record Form -->
+            <form id="medicalRecordForm" class="needs-validation" novalidate>
+                <!-- Basic Information Section -->
+                <div class="form-section">
+                    <h6 class="text-primary mb-3">
+                        <i class="fas fa-info-circle me-2"></i>Thông tin cơ bản
+                    </h6>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="appointmentId" class="form-label">
+                                ID Cuộc hẹn <span class="required">*</span>
+                            </label>
+                            <input type="number" class="form-control" id="appointmentId" required>
+                            <div class="invalid-feedback">Vui lòng nhập ID cuộc hẹn</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="diseaseSelect" class="form-label">
+                                Bệnh <span class="required">*</span>
+                            </label>
+                            <select class="form-select" id="diseaseSelect" required>
+                                <option value="">-- Chọn bệnh --</option>
+                                <!-- Options will be loaded by JS -->
+                            </select>
+                            <div class="invalid-feedback">Vui lòng chọn bệnh</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="status" class="form-label">
+                                Trạng thái <span class="required">*</span>
+                            </label>
+                            <select class="form-select" id="status" required>
+                                <option value="Open">Đang mở</option>
+                                <option value="InProgress">Đang xử lý</option>
+                                <option value="Closed">Đã đóng</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="prescriptionId" class="form-label">Mã Đơn thuốc</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="prescriptionId" placeholder="Nhập ID đơn thuốc">
+                                <button type="button" class="btn btn-outline-primary" id="createPrescriptionBtn">
+                                    Tạo đơn thuốc
+                                </button>
+                            </div>
+                            <div class="invalid-feedback">Vui lòng nhập mã đơn thuốc nếu có</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medical Details Section -->
+                <div class="form-section">
+                    <h6 class="text-primary mb-3">
+                        <i class="fas fa-stethoscope me-2"></i>Chi tiết y tế
+                    </h6>
+                    <div class="mb-3">
+                        <label for="diagnosis" class="form-label">
+                            Chẩn đoán <span class="required">*</span>
+                        </label>
+                        <textarea class="form-control" id="diagnosis" rows="4"
+                                  placeholder="Nhập chẩn đoán chi tiết..."
+                                  maxlength="1000" required></textarea>
+                        <div class="d-flex justify-content-between">
+                            <div class="invalid-feedback">Vui lòng nhập chẩn đoán</div>
+                            <small class="char-counter" id="diagnosisCounter">0/1000</small>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="testResults" class="form-label">
+                            Kết quả xét nghiệm <span class="required">*</span>
+                        </label>
+                        <textarea class="form-control" id="testResults" rows="6"
+                                  placeholder="Nhập kết quả xét nghiệm, chỉ số, hình ảnh..."
+                                  maxlength="2000" required></textarea>
+                        <div class="d-flex justify-content-between">
+                            <div class="invalid-feedback">Vui lòng nhập kết quả xét nghiệm</div>
+                            <small class="char-counter" id="testResultsCounter">0/2000</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Notes Section -->
+                <div class="form-section">
+                    <h6 class="text-primary mb-3">
+                        <i class="fas fa-sticky-note me-2"></i>Ghi chú bổ sung
+                    </h6>
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">Ghi chú</label>
+                        <textarea class="form-control" id="notes" rows="4"
+                                  placeholder="Ghi chú thêm, lưu ý đặc biệt..."
+                                  maxlength="500"></textarea>
+                        <small class="char-counter" id="notesCounter">0/500</small>
+                    </div>
+                </div>
+
+                <!-- Hidden fields -->
+                <input type="hidden" id="recordId">
+                <input type="hidden" id="doctorId">
+                <input type="hidden" id="patientId">
+            </form>
+        </div>
+    </main>
+
+    <!-- Loading Modal -->
+    <div class="modal fade" id="loadingModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center py-4">
+                    <div class="spinner-border text-primary mb-3" role="status">
+                        <span class="visually-hidden">Đang lưu hồ sơ bệnh án...</span>
+                    </div>
+                    <h5 id="loadingText">Đang lưu hồ sơ bệnh án...</h5>
+                    <p class="text-muted mb-0">Vui lòng đợi trong giây lát</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="confirmCancelModal" tabindex="-1" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmCancelModalLabel">Xác nhận huỷ lưu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+          </div>
+          <div class="modal-body">
+            Bạn muốn huỷ lưu không?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+            <button type="button" class="btn btn-danger" id="confirmCancelBtn">Có</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./assets/js/core/libs.min.js"></script>
+    <script src="./assets/js/kivicare.js"></script>
+    <script src="./assets/js/update-medical-record.js"></script>
+</body>
+</html>
