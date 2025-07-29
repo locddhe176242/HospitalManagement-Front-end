@@ -706,132 +706,38 @@
                     <path d="M8.5 5L15.5 12L8.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                         stroke-linejoin="round"></path>
                 </svg>
-                <span class="head-title fw-500 mt-1">Dach sách bệnh nhân</span>
+                <span class="head-title fw-500 mt-1">Dach sách Hóa đơn</span>
             </div>
 
 
-            <!-- DANH SÁCH BỆNH NHÂN -->
+            <!-- DANH SÁCH Hóa đơn -->
             <div class="card" id="listCard">
-                <h2>Danh Sách Bệnh Nhân</h2>
-                <label for="searchInput">Tìm kiếm theo <b>tên bệnh nhân</b> hoặc <b>mã bệnh nhân</b> hoặc <b>trạng
-                        thái</b>:</label>
-                <input type="text" id="searchInput" placeholder="Nhập mã bệnh nhân hoặc tên bệnh nhân hoặc trạng thái…"
-                    autocomplete="off" />
+  <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
+    <h4 class="mb-0">Danh sách phản hồi</h4>
+    <input type="text" id="feedbackSearch" class="form-control w-auto" placeholder="Tìm theo tên bệnh nhân..." style="max-width: 320px;">
+  </div>
+  <div class="card-body pt-0">
+    <div class="row row-cols-xl-2 row-cols-md-2 row-cols-sm-1 row-cols-1" id="allFeedbackList">
+      <!-- JS sẽ render feedback ở đây -->
+    </div>
+    <div class="d-flex justify-content-center align-items-center mt-3" id="feedbackPagination"></div>
+  </div>
+</div>
 
-                <div class="row mb-2">
-                    <div class="col-md-3">
-                        <select id="genderFilter" class="form-select">
-                            <option value="">Tất cả giới tính</option>
-                            <option value="Nam">Nam</option>
-                            <option value="Nữ">Nữ</option>
-                        </select>
 
-                    </div>
-                    <div class="col-md-3">
-                        <select id="statusFilter" class="form-select">
-                            <option value="">Tất cả trạng thái</option>
-                            <option value="Đang hoạt động">Đang hoạt động</option>
-                            <option value="Tạm ngưng">Tạm ngưng</option>
-                        </select>
 
-                    </div>
-                </div>
 
-                <div class="table-responsive">
-                    <table class="table border-end border-start align-middle mb-0 rounded" id="patientTable">
-                        <thead class="table-dark">
-                            <tr>
-                                <th data-sort="id" class="sortable">STT <span class="sort-icon">↑↓</span></th>
-                                <th data-sort="id" class="sortable">ID <span class="sort-icon">↑↓</span></th>
-                                <th data-sort="code" class="sortable">Mã BN <span class="sort-icon">↑↓</span></th>
-                                <th>CCCD</th>
-                                <th data-sort="name" class="sortable">Tên bệnh nhân <span class="sort-icon">↑↓</span>
-                                </th>
-                                <th>Địa chỉ</th>
-                                <th>Số điện thoại</th>
-                                <th data-sort="gender" class="sortable">Giới tính <span class="sort-icon">↑↓</span></th>
-                                <th>Nhóm máu</th>
-                                <th data-sort="status" class="sortable">Trạng thái <span class="sort-icon">↑↓</span>
-                                </th>
-                                <th>Thao tác</th>
-                            </tr>
-                        </thead>
 
-                        <tbody id="patientTableBody">
-                            <!-- Data will be injected here -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="pagination" id="pagination"></div>
-            </div>
-
-            <!-- Edit Patient Modal -->
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasPatientEdit"
-                aria-labelledby="offcanvasPatientEditLabel">
-                <div class="offcanvas-header border-bottom">
-                    <h3 class="offcanvas-title" id="offcanvasPatientEditLabel">Sửa thông tin bệnh nhân</h3>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                        aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <div class="form-group mb-2">
-                        <label for="edit_Id">ID</label>
-                        <input type="text" class="form-control" id="edit_Id" readonly>
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="edit_Name">Tên bệnh nhân</label>
-                        <input type="text" class="form-control" id="edit_Name" required>
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="edit_Gender">Giới tính</label>
-                        <select class="form-control" id="edit_Gender">
-                            <option value="0">Nam</option>
-                            <option value="1">Nữ</option>
-                        </select>
-                        <small id="genderOldValue" class="form-text text-muted"></small>
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="edit_CCCD">CCCD</label>
-                        <input type="text" class="form-control" id="edit_CCCD">
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="edit_Address">Địa chỉ</label>
-                        <input type="text" class="form-control" id="edit_Address">
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="edit_PhoneNumber">Số điện thoại</label>
-                        <input type="text" class="form-control" id="edit_PhoneNumber">
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="edit_BloodGroup">Nhóm máu</label>
-                        <input type="text" class="form-control" id="edit_BloodGroup">
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="edit_Status">Trạng thái</label>
-                        <select class="form-control" id="edit_Status">
-                            <option value="0">Đang hoạt động</option>
-                            <option value="1">Tạm ngưng</option>
-                        </select>
-                        <small id="statusOldValue" class="form-text text-muted"></small>
-                    </div>
-                </div>
-                <div class="offcanvas-footer border-top">
-                    <button class="btn btn-primary" id="updatePatientBtn">Cập nhật</button>
-                </div>
-            </div>
 
         </div>
         <!-- Footer Section Start -->
         <footer class="footer">
             <div class="footer-body">
                 <ul class="left-panel list-inline mb-0 p-0">
-                    <li class="list-inline-item fw-500"><a class="footer-link"
-                            href="">Chính sách bảo mật</a></li>
-                    <li class="list-inline-item fw-500"><a class="footer-link"
-                            href="">Điều khoản sử dụng</a></li>
+                    <li class="list-inline-item fw-500"><a class="footer-link" href="">Chính sách bảo mật</a></li>
+                    <li class="list-inline-item fw-500"><a class="footer-link" href="">Điều khoản sử dụng</a></li>
                 </ul>
-                
+
             </div>
         </footer>
         <!-- Footer Section End -->
@@ -841,287 +747,118 @@
     <!-- Wrapper End-->
 
 
-    <!-- get all-->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Get all -->
     <script>
-        function getGenderText(gender) {
-            if (gender === 0 || gender === '0' || gender === 'Male') return "Nam";
-            if (gender === 1 || gender === '1' || gender === 'Female') return "Nữ";
-            return "";
+    document.addEventListener('DOMContentLoaded', function () {
+    let allData = [];
+    let currentPage = 1;
+    const pageSize = 2;
+
+    const searchInput = document.getElementById('feedbackSearch');
+    const listContainer = document.getElementById('allFeedbackList');
+    const paginationContainer = document.getElementById('feedbackPagination');
+
+    // Fetch feedback từ API
+    function fetchData(name = '') {
+        let url = '';
+        if (name && name.trim() !== '') {
+            url = `https://localhost:7097/api/Feedback/find-by-name?name=${encodeURIComponent(name)}`;
+        } else {
+            url = 'https://localhost:7097/api/Feedback/get-all';
         }
-        function getStatusText(status) {
-            if (status === 0 || status === '0' || status === 'Active') return "Đang hoạt động";
-            if (status === 1 || status === '1' || status === 'Banned') return "Tạm ngưng";
-            return "";
-        }
+        fetch(url)
+            .then(res => {
+                if (!res.ok) throw new Error('Lỗi API');
+                return res.json();
+            })
+            .then(data => {
+                allData = Array.isArray(data) ? data : [];
+                currentPage = 1;
+                renderFeedback();
+            })
+            .catch(err => {
+                listContainer.innerHTML = '<div class="p-3 text-center text-danger w-100">Không lấy được dữ liệu</div>';
+                paginationContainer.innerHTML = '';
+            });
+    }
 
-        const itemsPerPage = 6;
-        let currentPage = 1;
-        let patients = [];
-        let filteredPatients = [];
-        let currentSort = { column: null, asc: true };
+    // Tìm kiếm theo tên bệnh nhân (gõ là gọi API luôn)
+    searchInput.addEventListener('input', function () {
+        fetchData(searchInput.value.trim());
+    });
 
-        // --- Lọc kết hợp ---
-        function applyFilters() {
-            const q = $('#searchInput').val().trim().toLowerCase();
-            const genderVal = $('#genderFilter').val();
-            const statusVal = $('#statusFilter').val();
+    // Hiển thị feedback + phân trang
+    function renderFeedback() {
+        const total = allData.length;
+        const totalPages = Math.ceil(total / pageSize);
+        if (currentPage > totalPages) currentPage = totalPages || 1;
+        const start = (currentPage - 1) * pageSize;
+        const pageData = allData.slice(start, start + pageSize);
 
-            filteredPatients = patients.filter(p =>
-                // Lọc tìm kiếm
-                (
-                    (p.name || '').toLowerCase().includes(q) ||
-                    (p.code || '').toLowerCase().includes(q) ||
-                    getStatusText(p.status).toLowerCase().includes(q) ||
-                    getGenderText(p.gender).toLowerCase().includes(q)
-                )
-                // Lọc giới tính
-                && (genderVal === "" || getGenderText(p.gender) === genderVal || (typeof p.gender === "string" && p.gender === genderVal))
-
-                // Lọc trạng thái
-                && (statusVal === "" || getStatusText(p.status) === statusVal || (typeof p.status === "string" && p.status === statusVal))
-
-            );
-            currentPage = 1;
-            renderTable();
-            renderPagination();
-        }
-
-        // ----- Load danh sách bệnh nhân từ API -----
-        async function loadPatients() {
-            try {
-                const res = await fetch('https://localhost:7097/api/Patient/GetAll');
-                patients = await res.json();
-                applyFilters(); // Lọc luôn khi lấy dữ liệu mới
-            } catch (e) {
-                alert('Không thể tải danh sách bệnh nhân!');
-            }
-        }
-
-        // ----- Hiển thị danh sách lên bảng -----
-        function renderTable() {
-            const tbody = document.getElementById('patientTableBody');
-            tbody.innerHTML = '';
-            const start = (currentPage - 1) * itemsPerPage;
-            const paginatedPatients = filteredPatients.slice(start, start + itemsPerPage);
-
-            paginatedPatients.forEach((patient, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-            <td>${start + index + 1}</td>
-            <td>${patient.id}</td>
-            <td>${patient.code}</td>
-            <td>${patient.cccd || ''}</td>
-            <td>${patient.name || ''}</td>
-            <td>${patient.address || ''}</td>
-            <td>${patient.phone || ''}</td>
-            <td>${getGenderText(patient.gender)}</td>
-            <td>${patient.bloodType || ''}</td>
-            <td>${getStatusText(patient.status)}</td>
-            <td>
-                <a data-bs-toggle="offcanvas" href="#offcanvasPatientEdit" aria-controls="offcanvasPatientEdit"
-                   class="edit-btn d-inline-block pe-2" data-id="${patient.id}">
-                    <span class="text-success">✏️</span>
-                </a>
-                <a href="#" class="delete-btn d-inline-block ps-2" data-id="${patient.id}">
-                    <span class="text-danger">🗑️</span>
-                </a>
-            </td>
-        `;
-                tbody.appendChild(row);
+        listContainer.innerHTML = '';
+        if (pageData.length === 0) {
+            listContainer.innerHTML = '<div class="p-3 text-center w-100">Không có dữ liệu</div>';
+        } else {
+            pageData.forEach(item => {
+                const date = item.createDate ? new Date(item.createDate) : null;
+                const formattedDate = date ? date.toLocaleDateString('vi-VN') : '';
+                const card = document.createElement('div');
+                card.className = 'col mb-4';
+                card.innerHTML = `
+                  <div class="card shadow-sm h-100 border rounded p-3 d-flex flex-column justify-content-between">
+                    <div>
+                      <div class="fw-bold mb-1" style="font-size:1.1em;">
+                        ${item.patientName || ''} 
+                        <span class="small text-muted fw-normal ms-1">(bệnh nhân)</span>
+                      </div>
+                      <div class="fw-bold mb-1" style="font-size:1em;">
+                        ${item.doctorName || ''} 
+                        <span class="small text-muted fw-normal ms-1">(bác sĩ)</span>
+                      </div>
+                      <div class="mb-2 small text-muted">
+                        Ngày tạo: ${formattedDate}
+                      </div>
+                    </div>
+                    <div class="mb-2 text-dark" style="min-height:48px;">
+                      <span class="fw-bold">Nội dung: </span>
+                      ${item.content || ''}
+                    </div>
+                  </div>
+                `;
+                listContainer.appendChild(card);
             });
         }
+        renderPagination(totalPages);
+    }
 
-        // ----- Phân trang -----
-        function renderPagination() {
-            const totalPages = Math.ceil(filteredPatients.length / itemsPerPage);
-            const pagination = document.getElementById('pagination');
-            pagination.innerHTML = '';
-            for (let i = 1; i <= totalPages; i++) {
-                const pageBtn = document.createElement('button');
-                pageBtn.textContent = i;
-                pageBtn.className = 'btn btn-light btn-sm mx-1' + (i === currentPage ? ' btn-primary text-white' : '');
-                pageBtn.onclick = () => {
-                    currentPage = i;
-                    renderTable();
-                    renderPagination();
-                };
-                pagination.appendChild(pageBtn);
-            }
-        }
-
-        // ----- Sắp xếp -----
-        $('.sortable').on('click', function () {
-            const col = $(this).data('sort');
-            if (currentSort.column === col) {
-                currentSort.asc = !currentSort.asc;
-            } else {
-                currentSort.column = col;
-                currentSort.asc = true;
-            }
-            filteredPatients.sort((a, b) => {
-                let valA = a[col] || '';
-                let valB = b[col] || '';
-                if (col === "gender") {
-                    valA = getGenderText(valA);
-                    valB = getGenderText(valB);
-                }
-                if (col === "status") {
-                    valA = getStatusText(valA);
-                    valB = getStatusText(valB);
-                }
-                if (typeof valA === 'string') valA = valA.toLowerCase();
-                if (typeof valB === 'string') valB = valB.toLowerCase();
-                if (valA < valB) return currentSort.asc ? -1 : 1;
-                if (valA > valB) return currentSort.asc ? 1 : -1;
-                return 0;
-            });
-            currentPage = 1;
-            renderTable();
-            renderPagination();
-        });
-
-        // --- Gán sự kiện filter & search ---
-        $('#searchInput').on('input', applyFilters);
-        $('#genderFilter').on('change', applyFilters);
-        $('#statusFilter').on('change', applyFilters);
-
-        // ----- Khi trang load thì lấy danh sách -----
-        $(function () { loadPatients(); });
-
-    </script>
-
-
-    <!-- chỉnh sửa-->
-    <script>
-        function genderToNumber(gender) {
-            if (gender === 0 || gender === "0" || gender === "Male") return "0";
-            if (gender === 1 || gender === "1" || gender === "Female") return "1";
-            return "";
-        }
-        function genderToText(gender) {
-            if (gender === 0 || gender === "0" || gender === "Male") return "Nam";
-            if (gender === 1 || gender === "1" || gender === "Female") return "Nữ";
-            return "";
-        }
-        function statusToNumber(status) {
-            if (status === 0 || status === "0" || status === "Active") return "0";
-            if (status === 1 || status === "1" || status === "Banned") return "1";
-            return "";
-        }
-        function statusToText(status) {
-            if (status === 0 || status === "0" || status === "Active") return "Đang hoạt động";
-            if (status === 1 || status === "1" || status === "Banned") return "Tạm ngưng";
-            return "";
-        }
-
-        // Khi click edit: lấy toàn bộ info gốc và đổ ra form
-        $('#patientTableBody').on('click', '.edit-btn', async function () {
-            const patientId = $(this).data('id');
-            try {
-                const res = await fetch(`https://localhost:7097/api/Patient/findId/${patientId}`);
-                if (!res.ok) { alert('Không tìm thấy bệnh nhân!'); return; }
-                const p = await res.json();
-                window.currentEditingPatient = p;
-
-                $('#edit_Id').val(p.id);
-                $('#edit_Name').val(p.name);
-                $('#edit_Gender').val(genderToNumber(p.gender));
-                $('#genderOldValue').text('(Giá trị cũ: ' + genderToText(p.gender) + ')');
-                $('#edit_CCCD').val(p.cccd);
-                $('#edit_Address').val(p.address);
-                $('#edit_PhoneNumber').val(p.phone);
-                $('#edit_BloodGroup').val(p.bloodType);
-                $('#edit_Status').val(statusToNumber(p.status));
-                $('#statusOldValue').text('(Giá trị cũ: ' + statusToText(p.status) + ')');
-            } catch (e) {
-                alert('Có lỗi khi lấy dữ liệu: ' + e);
-            }
-        });
-
-        // Khi nhấn cập nhật: chỉ lấy các trường sửa, trường còn lại giữ nguyên giá trị cũ
-        $('#updatePatientBtn').on('click', async function () {
-            const old = window.currentEditingPatient || {};
-            const updatedPatient = {
-                name: $('#edit_Name').val(),
-                gender: parseInt($('#edit_Gender').val()),
-                dob: old.dob,
-                cccd: $('#edit_CCCD').val(),
-                phone: $('#edit_PhoneNumber').val(),
-                emergencyContact: old.emergencyContact,
-                address: $('#edit_Address').val(),
-                insuranceNumber: old.insuranceNumber,
-                allergies: old.allergies,
-                status: parseInt($('#edit_Status').val()),
-                bloodType: $('#edit_BloodGroup').val(),
-                imageURL: old.imageURL,
-                code: old.code, // THÊM DÒNG NÀY để không bị lỗi thiếu code!
-                updateBy: "admin"
+    // Hiển thị nút chuyển trang
+    function renderPagination(totalPages) {
+        paginationContainer.innerHTML = '';
+        if (totalPages <= 1) return;
+        for (let i = 1; i <= totalPages; i++) {
+            const btn = document.createElement('button');
+            btn.className = 'btn btn-sm mx-1 ' + (i === currentPage ? 'btn-primary text-white' : 'btn-outline-primary');
+            btn.textContent = i;
+            btn.onclick = function () {
+                currentPage = i;
+                renderFeedback();
             };
-            try {
-                const res = await fetch(`https://localhost:7097/api/Patient/update/${$('#edit_Id').val()}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(updatedPatient)
-                });
-                if (res.ok) {
-                    alert('Cập nhật bệnh nhân thành công!');
-                    loadPatients();
-                    const offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('offcanvasPatientEdit'));
-                    offcanvas && offcanvas.hide();
-                } else {
-                    const msg = await res.text();
-                    alert('Lỗi cập nhật: ' + msg);
-                }
-            } catch (e) {
-                alert('Có lỗi khi cập nhật: ' + e);
-            }
-        });
+            paginationContainer.appendChild(btn);
+        }
+    }
+
+    // Lần đầu load: show all
+    fetchData('');
+});
+
 
 
     </script>
 
 
-    <!-- xóa-->
-    <script>
-        $('#patientTableBody').on('click', '.delete-btn', function (e) {
-            e.preventDefault();
-            const patientId = $(this).data('id');
-
-            fetch(`https://localhost:7097/api/Patient/findId/${patientId}`)
-                .then(res => res.json())
-                .then(patient => {
-                    if (patient.status === 1 || patient.status === '1') {
-                        alert('Tài khoản này đã ở trạng thái "Tạm ngưng". Không thể thực hiện thao tác này nữa.');
-                        return;
-                    }
-                    // Nếu chưa tạm ngưng, hỏi xác nhận chuyển trạng thái
-                    if (confirm('Bạn không thể xóa bệnh nhân. Tài khoản sẽ chuyển sang trạng thái "Tạm ngưng". Bạn muốn tiếp tục không?')) {
-                        const updated = {
-                            ...patient,
-                            status: 1, // Tạm ngưng
-                            updateBy: 'admin' // Hoặc tên user hiện tại
-                        };
-                        fetch(`https://localhost:7097/api/Patient/update/${patientId}`, {
-                            method: 'PUT',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(updated)
-                        })
-                            .then(res => {
-                                if (res.ok) {
-                                    alert('Đã chuyển tài khoản sang trạng thái "Tạm ngưng".');
-                                    loadPatients();
-                                } else {
-                                    alert('Không thể cập nhật trạng thái bệnh nhân!');
-                                }
-                            });
-                    }
-                })
-                .catch(err => alert('Không tìm thấy bệnh nhân!'));
-        });
 
 
-    </script>
+
 
 
 
