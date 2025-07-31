@@ -815,56 +815,60 @@
 
 
             <div class="col-md-6">
-              <div class="card">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between">
-                    <a class="mb-3" href="./payment.html" style="font-size: 1.5rem;">Doanh thu</a>
-                    <div>
-                      <select id="timePeriod" class="badge bg-primary" aria-label="Chọn khoảng thời gian">
-                        <option value="current">Hiện tại</option> <!-- Mặc định hiển thị toàn bộ -->
-                        <option value="month">Tháng này</option>
-                        <option value="year">Năm nay</option>
-                      </select>
-                    </div>
-                  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="d-flex justify-content-between">
+        <a class="mb-3" href="./payment.html" style="font-size: 1.5rem;">Doanh thu</a>
+        <div>
+          <select id="timePeriod" class="badge bg-primary" aria-label="Chọn khoảng thời gian">
+            <option value="current">Hiện tại</option>
+            <option value="month">Tháng này</option>
+            <option value="year">Năm nay</option>
+            <option value="custom">Tùy chọn ngày</option>
+          </select>
+        </div>
+      </div>
 
-                  <!-- Thêm trường nhập liệu cho Mục tiêu -->
-                  <div class="d-flex justify-content-between mt-3">
-                    <div>
-                      <span>Mục tiêu:</span>
-                    </div>
-                    <div>
-                      <input id="target" type="number" value="10000000" class="form-control" style="width: 120px;" />
-                    </div>
-                  </div>
+      <!-- Thêm input chọn ngày -->
+      <div id="customDateRange" class="d-flex justify-content-between mt-2" style="display:none;">
+        <input type="date" id="startDate" class="form-control me-2" style="width: 48%;" />
+        <input type="date" id="endDate" class="form-control" style="width: 48%;" />
+      </div>
 
-                  <!-- Thay thế "Tổng doanh thu" bằng tổng tiền của các hóa đơn -->
-                  <div class="d-flex justify-content-between mt-2">
-                    <div>
-                      <span>Tổng doanh thu </span>
-                    </div>
-                    <div>
-                      <span id="currentRevenue">₫0</span> <!-- Hiển thị tổng doanh thu hiện tại -->
-                    </div>
-                  </div>
+      <div class="d-flex justify-content-between mt-3">
+        <div>
+          <span>Mục tiêu:</span>
+        </div>
+        <div>
+          <input id="target" type="number" value="10000000" class="form-control" style="width: 120px;" />
+        </div>
+      </div>
 
-                  <!-- Hiển thị so sánh với mục tiêu -->
-                  <div class="d-flex justify-content-between mt-2">
+      <div class="d-flex justify-content-between mt-2">
+        <div>
+          <span>Tổng doanh thu </span>
+        </div>
+        <div>
+          <span id="currentRevenue">₫0</span>
+        </div>
+      </div>
 
-                    <div>
-                      <span id="targetComparison">0%</span> <!-- Hiển thị tỷ lệ phần trăm so với mục tiêu -->
-                    </div>
-                  </div>
+      <div class="d-flex justify-content-between mt-2">
+        <div>
+          <span id="targetComparison">0%</span>
+        </div>
+      </div>
 
-                  <div class="mt-3">
-                    <div class="progress bg-primary-subtle shadow-none w-100" style="height: 6px">
-                      <div id="revenueProgressBar" class="progress-bar bg-primary" role="progressbar" aria-valuenow="0"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <div class="mt-3">
+        <div class="progress bg-primary-subtle shadow-none w-100" style="height: 6px">
+          <div id="revenueProgressBar" class="progress-bar bg-primary" role="progressbar" aria-valuenow="0"
+            aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 
@@ -1240,123 +1244,173 @@
 
   <!--sc  Doanh số -->
   <script>
-    // Gọi API ngay khi trang được tải và "Hiện tại" được chọn
-    // Biến toàn cục lưu doanh thu hiện tại
-    let currentRevenue = 0;
+ let currentRevenue = 0;
 
-    // Gọi API ngay khi trang được tải và "Hiện tại" được chọn
-    document.addEventListener('DOMContentLoaded', function () {
-      // Gọi API khi trang được tải và "Hiện tại" được chọn
-      const timePeriod = document.getElementById('timePeriod');
-      if (timePeriod.value === 'current') {
-        fetchCurrentRevenue();
-      }
-    });
+document.addEventListener('DOMContentLoaded', function () {
+  const timePeriod = document.getElementById('timePeriod');
+  if (timePeriod.value === 'current') {
+    fetchCurrentRevenue();
+  }
+  document.getElementById('customDateRange').style.display = 'none';
+});
 
-    document.getElementById('timePeriod').addEventListener('change', function () {
-      const selectedPeriod = this.value;
+// Xử lý đổi loại thời gian
+document.getElementById('timePeriod').addEventListener('change', function () {
+  const selectedPeriod = this.value;
+  const customDateDiv = document.getElementById('customDateRange');
+  const start = document.getElementById('startDate').value;
+  const end = document.getElementById('endDate').value;
 
-      // Gọi API tương ứng với "Hiện tại", "Tháng" hoặc "Năm"
-      if (selectedPeriod === 'current') {
-        fetchCurrentRevenue();
-      } else if (selectedPeriod === 'month') {
-        fetch('https://localhost:7097/api/Invoice/total-revenue-month')
-          .then(response => response.json())
-          .then(data => {
-            currentRevenue = data; // Cập nhật doanh thu tháng này
-            updateRevenueData();
-          })
-          .catch(error => {
-            console.error('Error fetching revenue data:', error);
-          });
-      } else if (selectedPeriod === 'year') {
-        fetch('https://localhost:7097/api/Invoice/total-revenue-year')
-          .then(response => response.json())
-          .then(data => {
-            currentRevenue = data; // Cập nhật doanh thu năm nay
-            updateRevenueData();
-          })
-          .catch(error => {
-            console.error('Error fetching revenue data:', error);
-          });
-      }
-    });
-
-    // Hàm để gọi API lấy doanh thu hiện tại và cập nhật giao diện
-    function fetchCurrentRevenue() {
-      fetch('https://localhost:7097/api/Invoice/total-revenue')
-        .then(response => response.json())
+  if (selectedPeriod === 'custom') {
+    customDateDiv.style.display = 'flex';
+    // Nếu đã đủ ngày thì fetch ngay, không reset về 0
+    if (start && end) {
+      fetchCustomRevenueIfValid();
+    } else {
+      // Chưa đủ ngày thì reset về 0
+      currentRevenue = 0;
+      updateRevenueData();
+    }
+  } else {
+    customDateDiv.style.display = 'none';
+    if (selectedPeriod === 'current') {
+      fetchCurrentRevenue();
+    } else if (selectedPeriod === 'month') {
+      fetch('https://localhost:7097/api/Invoice/total-revenue-month')
+        .then(handleResponse)
         .then(data => {
-          currentRevenue = data; // Lưu doanh thu hiện tại
-          updateRevenueData(); // Cập nhật giao diện
+          currentRevenue = data;
+          updateRevenueData();
         })
         .catch(error => {
-          console.error('Error fetching current revenue data:', error);
+          handleFetchError(error);
+        });
+    } else if (selectedPeriod === 'year') {
+      fetch('https://localhost:7097/api/Invoice/total-revenue-year')
+        .then(handleResponse)
+        .then(data => {
+          currentRevenue = data;
+          updateRevenueData();
+        })
+        .catch(error => {
+          handleFetchError(error);
         });
     }
+  }
+});
 
-    // Hàm cập nhật dữ liệu doanh thu và thanh tiến độ
-    function updateRevenueData() {
-      // Định dạng doanh thu theo đơn vị VND
-      const formattedRevenue = new Intl.NumberFormat('vi-VN', {
-        style: 'currency',
-        currency: 'VND'
-      }).format(currentRevenue);
+// Bắt sự kiện chọn ngày
+document.getElementById('startDate').addEventListener('change', fetchCustomRevenueIfValid);
+document.getElementById('endDate').addEventListener('change', fetchCustomRevenueIfValid);
 
-      // Lấy mục tiêu từ input
-      const target = parseFloat(document.getElementById('target').value);
+// Chuyển đổi date dd/MM/yyyy (nếu có) -> yyyy-MM-dd
+function convertToIso(dateStr) {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
+  if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
+    const [d, m, y] = dateStr.split('/');
+    return `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
+  }
+  return '';
+}
 
-      // Tính tỷ lệ so với mục tiêu
-      const comparison = ((currentRevenue / target) * 100).toFixed(2);
-      document.getElementById('targetComparison').textContent = `${comparison}%`;
+// Fetch doanh thu tuỳ chọn ngày
+function fetchCustomRevenueIfValid() {
+  const timePeriod = document.getElementById('timePeriod').value;
+  if (timePeriod !== 'custom') return;
 
-      // Cập nhật thanh tiến độ
-      const progress = (currentRevenue / target) * 100;
-      document.getElementById('revenueProgressBar').style.width = `${progress}%`;
+  let start = document.getElementById('startDate').value;
+  let end = document.getElementById('endDate').value;
 
-      // Cập nhật tổng doanh thu hiện tại với đơn vị VND
-      document.getElementById('currentRevenue').textContent = formattedRevenue;
-    }
+  start = convertToIso(start);
+  end = convertToIso(end);
 
-    // Khi thay đổi mục tiêu
-    document.getElementById('target').addEventListener('input', function () {
-      const target = parseFloat(this.value);
+  const url = `https://localhost:7097/api/Invoice/GetAll?startDate=${start}&endDate=${end}`;
+  console.log("Fetch URL:", url);
 
-      // Kiểm tra nếu mục tiêu hợp lệ (không phải NaN)
-      if (isNaN(target) || target <= 0) {
-        return; // Nếu giá trị mục tiêu không hợp lệ, không làm gì
-      }
-
-      // Tính toán tỷ lệ phần trăm so với mục tiêu và cập nhật giao diện
-      const comparison = ((currentRevenue / target) * 100).toFixed(2);
-      document.getElementById('targetComparison').textContent = `${comparison}%`;
-
-      // Cập nhật thanh tiến độ
-      const progress = (currentRevenue / target) * 100;
-      document.getElementById('revenueProgressBar').style.width = `${progress}%`;
-    });
-
-    // Nếu bạn muốn sự kiện khi nhấn Enter, có thể sử dụng 'keypress' hoặc 'keydown'
-    document.getElementById('target').addEventListener('keypress', function (event) {
-      if (event.key === 'Enter') {
-        // Gọi lại hàm tính toán khi nhấn Enter
-        const target = parseFloat(this.value);
-
-        if (isNaN(target) || target <= 0) {
-          return;
+  if (start && end) {
+    fetch(url)
+      .then(handleResponse)
+      .then(data => {
+        console.log("API Response:", data); // Log kết quả về để debug
+        let total = 0;
+        if (Array.isArray(data)) {
+          // Lấy đúng trường tổng tiền từ API
+          total = data.reduce((sum, invoice) => sum + (invoice.totalAmount || invoice.TotalAmount || 0), 0);
         }
+        currentRevenue = total;
+        updateRevenueData();
+      })
+      .catch(error => {
+        handleFetchError(error);
+      });
+  }
+}
 
-        // Tính toán lại tỷ lệ phần trăm
-        const comparison = ((currentRevenue / target) * 100).toFixed(2);
-
-        // Cập nhật giao diện
-        document.getElementById('targetComparison').textContent = `${comparison}%`;
-
-        const progress = (currentRevenue / target) * 100;
-        document.getElementById('revenueProgressBar').style.width = `${progress}%`;
-      }
+// Fetch doanh thu tổng hiện tại
+function fetchCurrentRevenue() {
+  fetch('https://localhost:7097/api/Invoice/total-revenue')
+    .then(handleResponse)
+    .then(data => {
+      currentRevenue = data;
+      updateRevenueData();
+    })
+    .catch(error => {
+      handleFetchError(error);
     });
+}
 
+// Xử lý response API
+function handleResponse(response) {
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
+  }
+  return response.json();
+}
+
+// Xử lý lỗi fetch
+function handleFetchError(error) {
+  console.error('Error fetching revenue data:', error);
+  currentRevenue = 0;
+  updateRevenueData();
+}
+
+// Update giao diện doanh thu và tiến độ
+function updateRevenueData() {
+  const formattedRevenue = new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND'
+  }).format(currentRevenue);
+
+  const target = parseFloat(document.getElementById('target').value);
+  const comparison = ((currentRevenue / target) * 100).toFixed(2);
+  document.getElementById('targetComparison').textContent = `${comparison}%`;
+
+  const progress = (currentRevenue / target) * 100;
+  document.getElementById('revenueProgressBar').style.width = `${progress}%`;
+
+  document.getElementById('currentRevenue').textContent = formattedRevenue;
+}
+
+// Cập nhật khi đổi mục tiêu
+document.getElementById('target').addEventListener('input', function () {
+  const target = parseFloat(this.value);
+  if (isNaN(target) || target <= 0) return;
+  const comparison = ((currentRevenue / target) * 100).toFixed(2);
+  document.getElementById('targetComparison').textContent = `${comparison}%`;
+  const progress = (currentRevenue / target) * 100;
+  document.getElementById('revenueProgressBar').style.width = `${progress}%`;
+});
+
+document.getElementById('target').addEventListener('keypress', function (event) {
+  if (event.key === 'Enter') {
+    const target = parseFloat(this.value);
+    if (isNaN(target) || target <= 0) return;
+    const comparison = ((currentRevenue / target) * 100).toFixed(2);
+    document.getElementById('targetComparison').textContent = `${comparison}%`;
+    const progress = (currentRevenue / target) * 100;
+    document.getElementById('revenueProgressBar').style.width = `${progress}%`;
+  }
+});
 
 
   </script>

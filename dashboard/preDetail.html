@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chi tiết Đơn Thuốc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { background: #f6faff; color: #222; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; }
+    .container { max-width: 850px; margin: 38px auto; background: #fff; border-radius: 10px; box-shadow: 0 4px 24px #e9e9e9; padding: 28px; }
+    h1 { color: #1769aa; text-align: center; margin-bottom: 28px; }
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 14px 20px; margin-bottom: 18px; }
+    .info-item label { font-weight: 500; color: #444; font-size: 15px; }
+    .info-value { color: #1769aa; font-size: 16px; margin-top: 2px; font-weight: 600;}
+    .card-title { margin-bottom: 18px; font-size: 19px; font-weight: 700; color: #0c5da9; }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px;}
+    th, td { border: 1px solid #dbe3ea; padding: 11px 8px; text-align: center;}
+    th { background: #d9eaff; color: #1b5275; font-weight: 600;}
+    .total-row { background: #f4f9fb; font-weight: 600;}
+    .back-btn { margin-bottom: 18px; color: #1769aa; font-size: 15px; text-decoration: none; display: inline-block;}
+    .back-btn:hover { text-decoration: underline; }
+    @media (max-width: 650px) { .container { padding: 12px; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <h1>Chi tiết Đơn Thuốc</h1>
+    <div class="card-title">Thông tin đơn thuốc</div>
+    <div class="info-grid">
+      <div class="info-item"><label>Mã đơn:</label> <div class="info-value" id="prescCode"></div></div>
+      <div class="info-item"><label>Tên đơn thuốc:</label> <div class="info-value" id="prescName"></div></div>
+      <div class="info-item"><label>Ngày tạo:</label> <div class="info-value" id="prescDate"></div></div>
+      <div class="info-item"><label>Bệnh nhân:</label> <div class="info-value" id="prescPatient"></div></div>
+      <div class="info-item"><label>CCCD:</label> <div class="info-value" id="prescCCCD"></div></div>
+      <div class="info-item"><label>Bác sĩ kê đơn:</label> <div class="info-value" id="prescDoctor"></div></div>
+      <div class="info-item"><label>Trạng thái:</label> <div class="info-value" id="prescStatus"></div></div>
+      <div class="info-item"><label>Ghi chú:</label> <div class="info-value" id="prescNote"></div></div>
+    </div>
+
+    <div class="card-title">Chi tiết thuốc</div>
+    <table>
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Tên thuốc</th>
+          <th>Đơn vị</th>
+          <th>Số lượng</th>
+          <th>Cách dùng</th>
+          <th>Đơn giá</th>
+          <th>Thành tiền</th>
+          <th>Trạng thái</th>
+        </tr>
+      </thead>
+      <tbody id="detailTableBody"></tbody>
+      <tfoot>
+        <tr class="total-row">
+          <td colspan="6" style="text-align:right;">Tổng giá trị đơn thuốc:</td>
+          <td id="prescTotal" colspan="2"></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+<script>
+const apiBase = 'https://localhost:7097/api';
+const query = new URLSearchParams(window.location.search);
+const prescId = query.get('id');
+const statusMap = {
+  0: "Mới", 1: "Đã giao", 2: "Hủy", 3: "Hoàn thành",
+  "new": "Mới", "dispensed": "Đã giao", "cancelled": "Hủy", "cancel": "Hủy", "completed": "Hoàn thành",
+  "New": "Mới", "Dispensed": "Đã giao", "Cancelled": "Hủy", "Cancel": "Hủy", "Completed": "Hoàn thành"
+};
+
+function getToken() {
+  const t = localStorage.getItem('token');
+  if (!t) { alert('Vui lòng đăng nhập!'); throw new Error('No token'); }
+  return t;
+}
+
+async function authFetch(url, opts = {}) {
+  opts.headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + getToken(),
+    ...opts.headers
+  };
+  return fetch(url, opts);
+}
+
+let allMeds = [];
+async function loadAllMedicines() {
+  try {
+    const res = await authFetch(`${apiBase}/Medicine/get-all`);
+    if (!res.ok) throw new Error('Không lấy được danh sách thuốc');
+    const meds = await res.json();
+    allMeds = meds.map(m => ({
+      id: m.id,
+      name: m.name || m.medicineName,
+      unitName: m.unitName || ''
+    }));
+  } catch (err) {
+    allMeds = [];
+  }
+}
+
+async function loadDetail() {
+  if (!prescId) { alert("Không xác định được đơn thuốc!"); return; }
+  await loadAllMedicines();
+  // Thông tin đơn thuốc
+  const preRes = await authFetch(`${apiBase}/Prescription/get-by-id/${prescId}`);
+  if (!preRes.ok) { alert("Không lấy được đơn thuốc!"); return; }
+  const presc = await preRes.json();
+  document.getElementById('prescCode').textContent   = presc.code       || '';
+  document.getElementById('prescName').textContent   = presc.name       || '';
+  document.getElementById('prescDate').textContent   = presc.createDate ? new Date(presc.createDate).toLocaleDateString('vi-VN') : '';
+  document.getElementById('prescPatient').textContent= presc.patientName || presc.patientId || '';
+  document.getElementById('prescCCCD').textContent   = presc.patientCCCD || '';
+  document.getElementById('prescDoctor').textContent = presc.doctorName   || '';
+  document.getElementById('prescStatus').textContent =
+    statusMap[presc.status] || statusMap[(typeof presc.status === "string" ? presc.status.toLowerCase() : "")] || presc.status;
+  document.getElementById('prescNote').textContent   = presc.note         || '';
+
+  // Chi tiết thuốc
+  const detRes = await authFetch(`${apiBase}/PrescriptionDetail/get-by-prescription/${prescId}`);
+  if (!detRes.ok) { alert("Không lấy được chi tiết thuốc!"); return; }
+  const details = await detRes.json();
+  let total = 0;
+  const tbody = document.getElementById('detailTableBody');
+  tbody.innerHTML = '';
+  details.forEach((d, i) => {
+    const med = allMeds.find(m => m.name === d.medicineName || m.id === d.medicineId);
+    const unit = d.unitName || med?.unitName || '';
+    total += +d.total || 0;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${i+1}</td>
+      <td>${d.medicineName || ''}</td>
+      <td>${unit}</td>
+      <td>${d.quantity}</td>
+      <td>${d.usage || ''}</td>
+      <td>${d.unitPrice?.toLocaleString('vi-VN') || ''} đ</td>
+      <td>${d.total?.toLocaleString('vi-VN') || ''} đ</td>
+      <td>${statusMap[d.status] || d.status}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+  document.getElementById('prescTotal').textContent = total.toLocaleString('vi-VN') + ' đ';
+}
+
+document.addEventListener('DOMContentLoaded', loadDetail);
+</script>
+</body>
+</html>
