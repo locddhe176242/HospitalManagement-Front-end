@@ -201,6 +201,7 @@ function displayMedicalRecords(records) {
         const createDate = new Date(record.createDate || Date.now());
         const formattedDate = createDate.toLocaleDateString('vi-VN');
         const formattedTime = createDate.toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
+        
 
         const row = `
             <tr>
@@ -218,6 +219,7 @@ function displayMedicalRecords(records) {
                     </div>
                 </td>
                 <td>${record.diseaseName || 'N/A'}</td>
+                
                 <td>
                     <div class="d-flex gap-2 flex-wrap justify-content-center">
                         <button class="btn btn-sm btn-success" title="Xem chi tiết" onclick="viewMedicalRecordDetail(${record.id})">
@@ -228,6 +230,9 @@ function displayMedicalRecords(records) {
                         </button>
                         <button class="btn btn-sm btn-danger" title="Xoá hồ sơ" onclick="deleteMedicalRecord(${record.id})">
                             <i class="fas fa-trash-alt"></i>
+                        </button>
+                        <button class="btn btn-sm btn-info" title="Cập nhật hóa đơn" onclick="updateInvoice(${record.appointmentId})">
+                            <i class="fas fa-file-invoice"></i>
                         </button>
                     </div>
                 </td>
@@ -329,3 +334,29 @@ function deleteMedicalRecord(recordId) {
         showNotification('Chức năng xoá hồ sơ đang được phát triển', 'info');
     }
 }
+
+
+function updateInvoice(appointmentId) {
+    
+
+    fetch(`https://localhost:7097/api/Invoice/generate-invoice-details/${appointmentId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error");
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert("Cập nhật hóa đơn thành công!");
+        // Reload lại dữ liệu nếu cần
+    })
+    .catch(error => {
+        console.error("Lỗi cập nhật: ", error);
+    });
+}
+
