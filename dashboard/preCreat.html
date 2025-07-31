@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Tạo đơn thuốc mới</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f8fafc; }
+    .container { max-width: 480px; margin: 40px auto; background: #fff; padding: 32px; border-radius: 14px; box-shadow: 0 2px 16px #ececec; }
+    h2 { text-align: center; margin-bottom: 18px; color: #228be6; }
+    .form-group { margin-bottom: 18px; }
+    .form-label { font-weight: 500; display: block; margin-bottom: 7px; }
+    .form-input, textarea { width: 100%; padding: 9px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 15px; }
+    .form-input[readonly] { background: #f3f3f3; color: #888; }
+    .btn { width: 100%; padding: 10px; background: #228be6; color: #fff; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; }
+    .btn:active { background: #1971c2; }
+    .result-message { margin-top: 16px; padding: 10px; border-radius: 6px; text-align: center; font-weight: 500;}
+    .result-success { background: #e6fcf5; color: #099268; border: 1px solid #b2f2e5;}
+    .result-error { background: #fff0f6; color: #c2255c; border: 1px solid #faa2c1;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Tạo đơn thuốc mới</h2>
+    <div class="form-group">
+      <label class="form-label" for="patientName">Tên bệnh nhân</label>
+      <input type="text" id="patientName" class="form-input" readonly>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="patientCCCD">CCCD bệnh nhân</label>
+      <input type="text" id="patientCCCD" class="form-input" readonly>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="prescriptionName">Tên đơn thuốc</label>
+      <input type="text" id="prescriptionName" class="form-input" placeholder="Nhập tên đơn thuốc" required>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="note">Ghi chú</label>
+      <textarea id="note" class="form-input" rows="3" placeholder="Ghi chú cho đơn thuốc"></textarea>
+    </div>
+    <button id="btnCreate" class="btn">Tạo đơn thuốc</button>
+<div id="resCreate" class="result-message" style="display:none"></div>
+<div id="createdPrescriptionInfo" style="margin-top:18px;"></div>
+  </div>
+
+<script>
+  // Địa chỉ API gốc
+  const baseApi = 'https://localhost:7097/api';
+
+  // Hàm lấy patientId từ URL (?patientId=123)
+  function getPatientIdFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('patientId');
+  }
+
+  // Hàm lấy userId (doctorId) từ localStorage (bạn đã lưu sẵn khi đăng nhập)
+  function getUserId() {
+    return localStorage.getItem('userId');
+  }
+
+  // Hàm hiển thị thông báo trên giao diện
+  function showMessage(msg, isSuccess = true) {
+    const resDiv = document.getElementById('resCreate');
+    resDiv.textContent = msg;
+    resDiv.className = 'result-message ' + (isSuccess ? 'result-success' : 'result-error');
+    resDiv.style.display = 'block';
+    setTimeout(() => { resDiv.style.display = 'none'; }, 4000);
+  }
+
+  // Hàm tự động điền tên và CCCD bệnh nhân (readonly) dựa vào patientId truyền vào
+  async function autoFillPatient(patientId) {
+    if (!patientId) {
+      showMessage('Thiếu thông tin bệnh nhân!', false);
+      document.getElementById('btnCreate').disabled = true;
+      return;
+    }
+    try {
+      const token = localStorage.getItem('token');
+      // Gọi API lấy thông tin bệnh nhân
+      const res = await fetch(`${baseApi}/Patient/findId/${patientId}`, {
+        headers: { 'Authorization': token ? 'Bearer ' + token : '' }
+      });
+      if (!res.ok) throw new Error("Không tìm thấy thông tin bệnh nhân");
+      const data = await res.json();
+      // Điền thông tin vào form, không cho chỉnh sửa
+      document.getElementById('patientName').value = data.name || '';
+      document.getElementById('patientCCCD').value = data.cccd || '';
+    } catch (err) {
+      showMessage('Lỗi lấy thông tin bệnh nhân: ' + err.message, false);
+      document.getElementById('btnCreate').disabled = true;
+    }
+  }
+
+  // Đảm bảo chỉ thực thi sau khi toàn trang đã load
+  document.addEventListener('DOMContentLoaded', function () {
+    const patientId = getPatientIdFromUrl();
+    autoFillPatient(patientId); // Tự điền info bệnh nhân
+
+    // Xử lý khi nhấn nút "Tạo đơn thuốc"
+    document.getElementById('btnCreate').onclick = async function () {
+      // Lấy thông tin từ các trường nhập trên form
+      const name = document.getElementById('prescriptionName').value.trim();
+      const note = document.getElementById('note').value.trim();
+      const patientName = document.getElementById('patientName').value.trim();
+      const patientCCCD = document.getElementById('patientCCCD').value.trim();
+      const userId = getUserId();
+
+      // Kiểm tra dữ liệu đầu vào
+      if (!patientId || !patientName || !patientCCCD || !name) {
+        showMessage('Vui lòng điền đủ thông tin!', false);
+        return;
+      }
+      if (!userId) {
+        showMessage('Không xác định được tài khoản đăng nhập!', false);
+        return;
+      }
+
+      // Tạo object dữ liệu gửi lên backend (ép kiểu userId về số)
+      const data = { patientName, patientCCCD, name, note, userId: Number(userId) };
+
+      try {
+        const token = localStorage.getItem('token');
+        // Gọi API tạo đơn thuốc
+        const res = await fetch(`${baseApi}/Prescription/add-prescription`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token ? 'Bearer ' + token : ''
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+    const result = await res.json();
+    const id = result.id || result.prescriptionId || result.code || '';
+    const name = result.name || '';
+    showMessage(`Tạo đơn thuốc thành công. Đơn thuốc của bạn có mã: ${id}`);
+    document.getElementById('createdPrescriptionInfo').innerHTML = `
+      <div>
+        Đơn thuốc vừa tạo: 
+        <a href="prescriptionDetail.html?id=${id}" target="_blank" style="font-weight:bold;">
+          ${id}${name ? ' - ' + name : ''}
+        </a>
+        <span style="color: #888; font-size:13px">(Bấm để xem chi tiết)</span>
+      </div>
+    `;
+    document.getElementById('prescriptionName').value = '';
+    document.getElementById('note').value = '';
+  } else {
+    let msg = '';
+    try { msg = (await res.json()).message || ''; } catch { msg = await res.text(); }
+    showMessage('Lỗi: ' + (msg || 'Không xác định!'), false);
+    document.getElementById('createdPrescriptionInfo').innerHTML = '';
+  }
+      } catch (err) {
+        showMessage('Lỗi: ' + err.message, false);
+      }
+    };
+  });
+</script>
+
+</body>
+</html>
