@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <title>KiviCare - Chi Tiết Đơn Thuốc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f7fafc;
+      color: #34495e;
+      margin: 0;
+      padding: 24px 0;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 24px;
+      color: #2980b9;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin: 0 0 18px 24px;
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .card {
+      background: #fff;
+      max-width: 900px;
+      margin: 0 auto 32px auto;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: #2980b9;
+      font-size: 22px;
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      margin-top: 12px;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      max-width: 350px;
+      padding: 8px 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: 1px solid #dbeafe;
+      background: #f8fafc;
+      font-size: 15px;
+      transition: border 0.2s;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    select:focus {
+      border-color: #3498db;
+      outline: none;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      margin-top: 10px;
+    }
+
+    th,
+    td {
+      padding: 10px 8px;
+      border: 1px solid #e1e7ec;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    th {
+      background: #eaf6fb;
+      color: #2c3e50;
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) td {
+      background: #fafbfc;
+    }
+
+    tr:hover td {
+      background: #f1f5f9;
+    }
+
+    .pagination {
+      margin-top: 16px;
+      text-align: center;
+    }
+
+    .pagination button {
+      min-width: 36px;
+      min-height: 36px;
+      border-radius: 8px;
+      border: 1px solid #d0e4f7;
+      background: #fff;
+      color: #3498db;
+      font-size: 16px;
+      margin: 0 2px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .pagination button.active,
+    .pagination button:active {
+      background: #3498db;
+      color: #fff;
+      border-color: #3498db;
+      font-weight: 600;
+    }
+
+    .pagination button:hover:not(.active) {
+      background: #eaf6fb;
+    }
+
+    .result {
+      margin: 12px 0 0 0;
+      padding: 10px 0;
+      color: #101110;
+      font-weight: 600;
+      min-height: 20px;
+    }
+
+    .result.error {
+      color: #c0392b;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 10px;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      select {
+        max-width: 100%;
+      }
+
+      h1 {
+        font-size: 21px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Chi Tiết Đơn Thuốc</h1>
+
+  <div id="prescriptionCard" class="card">
+    <h2>Thông tin đơn thuốc</h2>
+    <p><strong>ID:</strong> <span id="prescId"></span></p>
+    <p><strong>Tên đơn thuốc:</strong> <span id="prescName"></span></p>
+    <p><strong>Bệnh nhân:</strong> <span id="prescPatient"></span></p>
+    <p><strong>Ghi chú:</strong> <span id="prescNote"></span></p>
+    <p><strong>Trạng thái:</strong> <span id="prescStatus"></span></p>
+    <p><strong>Code:</strong> <span id="prescCode"></span></p>
+  </div>
+
+
+
+  <div id="detailsCard" class="card">
+    <h2>Chi tiết đơn thuốc</h2>
+    <label for="searchInput">Tìm kiếm tên thuốc:</label>
+    <input type="text" id="searchInput" placeholder="Nhập tên thuốc…" />
+
+    <table>
+      <thead>
+        <tr>
+          <th id="sort-stt">STT <span class="sort-icon">↑↓</span></th>
+          <th id="sort-medicineName">Tên thuốc <span class="sort-icon">↑↓</span></th>
+          <th id="sort-quantity">Số lượng <span class="sort-icon">↑↓</span></th>
+          <th id="sort-unit">Đơn vị <span class="sort-icon">↑↓</span></th>
+          <th id="sort-usage">Cách dùng <span class="sort-icon">↑↓</span></th>
+          <th id="sort-unitPrice">Đơn giá <span class="sort-icon">↑↓</span></th>
+          <th id="sort-total">Tổng giá <span class="sort-icon">↑↓</span></th>
+          <th id="sort-status">Trạng thái <span class="sort-icon">↑↓</span></th>
+          <th>Sửa</th> <!-- Thêm cột này -->
+        </tr>
+      </thead>
+      <tbody id="detailsTableBody"></tbody>
+      <tbody id="detailsTableBody"></tbody>
+    </table>
+
+    <div id="sumTotal" class="result"></div>
+    <div class="pagination" id="pagination"></div>
+  </div>
+
+  <div id="addDetailCard" class="card">
+    <h2>Thêm Chi Tiết Thuốc</h2>
+    <label for="addMedName">Tên thuốc:</label>
+    <input type="text" id="addMedName" placeholder="Nhập tên thuốc…" list="medicine-suggestions" />
+    <datalist id="medicine-suggestions"></datalist>
+
+    <label for="addQty">Số lượng:</label>
+    <input type="number" id="addQty" placeholder="Nhập số lượng…" />
+
+    <label for="addUsage">Cách dùng:</label>
+    <input type="text" id="addUsage" placeholder="Nhập cách dùng…" />
+
+    <label for="addStatus">Trạng thái:</label>
+    <select id="addStatus">
+      <option value="0">Mới</option>
+
+
+    </select>
+
+    <button id="btnAddDetail">Thêm chi tiết</button>
+    <div id="resAddDetail" class="result"></div>
+  </div>
+
+
+  <div id="editDetailModal" class="modal"
+    style="display:none;position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh; background:rgba(0,0,0,0.12);align-items:center;justify-content:center;">
+    <div
+      style="background:#fff;padding:24px 24px 14px 24px;border-radius:8px;min-width:320px;max-width:94vw;position:relative;">
+      <span id="closeEditModal"
+        style="position:absolute;top:7px;right:12px;font-size:24px;cursor:pointer;">&times;</span>
+      <h3>Sửa chi tiết đơn thuốc</h3>
+      <div style="margin-bottom:7px;">
+        <label>Tên thuốc:</label>
+        <input type="text" id="editMedName" placeholder="Nhập tên thuốc…" list="edit-medicine-suggestions" />
+<datalist id="edit-medicine-suggestions"></datalist>
+
+      </div>
+      <div style="margin-bottom:7px;">
+        <label>Số lượng:</label>
+        <input type="number" id="editQty" style="width:98%">
+      </div>
+      <div style="margin-bottom:7px;">
+        <label>Cách dùng:</label>
+        <input type="text" id="editUsage" style="width:98%">
+      </div>
+      <button id="btnUpdateDetail" style="margin-top:8px;">Cập nhật</button>
+      <div id="resEditDetail" class="result" style="margin-top:8px;color:red;"></div>
+    </div>
+  </div>
+
+
+  <!--  Chi tiết đơn thuốc -->
+  <script>
+    // ==== PHẦN 1: HIỂN THỊ THÔNG TIN ĐƠN THUỐC ====
+    const apiBase = 'https://localhost:7097/api';
+    const query = new URLSearchParams(window.location.search);
+    const prescId = query.get('id');
+    const statusMap = {
+      0: "Mới", 1: "Đã giao", 2: "Hủy", 3: "Hoàn thành",
+      "New": "Mới", "Dispensed": "Đã giao", "Cancelled": "Hủy", "Canceled": "Hủy", "Completed": "Hoàn thành"
+    };
+    let allMeds = [];
+    let details = [], filteredDetails = [];
+    let currentPage = 1, sortColumn = null, sortDirection = 1;
+    let editingDetail = null;
+
+    function getToken() {
+      const token = localStorage.getItem('token');
+      if (!token) { alert('Vui lòng đăng nhập!'); throw new Error('Token không có sẵn'); }
+      return token;
+    }
+
+    async function authFetch(url, opts = {}) {
+      const token = getToken();
+      opts.headers = opts.headers || {};
+      opts.headers['Content-Type'] = 'application/json';
+      opts.headers['Authorization'] = 'Bearer ' + token;
+      return fetch(url, opts);
+    }
+
+    async function loadPrescriptionInfo() {
+      try {
+        const prescRes = await authFetch(`${apiBase}/Prescription/get-by-id/${prescId}`);
+        if (!prescRes.ok) throw new Error('Không lấy được đơn thuốc');
+        const presc = await prescRes.json();
+        document.getElementById('prescId').textContent = presc.id;
+        document.getElementById('prescName').textContent = presc.name;
+        document.getElementById('prescPatient').textContent = presc.patientName || presc.patientId;
+        document.getElementById('prescNote').textContent = presc.note;
+        document.getElementById('prescStatus').textContent = statusMap[presc.status] || statusMap[presc.status + ""] || presc.status;
+        document.getElementById('prescCode').textContent = presc.code;
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+
+  </script>
+
+
+  <!--  HIỂN THỊ VÀ SỬA BẢNG CHI TIẾT ĐƠN THUỐC -->
+  <script>
+
+    /**
+     * ==== CÁC HÀM HỖ TRỢ ====
+     */
+    // Lấy token từ localStorage, bắt đăng nhập nếu không có
+    function getToken() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Vui lòng đăng nhập!');
+        throw new Error('Token không có sẵn');
+      }
+      return token;
+    }
+
+    // Hàm fetch API có gắn token tự động
+    async function authFetch(url, opts = {}) {
+      const token = getToken();
+      opts.headers = opts.headers || {};
+      opts.headers['Content-Type'] = 'application/json';
+      opts.headers['Authorization'] = 'Bearer ' + token;
+      return fetch(url, opts);
+    }
+
+    // Hiển thị trạng thái bằng text tiếng Việt
+    function showStatus(s) {
+      return statusMap[s] || statusMap[s + ""] || s;
+    }
+
+    /**
+     * ==== HIỆN BẢNG CHI TIẾT ĐƠN THUỐC, SẮP XẾP, TÌM KIẾM, PHÂN TRANG ====
+     */
+    // Hiện bảng 1 trang, thêm nút bút cho mỗi dòng
+    function renderPage(page) {
+      currentPage = page;
+      const tbody = document.getElementById('detailsTableBody');
+      tbody.innerHTML = '';
+      const start = (page - 1) * 6;
+      const slice = filteredDetails.slice(start, start + 6);
+      slice.forEach((d, i) => {
+        const medObj = allMeds.find(m => (m.name || m.medicineName) === d.medicineName);
+        const unit = d.unitName || medObj?.unitName || '';
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+      <td>${start + i + 1}</td>
+      <td>${d.medicineName || ''}</td>
+      <td>${d.quantity}</td>
+      <td>${unit}</td> 
+      <td>${d.usage}</td>
+      <td>${d.unitPrice?.toLocaleString('vi-VN') || ''} đ</td>
+      <td>${d.total?.toLocaleString('vi-VN') || ''} đ</td>
+      <td>${showStatus(d.status)}</td>
+      <td>
+        <span class="edit-detail" style="cursor:pointer;color:#2980b9;font-size:18px" 
+              data-id="${d.id}" title="Sửa">&#9998;</span>
+      </td>
+    `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Hiện nút phân trang
+    function setupPagination(totalPages) {
+      const pg = document.getElementById('pagination');
+      pg.innerHTML = '';
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        btn.classList.toggle('active', i === currentPage);
+        btn.onclick = () => {
+          renderPage(i);
+          setupPagination(totalPages);
+        };
+        pg.appendChild(btn);
+      }
+    }
+
+    // Sắp xếp chi tiết đơn thuốc theo cột
+    function sortDetails(column, direction) {
+      filteredDetails.sort((a, b) => {
+        let vA, vB;
+        if (column === null) { vA = a.id; vB = b.id; }
+        else if (column === "unitName") {
+          vA = a.unitName || (allMeds.find(m => (m.name || m.medicineName) === a.medicineName)?.unitName) || "";
+          vB = b.unitName || (allMeds.find(m => (m.name || m.medicineName) === b.medicineName)?.unitName) || "";
+        }
+        else if (column === "status") {
+          vA = typeof a.status === "number" ? a.status : (Object.keys(statusMap).findIndex(k => k == a.status) || 0);
+          vB = typeof b.status === "number" ? b.status : (Object.keys(statusMap).findIndex(k => k == b.status) || 0);
+        }
+        else { vA = a[column]; vB = b[column]; }
+        if (typeof vA === 'string') vA = vA.toLowerCase();
+        if (typeof vB === 'string') vB = vB.toLowerCase();
+        if (vA < vB) return -1 * direction;
+        if (vA > vB) return 1 * direction;
+        return 0;
+      });
+    }
+
+    // Thiết lập các handler: sắp xếp, tìm kiếm, click edit
+    function setupDetailHandlers() {
+      // Sắp xếp
+      const sortFields = [
+        { id: "sort-stt", key: null }, { id: "sort-medicineName", key: "medicineName" }, { id: "sort-quantity", key: "quantity" },
+        { id: "sort-unit", key: "unitName" }, { id: "sort-usage", key: "usage" }, { id: "sort-unitPrice", key: "unitPrice" },
+        { id: "sort-total", key: "total" }, { id: "sort-status", key: "status" }
+      ];
+      sortFields.forEach(field => {
+        const th = document.getElementById(field.id);
+        if (!th) return;
+        th.style.cursor = "pointer";
+        th.onclick = function () {
+          document.querySelectorAll('.sort-icon').forEach(el => el.textContent = "↑↓");
+          if (sortColumn === field.key) sortDirection = -sortDirection;
+          else { sortColumn = field.key; sortDirection = 1; }
+          th.querySelector('.sort-icon').textContent = sortDirection === 1 ? "↑" : "↓";
+          sortDetails(sortColumn, sortDirection);
+          renderPage(1);
+          setupPagination(Math.ceil(filteredDetails.length / 6));
+        };
+      });
+      // Tìm kiếm
+      document.getElementById('searchInput').addEventListener('input', function () {
+        const q = this.value.trim().toLowerCase();
+        currentPage = 1;
+        if (q) filteredDetails = details.filter(d => (d.medicineName || '').toLowerCase().includes(q));
+        else filteredDetails = details.slice();
+        if (sortColumn) sortDetails(sortColumn, sortDirection);
+        renderPage(1);
+        setupPagination(Math.ceil(filteredDetails.length / 6));
+      });
+      // Bấm icon bút để sửa
+      document.getElementById('detailsTableBody').addEventListener('click', function (e) {
+        if (e.target.classList.contains('edit-detail')) {
+          const id = +e.target.getAttribute('data-id');
+          const d = details.find(x => x.id === id);
+          if (!d) return;
+          editingDetail = d;
+          document.getElementById('editMedName').value = d.medicineName || '';
+          document.getElementById('editQty').value = d.quantity;
+          document.getElementById('editUsage').value = d.usage;
+          document.getElementById('editDetailModal').style.display = 'flex';
+          document.getElementById('resEditDetail').textContent = '';
+        }
+      });
+    }
+
+    /**
+     * ==== LOAD CHI TIẾT ĐƠN THUỐC + HIỆN TỔNG TIỀN ====
+     */
+    async function loadPrescriptionDetails() {
+      try {
+        const detRes = await authFetch(`${apiBase}/PrescriptionDetail/get-by-prescription/${prescId}`);
+        if (!detRes.ok) throw new Error('Không lấy được chi tiết thuốc');
+        details = await detRes.json();
+        filteredDetails = details.slice();
+        if (sortColumn) sortDetails(sortColumn, sortDirection);
+        const sum = filteredDetails.reduce((acc, d) => acc + (d.total || 0), 0);
+        document.getElementById('sumTotal').textContent =
+          'Tổng giá trị đơn thuốc: ' + sum.toLocaleString('vi-VN') + ' đ';
+        renderPage(1);
+        setupPagination(Math.ceil(filteredDetails.length / 6));
+      } catch (err) { alert(err.message); }
+    }
+
+    /**
+     * ==== XỬ LÝ MODAL SỬA CHI TIẾT ====
+     */
+    // Đóng modal khi click X hoặc nền ngoài
+    document.getElementById('closeEditModal').onclick = function () {
+      document.getElementById('editDetailModal').style.display = 'none';
+    };
+    window.onclick = function (e) {
+      if (e.target === document.getElementById('editDetailModal')) {
+        document.getElementById('editDetailModal').style.display = 'none';
+      }
+    };
+
+
+    const editMedInput = document.getElementById('editMedName');
+const editDatalist = document.getElementById('edit-medicine-suggestions');
+let editFilterTimer;
+
+// Gợi ý tên thuốc khi nhập ở ô update
+editMedInput.addEventListener('input', () => {
+  clearTimeout(editFilterTimer);
+  const q = editMedInput.value.trim().toLowerCase();
+  if (!q) { editDatalist.innerHTML = ''; return; }
+  editFilterTimer = setTimeout(() => {
+    const matches = allMeds.filter(m => (m.name || '').toLowerCase().includes(q)).slice(0, 10);
+    editDatalist.innerHTML = '';
+    matches.forEach(m => {
+      const o = document.createElement('option');
+      o.value = m.name;
+      editDatalist.appendChild(o);
+    });
+  }, 300);
+});
+    /**
+     * ==== API UPDATE DETAIL ====
+     */
+    document.getElementById('btnUpdateDetail').onclick = async function () {
+      if (!editingDetail) return;
+      const medName = document.getElementById('editMedName').value.trim();
+      const qty = +document.getElementById('editQty').value;
+      const usage = document.getElementById('editUsage').value.trim();
+      if (!medName || qty < 1) {
+        document.getElementById('resEditDetail').textContent = "Vui lòng nhập đúng thông tin!";
+        return;
+      }
+      try {
+        // ĐÚNG API: /update-detail/{id}
+        const url = `${apiBase}/PrescriptionDetail/update-detail/${editingDetail.id}`;
+        const body = { medicineName: medName, quantity: qty, usage: usage };
+        const res = await authFetch(url, { method: 'PUT', body: JSON.stringify(body) });
+
+        let msg = '';
+        if (res.ok) {
+          document.getElementById('editDetailModal').style.display = 'none';
+          await loadPrescriptionDetails(); // Refresh bảng sau update
+        } else {
+          // Chỉ đọc body 1 lần!
+          if (res.headers.get('content-type')?.includes('application/json')) {
+            const err = await res.json();
+            msg = err.message || JSON.stringify(err);
+          } else {
+            msg = await res.text();
+          }
+          document.getElementById('resEditDetail').textContent = "Cập nhật thất bại: " + msg;
+        }
+      } catch (err) {
+        document.getElementById('resEditDetail').textContent = "Lỗi: " + err.message;
+      }
+    };
+
+    // KHỞI TẠO HANDLER & LOAD DỮ LIỆU KHI LOAD TRANG
+    document.addEventListener('DOMContentLoaded', function () {
+      setupDetailHandlers();
+      loadPrescriptionDetails();
+    });
+  </script>
+
+
+  <!--  PHẦN 3: THÊM CHI TIẾT THUỐC -->
+  <script>
+
+    // Gợi ý autocomplete tên thuốc
+    const medInput = document.getElementById('addMedName');
+    const datalist = document.getElementById('medicine-suggestions');
+    let filterTimer;
+    medInput.addEventListener('input', () => {
+      clearTimeout(filterTimer);
+      const q = medInput.value.trim().toLowerCase();
+      if (!q) { datalist.innerHTML = ''; return; }
+      filterTimer = setTimeout(() => {
+        const matches = allMeds.filter(m => (m.name || '').toLowerCase().includes(q)).slice(0, 10);
+        datalist.innerHTML = '';
+        matches.forEach(m => {
+          const o = document.createElement('option');
+          o.value = m.name;
+          datalist.appendChild(o);
+        });
+      }, 300);
+    });
+
+    // Thêm mới chi tiết
+    document.getElementById('btnAddDetail').addEventListener('click', async () => {
+      try {
+        const medicineName = document.getElementById('addMedName').value.trim();
+        if (!medicineName) {
+          document.getElementById('resAddDetail').textContent = 'Vui lòng nhập tên thuốc.';
+          return;
+        }
+        const body = {
+          prescriptionId: +prescId,
+          medicineName,
+          quantity: +document.getElementById('addQty').value,
+          usage: document.getElementById('addUsage').value,
+          status: +document.getElementById('addStatus').value
+        };
+        const res = await authFetch(`${apiBase}/PrescriptionDetail/add-detail`, { method: 'POST', body: JSON.stringify(body) });
+        const ct = res.headers.get('content-type') || '';
+        const data = ct.includes('application/json') ? await res.json() : await res.text();
+        if (res.ok) {
+          document.getElementById('resAddDetail').textContent = 'Thêm chi tiết thành công!';
+          await loadPrescriptionDetails();
+        }
+        else {
+          document.getElementById('resAddDetail').textContent = `Thêm thất bại: ${data?.message || data}`;
+        }
+      } catch (err) {
+        document.getElementById('resAddDetail').textContent = 'Lỗi khi thêm chi tiết thuốc: ' + err.message;
+      }
+      setTimeout(() => {
+        document.getElementById('resAddDetail').textContent = '';
+      }, 4000);
+    });
+
+    // ====== KHỞI TẠO DỮ LIỆU BAN ĐẦU ======
+    (async () => {
+      // Lấy danh sách thuốc, hiển thị thông tin, load bảng
+      try {
+        const medsRes = await authFetch(`${apiBase}/Medicine/get-all`);
+        allMeds = (await medsRes.json()).map(m => ({ id: m.id, name: m.name || m.medicineName, unitName: m.unitName }));
+        await loadPrescriptionInfo();
+        await loadPrescriptionDetails();
+        setupDetailHandlers();
+      } catch (err) { alert('Lỗi tải dữ liệu: ' + err.message); }
+    })();
+
+  </script>
+
+
+</body>
+
+</html>

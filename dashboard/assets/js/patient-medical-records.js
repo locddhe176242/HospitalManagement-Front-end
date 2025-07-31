@@ -136,16 +136,13 @@ async function loadMedicalRecords() {
         const data = await response.json();
         console.log('API Response:', data);
 
-        // SỬA THEO ĐÚNG RESPONSE STRUCTURE TỪ API
         let recordsArray = [];
         let totalCount = 0;
         
         if (data && data.records && Array.isArray(data.records)) {
-            // API trả về đúng format: { totalCount: 1, records: [...] }
             recordsArray = data.records;
             totalCount = data.totalCount || data.records.length;
         } else if (Array.isArray(data)) {
-            // Fallback: API trả về array trực tiếp
             recordsArray = data;
             totalCount = data.length;
         } else {
@@ -173,7 +170,7 @@ function displayMedicalRecords(records) {
     if (!Array.isArray(records)) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="6" class="text-center py-4">
+                <td colspan="7" class="text-center py-4">
                     <i class="fas fa-exclamation-triangle fa-2x text-warning mb-2"></i>
                     <p class="text-muted">Dữ liệu không đúng định dạng</p>
                     <button class="btn btn-sm btn-outline-primary" onclick="refreshRecords()">
@@ -188,7 +185,7 @@ function displayMedicalRecords(records) {
     if (records.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="6" class="text-center py-4">
+                <td colspan="7" class="text-center py-4">
                     <i class="fas fa-file-medical fa-2x text-muted mb-2"></i>
                     <p class="text-muted">Chưa có báo cáo y tế nào</p>
                 </td>
@@ -212,6 +209,7 @@ function displayMedicalRecords(records) {
                         <br><small class="text-muted">${formattedTime}</small>
                     </div>
                 </td>
+                <td>${record.appointmentId || 'N/A'}</td>
                 <td>${record.doctorName || 'N/A'}</td>
                 <td>
                     <div class="text-truncate" style="max-width: 200px;" title="${record.diagnosis || 'N/A'}">
@@ -263,7 +261,7 @@ function showError(message) {
     const tbody = document.getElementById('medicalRecordsTableBody');
     tbody.innerHTML = `
         <tr>
-            <td colspan="6" class="text-center py-4">
+            <td colspan="7" class="text-center py-4">
                 <i class="fas fa-exclamation-triangle fa-2x text-warning mb-2"></i>
                 <p class="text-muted">${message}</p>
                 <button class="btn btn-sm btn-outline-primary" onclick="refreshRecords()">

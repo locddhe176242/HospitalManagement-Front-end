@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const createBtn = document.getElementById('createPrescriptionBtn');
     if (createBtn) {
         createBtn.addEventListener('click', function() {
-            window.open(`./prescriptions.html?patientId=${currentPatientId}`, '_blank');
+            window.open(`./preCreat.html?patientId=${currentPatientId}`, '_blank');
         });
     }
 
