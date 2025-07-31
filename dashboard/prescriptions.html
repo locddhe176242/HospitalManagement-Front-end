@@ -38,25 +38,9 @@
             line-height: 1.6;
         }
 
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 280px;
-            height: 100vh;
-            background: var(--bg-white);
-            border-right: 1px solid var(--border-light);
-            padding: 2rem 0;
-            z-index: 1000;
-            box-shadow: var(--shadow);
-        }
+        
 
-        .logo {
-            display: flex;
-            align-items: center;
-            padding: 0 2rem;
-            margin-bottom: 2rem;
-        }
+        
 
         .logo-icon {
             width: 40px;
@@ -77,47 +61,7 @@
             color: var(--text-dark);
         }
 
-        .nav-section {
-            margin-bottom: 1.5rem;
-        }
-
-        .nav-title {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 0 2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            padding: 0.75rem 2rem;
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .nav-item:hover {
-            background: var(--light-blue);
-            color: var(--primary-blue);
-        }
-
-        .nav-item.active {
-            background: var(--light-blue);
-            color: var(--primary-blue);
-            border-right: 3px solid var(--primary-blue);
-        }
-
-        .nav-icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 12px;
-            font-size: 18px;
-        }
+      
 
         .main-content {
             margin-left: 280px;
@@ -529,26 +473,7 @@
 <body>
   
     <!-- Sidebar -->
-    <div class="sidebar">
-      
-        <div class="logo">
-            <div class="logo-icon">KC</div>
-            <div class="logo-text">KiviCare</div>
-        </div>
-        <div class="nav-section">
-            <div class="nav-title">Doctor Panel</div>
-            <div class="nav-item"><div class="nav-icon">🏠</div>My Dashboard</div>
-            <div class="nav-item"><div class="nav-icon">📅</div>My Appointments</div>
-            <div class="nav-item"><div class="nav-icon">👥</div>My Patients</div>
-            <div class="nav-item"><div class="nav-icon">📋</div>My Schedule</div>
-            <div class="nav-item active"><div class="nav-icon">💊</div>My Prescriptions</div>
-            <div class="nav-item"><div class="nav-icon">📊</div>My Reports</div>
-        </div>
-        <div class="nav-section">
-            <div class="nav-title">Settings</div>
-            <div class="nav-item"><div class="nav-icon">⚙️</div>Profile Setting</div>
-        </div>
-    </div>
+    
 
     <!-- Main Content -->
     <div class="main-content">
@@ -559,7 +484,7 @@
             <div class="greeting">
               
                 <div class="greeting-text">
-                  <a href="./medical-record.html?${params.toString()}" class="back-link">&larr; Quay lại</a>
+                  
                   
                     <h1>Chào Buổi Sáng, Bác Sĩ Nguyễn Văn A</h1>
                     <p>Chúc bạn có một ngày làm việc tốt lành. Hãy chăm sóc sức khỏe của mình!</p>
@@ -570,76 +495,59 @@
 
         <!-- Prescription List Card -->
         <div class="card">
-            <div class="card-header">
-                <h2 class="card-title">Danh sách đơn thuốc</h2>
-            </div>
-            <div class="search-container">
-                <div class="search-icon">🔍</div>
-                <input type="text" id="searchInput" placeholder="Tìm kiếm tên bệnh nhân hoặc đơn thuốc...">
-            </div>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th data-sort="id">Mã <span class="sort-icon" id="sort-id">⬇️</span></th>
-                            <th data-sort="patientName">Tên bệnh nhân <span class="sort-icon" id="sort-patientName">⬇️</span></th>
-                            <th data-sort="name">Tên đơn thuốc <span class="sort-icon" id="sort-name">⬇️</span></th>
-                            <th data-sort="note">Ghi chú <span class="sort-icon" id="sort-note">⬇️</span></th>
-                            <th data-sort="status">Trạng thái <span class="sort-icon" id="sort-status">⬇️</span></th>
-                            <th>Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody id="prescriptionTableBody"></tbody>
-                </table>
-            </div>
-            <div class="pagination" id="pagination"></div>
-        </div>
+    <div class="card-header">
+        <h2 class="card-title">Danh sách đơn thuốc</h2>
+    </div>
+    <div class="search-container">
+        <div class="search-icon">🔍</div>
+        <input type="text" id="searchInput" placeholder="Tìm kiếm tên bệnh nhân hoặc đơn thuốc...">
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th data-sort="id">Mã <span class="sort-icon" id="sort-id">⬇️</span></th>
+                    <th data-sort="patientName">Tên bệnh nhân <span class="sort-icon" id="sort-patientName">⬇️</span></th>
+                    <th data-sort="name">Tên đơn thuốc <span class="sort-icon" id="sort-name">⬇️</span></th>
+                    <th data-sort="note">Ghi chú <span class="sort-icon" id="sort-note">⬇️</span></th>
+                    <th data-sort="status">Trạng thái <span class="sort-icon" id="sort-status">⬇️</span></th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="prescriptionTableBody"></tbody>
+        </table>
+    </div>
+    <div class="pagination" id="pagination"></div>
+</div>
 
-        <!-- Add New Prescription Card -->
-        <div class="card">
-            <div class="card-header">
-                <h2 class="card-title">Thêm đơn thuốc mới</h2>
-            </div>
-            <div class="form-grid">
-                <div class="form-group"><label class="form-label">Tên bệnh nhân</label><input type="text" id="createPatientName" class="form-input" placeholder="Nhập tên bệnh nhân"></div>
-                <div class="form-group"><label class="form-label">CCCD bệnh nhân</label><input type="text" id="createPatientCCCD" class="form-input" placeholder="Nhập CCCD bệnh nhân"></div>
-                <div class="form-group"><label class="form-label">Tên đơn thuốc</label><input type="text" id="createName" class="form-input" placeholder="Tên đơn thuốc"></div>
-                <div class="form-group"><label class="form-label">Mã đơn thuốc</label><input type="text" id="createCode" class="form-input" placeholder="Mã đơn thuốc"></div>
-                <div class="form-group">
-                    <label class="form-label">Trạng thái</label>
-                    <select id="createStatus" class="form-select">
-                        <option value="0">Mới</option>
-                        <option value="1">Đã giao</option>
-                        <option value="2">Hủy</option>
-                    </select>
-                </div>
-                <div class="form-group"><label class="form-label">Ghi chú</label><input type="text" id="createNote" class="form-input" placeholder="Nhập ghi chú"></div>
-            </div>
-            <button id="btnCreate" class="btn btn-primary">Tạo đơn thuốc</button>
-            <div id="resCreate" class="result-message" style="display: none;"></div>
+<!-- Add New Prescription Card -->
+
+
+<!-- Status Update Modal -->
+<div id="statusModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-header">Cập nhật trạng thái đơn thuốc</div>
+        <div class="form-group">
+            <label class="form-label">Chọn trạng thái mới:</label>
+            <select id="statusSelect" class="form-select">
+                <option value="0">Mới</option>
+                <option value="1">Đã giao</option>
+                <option value="2">Hủy</option>
+            </select>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-success" id="saveStatusBtn">Lưu thay đổi</button>
         </div>
     </div>
+</div>
 
-    <!-- Status Update Modal -->
-    <div id="statusModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="modal-header">Cập nhật trạng thái đơn thuốc</div>
-            <div class="form-group">
-                <label class="form-label">Chọn trạng thái mới:</label>
-                <select id="statusSelect" class="form-select">
-                    <option value="0">Mới</option>
-                    <option value="1">Đã giao</option>
-                    <option value="2">Hủy</option>
-                </select>
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-success" id="saveStatusBtn">Lưu thay đổi</button>
-            </div>
-        </div>
-    </div>
 
+
+
+<!-- Quản lý  --> 
 <script>
+// prescription-list.js
 const baseApi = 'https://localhost:7097/api/Prescription';
 const itemsPerPage = 6;
 let currentPage = 1;
@@ -647,8 +555,6 @@ let prescriptions = [];
 let filteredPrescriptions = [];
 let currentPrescriptionId = null;
 let useMock = false;
-
-// Mock data
 const mockPrescriptions = [
   { id: 1, patientName: 'Nguyễn Văn A', name: 'Đơn thuốc tim mạch', note: 'Uống sau ăn', status: 0, patientCCCD: '123456789', code: 'DT001' },
   { id: 2, patientName: 'Trần Thị B', name: 'Đơn thuốc huyết áp', note: 'Uống buổi sáng', status: 1, patientCCCD: '987654321', code: 'DT002' },
@@ -660,7 +566,6 @@ const mockPrescriptions = [
 let token = null;
 try { token = localStorage.getItem('token'); } catch { token = null; }
 
-// Hàm lấy tên trạng thái Tiếng Việt
 function getStatusVN(status) {
   if (typeof status === 'number') {
     if (status === 0) return 'Mới';
@@ -687,18 +592,27 @@ async function loadPrescriptions() {
   if (token) {
     try {
       const res = await authFetch(`${baseApi}/my-prescriptions`);
-      if (!res.ok) throw new Error('Không tải được dữ liệu');
+      if (!res.ok) {
+        console.warn('API không trả về dữ liệu! Status:', res.status);
+        throw new Error('Không tải được dữ liệu');
+      }
       prescriptions = await res.json();
-      // Sắp xếp lại: Đơn mới nhất lên đầu
+      if (!Array.isArray(prescriptions)) {
+        prescriptions = [];
+        console.error("Dữ liệu trả về không phải là mảng!");
+      }
       prescriptions.sort((a, b) => b.id - a.id);
       useMock = false;
+      console.log(">>> Danh sách đơn thuốc từ API:", prescriptions);
     } catch (err) {
       prescriptions = [...mockPrescriptions];
       useMock = true;
+      console.warn("Dùng mock data! Lý do:", err.message);
     }
   } else {
     prescriptions = [...mockPrescriptions];
     useMock = true;
+    console.warn("Chưa có token, dùng mock data!");
   }
   filteredPrescriptions = [...prescriptions];
   currentPage = 1;
@@ -712,18 +626,23 @@ function renderTableAndPaging() {
 
 function displayFilteredResults(list, page) {
   const gridContainer = document.querySelector('#prescriptionTableBody');
+  if (!gridContainer) return;
   gridContainer.innerHTML = '';
-
   const start = (page - 1) * itemsPerPage;
   const end = start + itemsPerPage;
   const pageItems = list.slice(start, end);
+
+  if (pageItems.length === 0) {
+    gridContainer.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#999;">Không có đơn thuốc nào!</td></tr>';
+    return;
+  }
 
   pageItems.forEach((prescription) => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${prescription.id}</td>
       <td>${prescription.patientName || 'Chưa có tên'}</td>
-      <td><a class="prescription-link" href="./precriptionDetail.html?id=${prescription.id}" target="_blank">${prescription.name}</a></td>
+      <td><a class="prescription-link" href="./prescriptionDetail.html?id=${prescription.id}" target="_blank">${prescription.name}</a></td>
       <td>${prescription.note || 'Chưa có ghi chú'}</td>
       <td>${getStatusVN(prescription.status)}</td>
       <td>
@@ -745,8 +664,8 @@ function displayFilteredResults(list, page) {
 
 function setupPagination(totalPages) {
   const pagination = document.querySelector('#pagination');
+  if (!pagination) return;
   pagination.innerHTML = '';
-
   for (let i = 1; i <= totalPages; i++) {
     const btn = document.createElement('button');
     btn.textContent = i;
@@ -759,6 +678,52 @@ function setupPagination(totalPages) {
     pagination.appendChild(btn);
   }
 }
+
+// =========== Sắp xếp ===========
+document.querySelectorAll('.sort-icon').forEach(icon => {
+  icon.onclick = () => {
+    const column = icon.parentElement.getAttribute('data-sort');
+    const isAsc = icon.textContent === '⬇️';
+    document.querySelectorAll('.sort-icon').forEach(i => i.textContent = '⬇️');
+    icon.textContent = isAsc ? '⬆️' : '⬇️';
+
+    filteredPrescriptions.sort((a, b) => {
+      let valA = a[column], valB = b[column];
+      if (typeof valA === 'string') { valA = valA.toLowerCase(); valB = valB.toLowerCase(); }
+      if (valA < valB) return isAsc ? -1 : 1;
+      if (valA > valB) return isAsc ? 1 : -1;
+      return 0;
+    });
+    currentPage = 1;
+    renderTableAndPaging();
+  };
+});
+
+// =========== Tìm kiếm ===========
+const searchInput = document.getElementById('searchInput');
+if (searchInput) {
+  searchInput.addEventListener('input', function () {
+    const searchQuery = this.value.toLowerCase();
+    filteredPrescriptions = prescriptions.filter(prescription =>
+      (prescription.patientName && prescription.patientName.toLowerCase().includes(searchQuery)) ||
+      (prescription.name && prescription.name.toLowerCase().includes(searchQuery)) ||
+      (prescription.code && prescription.code.toLowerCase().includes(searchQuery)) ||
+      getStatusVN(prescription.status).toLowerCase().includes(searchQuery)
+    );
+    currentPage = 1;
+    renderTableAndPaging();
+  });
+}
+
+// ======= Khởi động khi tải trang =======
+document.addEventListener('DOMContentLoaded', loadPrescriptions);
+
+</script>
+
+
+<!-- update status  --> 
+<script>
+  // prescription-status.js
 
 function showModal() {
   document.getElementById("statusModal").style.display = "block";
@@ -783,7 +748,7 @@ function showBackendMessage(message, type = "success") {
   }, 3500);
 }
 
-// ====== Hàm lấy lỗi chi tiết từ backend (json/text) ======
+// Hàm lấy lỗi chi tiết từ backend (json/text)
 async function extractErrorMessage(res) {
   let errMsg = '';
   try {
@@ -800,12 +765,12 @@ async function extractErrorMessage(res) {
   return errMsg;
 }
 
-// ======= Cập nhật trạng thái =======
+// Cập nhật trạng thái
 document.getElementById('saveStatusBtn').onclick = async () => {
   const newStatus = +document.getElementById('statusSelect').value;
   let message = "";
   let type = "success";
-  if (useMock) {
+  if (typeof useMock !== 'undefined' && useMock) {
     const idx = prescriptions.findIndex(x => x.id == currentPrescriptionId);
     if (idx !== -1) prescriptions[idx].status = newStatus;
     filteredPrescriptions = [...prescriptions];
@@ -837,40 +802,27 @@ document.getElementById('saveStatusBtn').onclick = async () => {
   document.getElementById("statusModal").style.display = "none";
 };
 
-// =========== Sắp xếp ===========
-document.querySelectorAll('.sort-icon').forEach(icon => {
-  icon.onclick = () => {
-    const column = icon.parentElement.getAttribute('data-sort');
-    const isAsc = icon.textContent === '⬇️';
-    document.querySelectorAll('.sort-icon').forEach(i => i.textContent = '⬇️');
-    icon.textContent = isAsc ? '⬆️' : '⬇️';
+</script>
 
-    filteredPrescriptions.sort((a, b) => {
-      let valA = a[column], valB = b[column];
-      if (typeof valA === 'string') { valA = valA.toLowerCase(); valB = valB.toLowerCase(); }
-      if (valA < valB) return isAsc ? -1 : 1;
-      if (valA > valB) return isAsc ? 1 : -1;
-      return 0;
-    });
-    currentPage = 1;
-    renderTableAndPaging();
-  };
-});
 
-// =========== Tìm kiếm ===========
-document.getElementById('searchInput').addEventListener('input', function () {
-  const searchQuery = this.value.toLowerCase();
-  filteredPrescriptions = prescriptions.filter(prescription =>
-    (prescription.patientName && prescription.patientName.toLowerCase().includes(searchQuery)) ||
-    (prescription.name && prescription.name.toLowerCase().includes(searchQuery)) ||
-    (prescription.code && prescription.code.toLowerCase().includes(searchQuery)) ||
-    getStatusVN(prescription.status).toLowerCase().includes(searchQuery)
-  );
-  currentPage = 1;
-  renderTableAndPaging();
-});
+<!-- tạo mới pre  --> 
+<script>
+  // prescription-create.js
 
-// ========== Thêm đơn thuốc mới ==========
+async function fetchAndFillPatient(patientId) {
+  try {
+    const res = await fetch(`https://localhost:7097/api/Patient/findId/${patientId}`);
+    if (!res.ok) throw new Error("Không tìm thấy bệnh nhân");
+    const data = await res.json();
+    document.getElementById('createPatientName').value = data.name || '';
+    document.getElementById('createPatientCCCD').value = data.cccd || '';
+    document.getElementById('createPatientName').readOnly = true;
+    document.getElementById('createPatientCCCD').readOnly = true;
+  } catch (err) {
+    showBackendMessage("Không thể lấy thông tin bệnh nhân: " + err.message, "error");
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search);
   const patientId = urlParams.get('patientId');
@@ -896,28 +848,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const note = document.getElementById('createNote').value.trim();
-    const status = +document.getElementById('createStatus').value;
     const prescriptionName = document.getElementById('createName').value.trim();
-    const prescriptionCode = document.getElementById('createCode').value.trim();
 
-    if (!patientName || !patientCCCD || !prescriptionName || !prescriptionCode) {
+    if (!patientName || !patientCCCD || !prescriptionName) {
       showBackendMessage('Vui lòng nhập đủ thông tin!', "error");
       return;
     }
 
     const body = {
       note: note,
-      status: status,
       patientId: patientId,
       patientName: patientName,
       patientCCCD: patientCCCD,
-      name: prescriptionName,
-      code: prescriptionCode
+      name: prescriptionName
+      // Không cần truyền code/status
     };
 
     if (typeof useMock !== 'undefined' && useMock) {
       const newId = prescriptions.length ? Math.max(...prescriptions.map(x => x.id)) + 1 : 1;
-      prescriptions.unshift({ ...body, id: newId }); // Thêm vào đầu mảng!
+      prescriptions.unshift({ ...body, id: newId });
       filteredPrescriptions = [...prescriptions];
       showBackendMessage("Tạo thành công!", "success");
       renderTableAndPaging();
@@ -930,8 +879,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         if (res.ok) {
           showBackendMessage('Tạo thành công!', "success");
-          // Gọi lại loadPrescriptions(); 
-          // => Nếu muốn chắc chắn đơn mới luôn ở đầu, có thể sửa lại logic loadPrescriptions (sắp xếp theo id giảm dần).
           loadPrescriptions();
         } else {
           let errMsg = await extractErrorMessage(res);
@@ -942,37 +889,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Reset các trường nhập tay, giữ info bệnh nhân
     document.getElementById('createNote').value = '';
-    document.getElementById('createStatus').value = 0;
     document.getElementById('createName').value = '';
-    document.getElementById('createCode').value = '';
   };
 });
 
-async function fetchAndFillPatient(patientId) {
-  try {
-    const res = await fetch(`https://localhost:7097/api/Patient/findId/${patientId}`);
-    if (!res.ok) throw new Error("Không tìm thấy bệnh nhân");
-    const data = await res.json();
-    document.getElementById('createPatientName').value = data.name || '';
-    document.getElementById('createPatientCCCD').value = data.cccd || '';
-    document.getElementById('createPatientName').readOnly = true;
-    document.getElementById('createPatientCCCD').readOnly = true;
-  } catch (err) {
-    showBackendMessage("Không thể lấy thông tin bệnh nhân: " + err.message, "error");
-  }
-}
-
-
-
-
-
-// ======= Khởi động =======
-loadPrescriptions();
 </script>
-
-
 
 
 </body>
