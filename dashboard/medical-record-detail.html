@@ -6,31 +6,188 @@
     <title>Chi tiết hồ sơ bệnh án - KiviCare</title>
     <link rel="shortcut icon" href="./assets/images/favicon.ico" />
     <link rel="stylesheet" href="./assets/css/core/libs.min.css" />
+    <link rel="stylesheet" href="./assets/vendor/flaticon/css/flaticon.css" />
+    <link rel="stylesheet" href="./assets/vendor/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="./assets/vendor/flatpickr/dist/flatpickr.min.css" />
     <link rel="stylesheet" href="./assets/css/kivicare.min.css?v=1.4.1" />
     <link rel="stylesheet" href="./assets/css/custom.min.css?v=1.4.1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,300;1,400;1,500&display=swap" rel="stylesheet">
     <style>
-        .form-section {
-            background: #f8f9fa;
-            border-left: 4px solid #007bff;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-radius: 0.375rem;
+        .sidebar .navbar-nav .nav-link,
+        .sidebar .navbar-nav .item-name,
+        .sidebar .navbar-nav .default-icon {
+            font-size: 1rem !important;
+            font-family: 'Heebo', 'Roboto', Arial, sans-serif !important;
+            font-weight: 500 !important;
+            color: #5A6276 !important;
+            letter-spacing: 0.01em;
         }
-        .detail-label {
-            font-weight: 500;
-            color: #007bff;
+
+        .sidebar .navbar-nav .static-item .default-icon {
+            font-size: 0.85rem !important;
+            font-weight: 600 !important;
+            color: #8A92A6 !important;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
         }
-        .detail-value {
-            font-weight: 400;
-            color: #212529;
+
+        .sidebar .navbar-nav .nav-link.active {
+            background-color: #F5F6FA !important;
+            color: #2B3674 !important;
+        }
+
+        .sidebar .navbar-nav .nav-link:hover {
+            background-color: #f0f2f5;
+        }
+
+        .sidebar .navbar-nav .nav-link .icon {
+            font-size: 1.1rem !important;
         }
     </style>
 </head>
-<body class="">
+<body>
+    <!-- loader Start -->
+    <div id="loading">
+        <div class="loader simple-loader">
+            <div class="loader-body">
+                <img src="./assets/images/loader.gif" alt="loader" class="light-loader img-fluid" width="120" onerror="this.style.display='none'">
+                <div class="mt-3">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Sidebar -->
-    <aside class="sidebar sidebar-base" id="first-tour" data-toggle="main-sidebar" data-sidebar="responsive">
-        <!-- ...sidebar code... -->
-    </aside>
+<aside class="sidebar sidebar-base" id="first-tour" data-toggle="main-sidebar" data-sidebar="responsive">
+    <div class="sidebar-header d-flex align-items-center justify-content-start position-relative">
+        <a href="./doctor-dashboard.html" class="navbar-brand">
+            <div class="logo-main">
+                <img class="logo-normal img-fluid" src="./assets/images/logo.png" height="30" alt="logo">
+                <img class="logo-mini img-fluid" src="./assets/images/logo-mini.png" height="30" alt="logo">
+            </div>
+        </a>
+        <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
+            <i class="icon">
+                <svg class="icon-20 icon-arrow" width="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M15.5 19L8.5 12L15.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </i>
+        </div>
+    </div>
+    <div class="sidebar-body pt-0 data-scrollbar">
+        <div class="sidebar-list">
+            <ul class="navbar-nav iq-main-menu" id="sidebar-menu">
+                <li class="nav-item static-item">
+                    <a class="nav-link static-item disabled text-start" href="#" tabindex="-1">
+                        <span class="default-icon">Trang Chủ</span>
+                        <span class="mini-icon" data-bs-toggle="tooltip" title="Doctor Panel" data-bs-placement="right">-</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="./doctor-page.html">
+                        <i class="icon" data-bs-toggle="tooltip" title="My Dashboard" data-bs-placement="right">
+                            <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M9.14373 20.7821V17.7152C9.14372 16.9381 9.77567 16.3067 10.5584 16.3018H13.4326C14.2189 16.3018 14.8563 16.9346 14.8563 17.7152V20.7732C14.8562 21.4473 15.404 21.9951 16.0829 22H18.0438C18.9596 22.0023 19.8388 21.6428 20.4872 21.0007C21.1356 20.3586 21.5 19.4868 21.5 18.5775V9.86585C21.5 9.13139 21.1721 8.43471 20.6046 7.9635L13.943 2.67427C12.7785 1.74912 11.1154 1.77901 9.98539 2.74538L3.46701 7.9635C2.87274 8.42082 2.51755 9.11956 2.5 9.86585V18.5686C2.5 20.4637 4.04738 22 5.95617 22H7.87229C8.19917 22.0023 8.51349 21.8751 8.74547 21.6464C8.97746 21.4178 9.10793 21.1067 9.10792 20.7821H9.14373Z" fill="currentColor"></path>
+                            </svg>
+                        </i>
+                        <span class="item-name">My Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="./patient-schedule.html">
+                        <i class="icon" data-bs-toggle="tooltip" title="My Appointments" data-bs-placement="right">
+                            <svg width="20" class="icon-20" viewBox="0 0 24 24" fill="none">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M3 16.87V9.25699H21V16.931C21 20.07 19.0241 22 15.8628 22H8.12733C4.99561 22 3 20.03 3 16.87Z" fill="currentColor"/>
+                                <path opacity="0.4" d="M3.00336 9.2569C3.0162 8.6699 3.0656 7.5049 3.15846 7.1299C3.63267 5.0209 5.24298 3.6809 7.54485 3.4899H16.4559C18.738 3.6909 20.3681 5.0399 20.8423 7.1299C20.9342 7.4949 20.9836 8.6689 20.9964 9.2569H3.00336Z" fill="currentColor"/>
+                            </svg>
+                        </i>
+                        <span class="item-name">Lịch Hẹn Của Tôi</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="../my-patients.html">
+                        <i class="icon" data-bs-toggle="tooltip" title="My Patients" data-bs-placement="right">
+                            <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M11.997 15.1746C7.684 15.1746 4 15.8546 4 18.5746C4 21.2956 7.661 21.9996 11.997 21.9996C16.31 21.9996 19.994 21.3206 19.994 18.5996C19.994 15.8786 16.334 15.1746 11.997 15.1746Z" fill="currentColor"></path>
+                                <path opacity="0.4" d="M11.9971 12.5838C14.9351 12.5838 17.2891 10.2288 17.2891 7.29176C17.2891 4.35476 14.9351 1.99976 11.9971 1.99976C9.06008 1.99976 6.70508 4.35476 6.70508 7.29176C6.70508 10.2288 9.06008 12.5838 11.9971 12.5838Z" fill="currentColor"></path>
+                            </svg>
+                        </i>
+                        <span class="item-name">Bệnh Nhân Của Tôi</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="./schedule/my-schedule.html">
+                        <i class="icon" data-bs-toggle="tooltip" title="My Schedule" data-bs-placement="right">
+                            <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none">
+                                <path opacity="0.4" d="M16.0756 2H19.4616C20.8639 2 22.0001 3.14585 22.0001 4.55996V7.97452C22.0001 9.38864 20.8639 10.5345 19.4616 10.5345H16.0756C14.6734 10.5345 13.5371 9.38864 13.5371 7.97452V4.55996C13.5371 3.14585 14.6734 2 16.0756 2Z" fill="currentColor"></path>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M4.53852 2H7.92449C9.32676 2 10.463 3.14585 10.463 4.55996V7.97452C10.463 9.38864 9.32676 10.5345 7.92449 10.5345H4.53852C3.13626 10.5345 2 9.38864 2 7.97452V4.55996C2 3.14585 3.13626 2 4.53852 2Z" fill="currentColor"></path>
+                            </svg>
+                        </i>
+                        <span class="item-name">Lịch Làm Việc</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="./ShiftSchedule/shift-request-create.html">
+                        <i class="icon" data-bs-toggle="tooltip" title="Đổi lịch trực" data-bs-placement="right">
+                            <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2V22M2 12H22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </i>
+                        <span class="item-name">Đổi lịch trực</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="./ShiftSchedule/shift-request-list.html">
+                        <i class="icon" data-bs-toggle="tooltip" title="Đơn đã gửi" data-bs-placement="right">
+                            <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M4 4H20V20H4V4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8 8H16V16H8V8Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </i>
+                        <span class="item-name">Đơn đã gửi</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="./prescriptions-Patient.html">
+                        <i class="icon" data-bs-toggle="tooltip" title="Các đơn thuốc của tôi" data-bs-placement="right">
+                            <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none">
+                                <path opacity="0.4" d="M16.0756 2H19.4616C20.8639 2 22.0001 3.14585 22.0001 4.55996V7.97452C22.0001 9.38864 20.8639 10.5345 19.4616 10.5345H16.0756C14.6734 10.5345 13.5371 9.38864 13.5371 7.97452V4.55996C13.5371 3.14585 14.6734 2 16.0756 2Z" fill="currentColor"></path>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M4.53852 2H7.92449C9.32676 2 10.463 3.14585 10.463 4.55996V7.97452C10.463 9.38864 9.32676 10.5345 7.92449 10.5345H4.53852C3.13626 10.5345 2 9.38864 2 7.97452V4.55996C2 3.14585 3.13626 2 4.53852 2Z" fill="currentColor"></path>
+                            </svg>
+                        </i>
+                        <span class="item-name">Các đơn thuốc của tôi</span>
+                    </a>
+                </li>
+                <li>
+                    <hr class="hr-horizontal">
+                </li>
+                <li class="nav-item static-item">
+                    <a class="nav-link static-item disabled text-start" href="#" tabindex="-1">
+                        <span class="default-icon">Settings</span>
+                        <span class="mini-icon">-</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="../profile-setting.html">
+                        <i class="icon" data-bs-toggle="tooltip" title="Profile Setting" data-bs-placement="right">
+                            <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M12.0122 14.8299C10.4077 14.8299 9.10986 13.5799 9.10986 12.0099C9.10986 10.4399 10.4077 9.17993 12.0122 9.17993C13.6167 9.17993 14.8839 10.4399 14.8839 12.0099C14.8839 13.5799 13.6167 14.8299 12.0122 14.8299Z" fill="currentColor"></path>
+                                <path opacity="0.4" d="M21.2301 14.37C21.036 14.07 20.76 13.77 20.4023 13.58C20.1162 13.44 19.9322 13.21 19.7687 12.94C19.2475 12.08 19.5541 10.95 20.4228 10.44C21.4447 9.87 21.7718 8.6 21.179 7.61L20.4943 6.43C19.9118 5.44 18.6344 5.09 17.6226 5.67C16.7233 6.15 15.5685 5.83 15.0473 4.98C14.8838 4.7 14.7918 4.4 14.8122 4.1C14.8429 3.71 14.7203 3.34 14.5363 3.04C14.1582 2.42 13.4735 2 12.7172 2H11.2763C10.5302 2.02 9.84553 2.42 9.4674 3.04C9.27323 3.34 9.16081 3.71 9.18125 4.1C9.20169 4.4 9.10972 4.7 8.9462 4.98C8.425 5.83 7.27019 6.15 6.38109 5.67C5.35913 5.09 4.09191 5.44 3.49917 6.43L2.81446 7.61C2.23194 8.6 2.55897 9.87 3.57071 10.44C4.43937 10.95 4.74596 12.08 4.23498 12.94C4.06125 13.21 3.87729 13.44 3.59115 13.58C3.24368 13.77 2.93709 14.07 2.77358 14.37C2.39546 14.99 2.4159 15.77 2.79402 16.42L3.49917 17.62C3.87729 18.26 4.58245 18.66 5.31825 18.66C5.66572 18.66 6.0745 18.56 6.40153 18.36C6.65702 18.19 6.96361 18.13 7.30085 18.13C8.31259 18.13 9.16081 18.96 9.18125 19.95C9.18125 21.1 10.1215 22 11.3069 22H12.6968C13.872 22 14.8122 21.1 14.8122 19.95C14.8429 18.96 15.6911 18.13 16.7029 18.13C17.0299 18.13 17.3365 18.19 17.6022 18.36C17.9292 18.56 18.3278 18.66 18.6855 18.66C19.411 18.66 20.1162 18.26 20.4943 17.62L21.2097 16.42C21.5776 15.75 21.6083 14.99 21.2301 14.37Z" fill="currentColor"></path>
+                            </svg>
+                        </i>
+                        <span class="item-name">Profile Setting</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="sidebar-footer"></div>
+</aside>
 
     <main class="main-content">
         <div class="content-inner container-fluid pb-0" id="page_layout">
