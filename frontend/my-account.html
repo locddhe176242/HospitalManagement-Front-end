@@ -1252,6 +1252,44 @@
               </div>
               <div class="tab-pane fade" id="orders" role="tabpanel">
                 <div class="orders-table bg-primary-subtle text-body p-4">
+                  <!-- Modal chi tiết hóa đơn -->
+                    <div class="modal fade" id="invoiceDetailModal" tabindex="-1" aria-labelledby="invoiceDetailLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                            <div class="modal-content p-4">
+                              <div class="modal-header">
+                                  <h5 class="modal-title fw-bold">PHIẾU KHÁM BỆNH - Hóa Đơn #<span id="modalInvoiceId"></span></h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                              </div>
+
+                              <div class="modal-body">
+                                  <p><strong>Ngày khám:</strong> <span id="modalAppointmentDate"></span></p>
+                                  <p><strong>Họ và tên:</strong> <span id="modalPatientName"></span></p>
+                                  <p><strong>Địa chỉ:</strong> <span id="modalPatientAddress"></span></p>
+                                  <p><strong>Điện thoại:</strong> <span id="modalPatientPhone"></span></p>
+
+                                  <table class="table table-bordered mt-4">
+                                    <thead class="table-secondary">
+                                      <tr>
+                                        <th>Ngày khám</th>
+                                        <th>Chuẩn đoán</th>
+                                        <th>Bác sỹ</th>
+                                        <th>Loại</th>
+                                        <th>Dịch vụ / Thuốc</th>
+                                        <th>Đơn giá</th>
+                                        <th>Thành tiền</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody id="modalInvoiceDetails">
+                                      <!-- Dữ liệu chi tiết sẽ render ở đây -->
+                                    </tbody>
+                                  </table>
+
+                                            <p class="text-end fw-bold fs-5">Tổng chi phí: <span id="modalTotalAmount" class="text-danger"></span></p>
+                                            <p><strong>Lời dặn:</strong> <span id="modalNotes"></span></p>
+                        </div>
+                    </div>
+                  </div>
+                </div>
                   <div class="table-responsive">
                     <table class="w-100">
                       <thead>
@@ -1324,6 +1362,7 @@
                         </div>
                       </div>
                     </div>
+                    
                   </div>
                 </div>
               </div>

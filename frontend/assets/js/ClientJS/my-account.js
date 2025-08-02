@@ -211,6 +211,9 @@ async function loadInvoices() {
   <td class="p-3">${invoice.payments[0]?.notes || "N/A"}</td>
   <td class="p-3">${getStatusText(invoice.status)}</td>
   <td class="p-3">
+    <button class="btn btn-sm btn-info" onclick="showInvoiceDetail(${invoice.appointmentId})">
+      <i class="bi bi-eye-fill"></i> Xem
+    </button>
     ${
       invoice.status.toLowerCase() === "unpaid"
         ? `<button class="btn btn-sm btn-success" onclick="openPaymentModal(${invoice.id}, ${invoice.totalAmount})">
@@ -329,6 +332,61 @@ async function submitFeedback() {
     console.error("Lỗi khi gửi feedback:", err);
     alert("Lỗi: " + err.message);
   }
+}
+
+function showInvoiceDetail(appointmentId) {
+  const token = localStorage.getItem('token');
+
+  fetch(`https://localhost:7097/api/Invoice/get-invoice/${appointmentId}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Không thể lấy dữ liệu hóa đơn");
+      }
+      return response.json();
+    })
+    .then(data => {
+      // Gán thông tin chung lên modal
+      document.getElementById("modalInvoiceId").textContent = data.invoiceId;
+      document.getElementById("modalAppointmentDate").textContent = new Date(data.appointmentDate).toLocaleDateString();
+      document.getElementById("modalPatientName").textContent = data.patientName;
+      document.getElementById("modalPatientAddress").textContent = data.address;
+      document.getElementById("modalPatientPhone").textContent = data.phone;
+      document.getElementById("modalNotes").textContent = data.notes || "";
+      document.getElementById("modalTotalAmount").textContent = data.totalAmount.toLocaleString() + " VND";
+
+      // Render bảng chi tiết dịch vụ/thuốc
+      const detailBody = document.getElementById("modalInvoiceDetails");
+      let allRows = "";
+
+      data.serviceItems.forEach(item => {
+        allRows += `
+          <tr>
+            <td>${new Date(data.appointmentDate).toLocaleDateString()}</td>
+            <td>${data.diagnosis || ""}</td>
+            <td>${data.doctorName}</td>
+            <td>${item.type}</td>
+            <td>${item.name}</td>
+            <td>${item.price.toLocaleString()} VND</td>
+            <td>${item.price.toLocaleString()} VND</td>
+          </tr>`;
+      });
+
+      detailBody.innerHTML = allRows;
+
+      // Hiển thị modal
+      const invoiceModal = new bootstrap.Modal(document.getElementById("invoiceDetailModal"));
+      invoiceModal.show();
+    })
+    .catch(error => {
+      console.error("Lỗi khi lấy chi tiết hóa đơn:", error);
+      alert("Không thể lấy chi tiết hóa đơn.");
+    });
 }
 
 
