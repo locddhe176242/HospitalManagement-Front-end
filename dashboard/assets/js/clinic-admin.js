@@ -63,7 +63,7 @@ function renderClinicToUI(clinics) {
                 <p class="mb-0 text-dark"><strong>Tạo bởi:</strong> ${doc.createBy}</p>
 
                 <p class="mb-1 text-muted fw-semibold">Chuyển trạng thái:</p>
-                 <div class="d-flex align-items-center gap-2">
+                <div class="d-flex align-items-center gap-2">
                     <select class="form-select form-select-sm w-auto" id="statusSelect-${doc.id}">
                         <option value="Available" ${doc.status === 'Available' ? 'selected' : ''}>Hoạt động</option>
                         <option value="Unavailable" ${doc.status === 'Unavailable' ? 'selected' : ''}>Không hoạt động</option>
@@ -71,6 +71,7 @@ function renderClinicToUI(clinics) {
                     </select>
                     <button class="btn btn-sm btn-outline-primary" onclick="changeClinicStatus(${doc.id})">Lưu</button>
                 </div>
+
 
                 <button class="btn btn-sm btn-outline-secondary" onclick='openEditClinicModal(${JSON.stringify(doc)})'>
                     Chỉnh sửa

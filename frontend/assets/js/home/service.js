@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const response = await fetch('https://localhost:7097/api/Service');
+        const response = await fetch('https://localhost:7097/api/Service/get-all');
         const services = await response.json();
 
         const listEl = document.getElementById('service-list');
