@@ -1,46 +1,46 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    alert("Bạn cần đăng nhập trước.");
-    window.location.href = "login.html";
-    return; // Ngăn chặn chạy tiếp
-  }
+    const token = localStorage.getItem("token");
+    if (!token) {
+        alert("Bạn cần đăng nhập trước.");
+        window.location.href = "login.html";
+        return; // Ngăn chặn chạy tiếp
+    }
 
-  // Nếu đã đăng nhập thì mới tiếp tục load
-  loadClinics();
-  setupStepForm();
-  loadDoctors();
-  loadServices();
-  fetchPatientInfo(); // ← nếu bạn có hàm này để lấy thông tin bệnh nhân
+    // Nếu đã đăng nhập thì mới tiếp tục load
+    loadClinics();
+    setupStepForm();
+    loadDoctors();
+    loadServices();
+    fetchPatientInfo(); // ← nếu bạn có hàm này để lấy thông tin bệnh nhân
 });
 
 async function fetchPatientInfo() {
-  const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
 
-  if (!userId || !token) {
-    console.warn("Thiếu userId hoặc token.");
-    return;
-  }
-
-  try {
-    const res = await fetch(`https://localhost:7097/api/Patient/findUserId/${userId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-
-    if (!res.ok) {
-      throw new Error("Không thể lấy thông tin bệnh nhân");
+    if (!userId || !token) {
+        console.warn("Thiếu userId hoặc token.");
+        return;
     }
 
-    const patient = await res.json();
-    console.log("Patient info:", patient);
-    localStorage.setItem("patientId", patient.id); // Lưu để dùng khi submit
+    try {
+        const res = await fetch(`https://localhost:7097/api/Patient/findUserId/${userId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
 
-  } catch (err) {
-    console.error("Lỗi khi lấy bệnh nhân:", err.message);
-  }
+        if (!res.ok) {
+            throw new Error("Không thể lấy thông tin bệnh nhân");
+        }
+
+        const patient = await res.json();
+        console.log("Patient info:", patient);
+        localStorage.setItem("patientId", patient.id); // Lưu để dùng khi submit
+
+    } catch (err) {
+        console.error("Lỗi khi lấy bệnh nhân:", err.message);
+    }
 }
 
 
@@ -51,8 +51,11 @@ async function loadClinics() {
 
         const clinicList = document.getElementById("clinicList");
         clinicList.innerHTML = "";
+        const availableClinics = data.filter(clinic => 
+            clinic.status && clinic.status.toLowerCase() === "available"
+        );
 
-        data.forEach(clinic => {
+        availableClinics.forEach(clinic => {
             const clinicHTML = `
             <div class="col-md-6 col-lg-6 mb-4">
                 <label class="position-relative w-100 h-100 d-block border rounded p-4 text-center bg-white">
@@ -83,8 +86,12 @@ async function loadDoctors() {
 
         const doctorList = document.querySelector("#doctorList");
         doctorList.innerHTML = "";
+         const availableDoctors = doctors.filter(doc => 
+            doc.status && doc.status.toLowerCase() === "available"
+        );
 
-        doctors.forEach(doctor => {
+
+        availableDoctors.forEach(doctor => {
             const doctorHTML = `
             <div class="col-md-6 col-lg-6 mb-4">
                 <label class="position-relative w-100 h-100 d-block border rounded p-4 bg-white text-center">
@@ -117,9 +124,12 @@ async function loadServices() {
         const services = await response.json();
 
         const serviceList = document.querySelector("#serviceList");
-        serviceList.innerHTML = ""; // Xóa dữ liệu cũ
+        serviceList.innerHTML = ""; 
+        const activeServices = services.filter(service =>
+            service.status && service.status.toLowerCase() === "active"
+        );
 
-        services.forEach(service => {
+        activeServices.forEach(service => {
             const serviceHTML = `
             <div class="col-md-4 mb-4">
                 <label class="position-relative w-100 h-100 d-block border rounded p-4 bg-white text-center">
@@ -150,6 +160,13 @@ async function loadServices() {
 }
 
 function setupDateAndTimeStep() {
+    const timeSlots = [
+        "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
+        "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30",
+    ];
+
+    const timeSlotContainer = document.querySelector("#timeSlots .gx-3");
+
     // Khởi tạo lịch inline
     flatpickr("#appointmentDate", {
         inline: true,
@@ -157,53 +174,61 @@ function setupDateAndTimeStep() {
         dateFormat: "Y-m-d",
         onChange: function (selectedDates) {
             const selectedDate = selectedDates[0];
-            // Format ngày theo YYYY-MM-DD (theo giờ máy người dùng, không bị lệch UTC)
-            const formattedDate = selectedDate.toLocaleDateString("sv-SE"); // "2025-07-31"
-            localStorage.setItem("appointmentDate", formattedDate);
-        }
 
+            const formattedDate = selectedDate.toLocaleDateString("sv-SE");
+            localStorage.setItem("appointmentDate", formattedDate);
+
+            // Hiển thị lại danh sách giờ sau khi chọn ngày
+            renderTimeSlots(selectedDate);
+        }
     });
 
+    function renderTimeSlots(selectedDate) {
+        timeSlotContainer.innerHTML = ""; // Xóa cũ
 
-    // Danh sách các giờ khám
-    const timeSlots = [
-        "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00",
-        "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30",
-    ];
+        const now = new Date();
+        const isToday = selectedDate.toDateString() === now.toDateString();
 
-    const timeSlotContainer = document.querySelector("#timeSlots .gx-3");
-    timeSlotContainer.innerHTML = ""; // Xóa cũ nếu có
+        timeSlots.forEach(time => {
+            // Chuyển time string sang đối tượng Date để so sánh
+            const [hour, minute] = time.split(":").map(Number);
+            const timeDate = new Date(selectedDate);
+            timeDate.setHours(hour, minute, 0, 0);
 
-    timeSlots.forEach(time => {
-        const col = document.createElement("div");
-        col.className = "col-md-4 col-sm-6 mt-3";
+            // Nếu là hôm nay và giờ này đã qua thì bỏ qua
+            if (isToday && timeDate < now) {
+                return;
+            }
 
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "btn bg-white border text-uppercase text-body fw-semibold p-2 w-100";
-        btn.textContent = time;
+            const col = document.createElement("div");
+            col.className = "col-md-4 col-sm-6 mt-3";
 
-        btn.addEventListener("click", () => {
-            // Xóa class "active" khỏi tất cả nút
-            timeSlotContainer.querySelectorAll("button").forEach(b => {
-                b.classList.remove("active", "btn-primary", "text-white");
-                b.classList.add("bg-white", "text-body"); // Trạng thái chưa chọn
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "btn bg-white border text-uppercase text-body fw-semibold p-2 w-100";
+            btn.textContent = time;
+
+            btn.addEventListener("click", () => {
+                timeSlotContainer.querySelectorAll("button").forEach(b => {
+                    b.classList.remove("active", "btn-primary", "text-white");
+                    b.classList.add("bg-white", "text-body");
+                });
+
+                btn.classList.remove("bg-white", "text-body");
+                btn.classList.add("active", "btn-primary", "text-white");
+
+                localStorage.setItem("startTime", time);
             });
 
-            // Gán class cho nút được chọn
-            btn.classList.remove("bg-white", "text-body");
-            btn.classList.add("active", "btn-primary", "text-white");
-
-            // Lưu thời gian đã chọn
-            localStorage.setItem("startTime", time);
+            col.appendChild(btn);
+            timeSlotContainer.appendChild(col);
         });
+    }
 
-
-
-        col.appendChild(btn);
-        timeSlotContainer.appendChild(col);
-    });
+    // Mặc định hiển thị theo hôm nay
+    renderTimeSlots(new Date());
 }
+
 
 
 
@@ -216,11 +241,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function submitAppointment() {
     try {
+        const appointmentTitle = document.getElementById("appointmentTitle")?.value.trim() || "";
+        const appointmentNote = document.getElementById("appointmentNote")?.value.trim() || "";
+
+        localStorage.setItem("appointmentTitle", appointmentTitle);
+        localStorage.setItem("appointmentNote", appointmentNote);
+
         // Lấy dữ liệu từ localStorage
         const appointmentDate = localStorage.getItem("appointmentDate");
         const startTime = localStorage.getItem("startTime");
-        const appointmentTitle = localStorage.getItem("appointmentTitle") || "";
-        const appointmentNote = localStorage.getItem("appointmentNote") || "";
         const patientId = localStorage.getItem("patientId");
         // Lấy thông tin phần tử đã chọn
         const selectedClinic = document.querySelector('input[name="radios"]:checked')?.value;

@@ -55,11 +55,11 @@
 <body class=" body-bg landing-pages">
    <script>
       document.addEventListener('DOMContentLoaded', function () {
-      const token = localStorage.getItem("token");
-      if (!token) {
-         const currentPath = window.location.pathname;
-         window.location.href = `/frontend/login.html?returnUrl=${encodeURIComponent(currentPath)}`;
-      }
+         const token = localStorage.getItem("token");
+         if (!token) {
+            const currentPath = window.location.pathname;
+            window.location.href = `/frontend/login.html?returnUrl=${encodeURIComponent(currentPath)}`;
+         }
       });
    </script>
    <span class="screen-darken"></span>
@@ -90,7 +90,7 @@
                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                        stroke-linejoin="round"></path>
                                  </svg>
-                                 <span>+ (480) 555-0103</span>
+                                 <span>+8467337802</span>
                               </a>
                            </li>
                            <li class="text-body d-flex align-items-center">
@@ -105,7 +105,7 @@
                                     stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                     stroke-linejoin="round"></path>
                               </svg>
-                              <span>1234 North Avenue Luke Lane</span>
+                              <span>FPT University Hòa Lạc</span>
                            </li>
                         </ul>
                      </div>
@@ -182,7 +182,7 @@
                                  <li class="nav-item">
                                     <a class="nav-link" data-bs-toggle="collapse" href="#homePages" role="button"
                                        aria-expanded="false" aria-controls="homePages">
-                                       <span class="item-name">Home</span>
+                                       <span class="item-name">Trang chủ</span>
                                        <span class="menu-icon">
                                           <svg width="10" height="10" viewBox="0 0 8 8" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
@@ -195,62 +195,12 @@
                                     <ul class="sub-nav collapse  list-unstyled" id="homePages">
                                        <li class="nav-item">
                                           <a class="nav-link " href="./index.html">
-                                             general doctor
-                                          </a>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./dentist.html">
-                                             dentist
-                                          </a>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./eye-care.html">
-                                             eye care
-                                          </a>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./skin-specialist.html">
-                                             skin specialist
-                                          </a>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./fertility-clinic.html">
-                                             Fertility Clinic
-                                          </a>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./ent-clinic.html">
-                                             ENT Clinic
+                                             Bác sĩ
                                           </a>
                                        </li>
                                        <li class="nav-item">
                                           <a class="nav-link " href="./product-home.html">
-                                             Product Home
-                                          </a>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./psychiatrist.html">
-                                             Psychiatrist
-                                          </a>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./paediatrician.html">
-                                             Paediatrician
-                                          </a>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./cardiac.html">
-                                             Cardiac
-                                          </a>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./orthopedics.html">
-                                             Orthopedics
-                                          </a>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./laboratory.html">
-                                             Laboratory
+                                             Thuốc
                                           </a>
                                        </li>
                                     </ul>
@@ -258,7 +208,7 @@
                                  <li class="nav-item">
                                     <a class="nav-link" data-bs-toggle="collapse" href="#allPages" role="button"
                                        aria-expanded="false" aria-controls="allPages">
-                                       <span class="item-name">Pages</span>
+                                       <span class="item-name">Trang</span>
                                        <span class="menu-icon">
                                           <svg width="10" height="10" viewBox="0 0 8 8" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
@@ -272,7 +222,7 @@
                                        <li class="nav-item">
                                           <a class="nav-link" data-bs-toggle="collapse" href="#docPages" role="button"
                                              aria-expanded="false" aria-controls="docPages">
-                                             <span class="item-name">Doctors</span>
+                                             <span class="item-name">Bác sĩ</span>
                                              <span class="menu-icon">
                                                 <svg class="icon-32" width="32" viewBox="0 0 24 24" fill="none"
                                                    xmlns="http://www.w3.org/2000/svg">
@@ -284,31 +234,21 @@
                                           </a>
                                           <ul class="sub-nav collapse  list-unstyled" id="docPages">
                                              <li class="nav-item">
-                                                <a class="nav-link " href="./tab-two-column.html">
-                                                   tab two column
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./tab-three-column.html">
-                                                   tab three column
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
                                                 <a class="nav-link " href="./doctor-details.html">
-                                                   doctor details
+                                                   Chi tiết bác sĩ
                                                 </a>
                                              </li>
                                           </ul>
                                        </li>
                                        <li class="nav-item">
                                           <a class="nav-link " href="./about-us.html">
-                                             about-us
+                                             Về chúng tôi
                                           </a>
                                        </li>
                                        <li class="nav-item">
                                           <a class="nav-link" data-bs-toggle="collapse" href="#pageServices"
                                              role="button" aria-expanded="false" aria-controls="pageServices">
-                                             <span class="item-name">Service</span>
+                                             <span class="item-name">Dịch vụ</span>
                                              <span class="menu-icon">
                                                 <svg class="icon-32" width="32" viewBox="0 0 24 24" fill="none"
                                                    xmlns="http://www.w3.org/2000/svg">
@@ -321,43 +261,7 @@
                                           <ul class="sub-nav collapse  list-unstyled" id="pageServices">
                                              <li class="nav-item">
                                                 <a class="nav-link " href="./service1.html">
-                                                   service 1
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./service2.html">
-                                                   service 2
-                                                </a>
-                                             </li>
-                                          </ul>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./client.html">
-                                             client
-                                          </a>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link" data-bs-toggle="collapse" href="#pricingPlan"
-                                             role="button" aria-expanded="false" aria-controls="pricingPlan">
-                                             <span class="item-name">Pricing Plan</span>
-                                             <span class="menu-icon">
-                                                <svg class="icon-32" width="32" viewBox="0 0 24 24" fill="none"
-                                                   xmlns="http://www.w3.org/2000/svg">
-                                                   <path d="M8.5 5L15.5 12L8.5 19" stroke="currentColor"
-                                                      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                                   </path>
-                                                </svg>
-                                             </span>
-                                          </a>
-                                          <ul class="sub-nav collapse  list-unstyled" id="pricingPlan">
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./pricing-plan-one.html">
-                                                   Pricing plan 1
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./pricing-plan-two.html">
-                                                   Pricing plan 2
+                                                   Dịch vụ
                                                 </a>
                                              </li>
                                           </ul>
@@ -374,210 +278,16 @@
                                        </li>
                                        <li class="nav-item">
                                           <a class="nav-link " href="./contactus.html">
-                                             contact us
-                                          </a>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./comingsoon.html">
-                                             coming soon
+                                             Liên hệ
                                           </a>
                                        </li>
                                     </ul>
                                  </li>
-                                 <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="collapse" href="#specializationPages"
-                                       role="button" aria-expanded="false" aria-controls="specializationPages">
-                                       <span class="item-name">Specialization</span>
-                                       <span class="menu-icon">
-                                          <svg width="10" height="10" viewBox="0 0 8 8" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                             <path
-                                                d="M4 0.5C4.27614 0.5 4.5 0.723858 4.5 1V4H7.5C7.77614 4 8 4.22386 8 4.5C8 4.77614 7.77614 5 7.5 5H4.5V8C4.5 8.27614 4.27614 8.5 4 8.5C3.72386 8.5 3.5 8.27614 3.5 8V5H0.5C0.223858 5 0 4.77614 0 4.5C0 4.22386 0.223858 4 0.5 4H3.5V1C3.5 0.723858 3.72386 0.5 4 0.5Z"
-                                                fill="currentColor" />
-                                          </svg>
-                                       </span>
-                                    </a>
-                                    <ul class="sub-nav collapse  list-unstyled" id="specializationPages">
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./oncologist.html">
-                                             oncologist
-                                          </a>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./neurologist.html">
-                                             neurologist
-                                          </a>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./ent-specialist.html">
-                                             ent specialist
-                                          </a>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./cardiologist.html">
-                                             cardiologist
-                                          </a>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./audiologist.html">
-                                             audiologist
-                                          </a>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./psychiatrists.html">
-                                             psychiatrists
-                                          </a>
-                                       </li>
-                                    </ul>
-                                 </li>
-                                 <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="collapse" href="#blogPages" role="button"
-                                       aria-expanded="false" aria-controls="blogPages">
-                                       <span class="item-name">Blog</span>
-                                       <span class="menu-icon">
-                                          <svg width="10" height="10" viewBox="0 0 8 8" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                             <path
-                                                d="M4 0.5C4.27614 0.5 4.5 0.723858 4.5 1V4H7.5C7.77614 4 8 4.22386 8 4.5C8 4.77614 7.77614 5 7.5 5H4.5V8C4.5 8.27614 4.27614 8.5 4 8.5C3.72386 8.5 3.5 8.27614 3.5 8V5H0.5C0.223858 5 0 4.77614 0 4.5C0 4.22386 0.223858 4 0.5 4H3.5V1C3.5 0.723858 3.72386 0.5 4 0.5Z"
-                                                fill="currentColor" />
-                                          </svg>
-                                       </span>
-                                    </a>
-                                    <ul class="sub-nav collapse  list-unstyled" id="blogPages">
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./blog-lists.html">
-                                             Blog Listing
-                                          </a>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./blog-masonry.html">
-                                             blog masonry
-                                          </a>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link" data-bs-toggle="collapse" href="#blogGrid" role="button"
-                                             aria-expanded="false" aria-controls="blogGrid">
-                                             <span class="item-name">Blog Grid</span>
-                                             <span class="menu-icon">
-                                                <svg class="icon-32" width="32" viewBox="0 0 24 24" fill="none"
-                                                   xmlns="http://www.w3.org/2000/svg">
-                                                   <path d="M8.5 5L15.5 12L8.5 19" stroke="currentColor"
-                                                      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                                   </path>
-                                                </svg>
-                                             </span>
-                                          </a>
-                                          <ul class="sub-nav collapse  list-unstyled" id="blogGrid">
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./two-column-blog.html">
-                                                   two column blog
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./three-column-blog.html">
-                                                   three column blog
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./three-column-full-width-blog.html">
-                                                   three column full width blog
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./four-column-blog.html">
-                                                   four column blog
-                                                </a>
-                                             </li>
-                                          </ul>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link" data-bs-toggle="collapse" href="#blogSidebar"
-                                             role="button" aria-expanded="false" aria-controls="blogSidebar">
-                                             <span class="item-name">Blog Sidebar</span>
-                                             <span class="menu-icon">
-                                                <svg class="icon-32" width="32" viewBox="0 0 24 24" fill="none"
-                                                   xmlns="http://www.w3.org/2000/svg">
-                                                   <path d="M8.5 5L15.5 12L8.5 19" stroke="currentColor"
-                                                      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                                   </path>
-                                                </svg>
-                                             </span>
-                                          </a>
-                                          <ul class="sub-nav collapse  list-unstyled" id="blogSidebar">
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./left-sidebar-grid-1.html">
-                                                   left sidebar grid-1
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./left-sidebar-grid-2.html">
-                                                   left sidebar grid-2
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./right-sidebar-grid-1.html">
-                                                   Right sidebar grid-1
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./right-sidebar-grid-2.html">
-                                                   Right sidebar grid-2
-                                                </a>
-                                             </li>
-                                          </ul>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link" data-bs-toggle="collapse" href="#blogSingle" role="button"
-                                             aria-expanded="false" aria-controls="docPages">
-                                             <span class="item-name">Blog Single</span>
-                                             <span class="menu-icon">
-                                                <svg class="icon-32" width="32" viewBox="0 0 24 24" fill="none"
-                                                   xmlns="http://www.w3.org/2000/svg">
-                                                   <path d="M8.5 5L15.5 12L8.5 19" stroke="currentColor"
-                                                      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                                   </path>
-                                                </svg>
-                                             </span>
-                                          </a>
-                                          <ul class="sub-nav collapse  list-unstyled" id="blogSingle">
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./blog-standard.html">
-                                                   blog standard
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./blog-video.html">
-                                                   blog video
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./blog-gallary.html">
-                                                   blog gallary
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./blog-audio.html">
-                                                   blog audio
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./blog-link.html">
-                                                   blog link
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./blog-quote.html">
-                                                   blog quote
-                                                </a>
-                                             </li>
-                                          </ul>
-                                       </li>
-                                    </ul>
-                                 </li>
+
                                  <li class="nav-item">
                                     <a class="nav-link" data-bs-toggle="collapse" href="#shopPage" role="button"
                                        aria-expanded="false" aria-controls="shopPage">
-                                       <span class="item-name">Shop</span>
+                                       <span class="item-name">Thuốc</span>
                                        <span class="menu-icon">
                                           <svg width="10" height="10" viewBox="0 0 8 8" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
@@ -588,15 +298,11 @@
                                        </span>
                                     </a>
                                     <ul class="sub-nav collapse  list-unstyled" id="shopPage">
-                                       <li class="nav-item">
-                                          <a class="nav-link " href="./shop.html">
-                                             Shop
-                                          </a>
-                                       </li>
+
                                        <li class="nav-item">
                                           <a class="nav-link" data-bs-toggle="collapse" href="#productSidebar"
                                              role="button" aria-expanded="false" aria-controls="productSidebar">
-                                             <span class="item-name">Product Sidebar</span>
+                                             <span class="item-name">Thuốc</span>
                                              <span class="menu-icon">
                                                 <svg class="icon-32" width="32" viewBox="0 0 24 24" fill="none"
                                                    xmlns="http://www.w3.org/2000/svg">
@@ -609,89 +315,7 @@
                                           <ul class="sub-nav collapse  list-unstyled" id="productSidebar">
                                              <li class="nav-item">
                                                 <a class="nav-link " href="./shop-left-sidebar.html">
-                                                   shop left sidebar
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./shop-right-sidebar.html">
-                                                   shop right sidebar
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./shop-no-sidebar.html">
-                                                   shop no sidebar
-                                                </a>
-                                             </li>
-                                          </ul>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link" data-bs-toggle="collapse" href="#sPages" role="button"
-                                             aria-expanded="false" aria-controls="sPages">
-                                             <span class="item-name">Shop Pages</span>
-                                             <span class="menu-icon">
-                                                <svg class="icon-32" width="32" viewBox="0 0 24 24" fill="none"
-                                                   xmlns="http://www.w3.org/2000/svg">
-                                                   <path d="M8.5 5L15.5 12L8.5 19" stroke="currentColor"
-                                                      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                                   </path>
-                                                </svg>
-                                             </span>
-                                          </a>
-                                          <ul class="sub-nav collapse  list-unstyled" id="sPages">
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./cart.html">
-                                                   cart
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./checkout.html">
-                                                   checkout
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./wishlist.html">
-                                                   wishlist
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./my-account.html">
-                                                   my account
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./track-order.html">
-                                                   track order
-                                                </a>
-                                             </li>
-                                          </ul>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link" data-bs-toggle="collapse" href="#proType" role="button"
-                                             aria-expanded="false" aria-controls="proType">
-                                             <span class="item-name">Product Type</span>
-                                             <span class="menu-icon">
-                                                <svg class="icon-32" width="32" viewBox="0 0 24 24" fill="none"
-                                                   xmlns="http://www.w3.org/2000/svg">
-                                                   <path d="M8.5 5L15.5 12L8.5 19" stroke="currentColor"
-                                                      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                                   </path>
-                                                </svg>
-                                             </span>
-                                          </a>
-                                          <ul class="sub-nav collapse  list-unstyled" id="proType">
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./product-standard.html">
-                                                   product standard
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./product-new.html">
-                                                   product new
-                                                </a>
-                                             </li>
-                                             <li class="nav-item">
-                                                <a class="nav-link " href="./product-sale.html">
-                                                   product sale
+                                                   Trang thuốc
                                                 </a>
                                              </li>
                                           </ul>
@@ -715,176 +339,14 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                            <ul class="navbar-nav align-items-center ms-auto mb-2 mb-xl-0">
                               <li class="nav-item dropdown iq-responsive-menu">
-                                 <a href="#" class="nav-link" id="search-drop" data-bs-toggle="dropdown">
-                                    <div class="btn-icon btn-sm rounded-pill btn-action">
-                                       <span class="btn-inner">
-                                          <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                             <circle cx="11.7669" cy="11.7666" r="8.98856" stroke="currentColor"
-                                                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                             </circle>
-                                             <path d="M18.0186 18.4851L21.5426 22" stroke="currentColor"
-                                                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                             </path>
-                                          </svg>
-                                       </span>
-                                    </div>
-                                 </a>
+
                                  <ul class="dropdown-menu dropdown-menu-end p-0 dropdown-search" style="width: 20rem;">
-                                    <li class="p-0">
-                                       <div class="form-group input-group mb-0">
-                                          <input type="text" class="form-control border-0" placeholder="Search...">
-                                          <span class="input-group-text border-0">
-                                             <svg class="icon-20" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <circle cx="11.7669" cy="11.7666" r="8.98856" stroke="currentColor"
-                                                   stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                                </circle>
-                                                <path d="M18.0186 18.4851L21.5426 22" stroke="currentColor"
-                                                   stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                                </path>
-                                             </svg>
-                                          </span>
-                                       </div>
-                                    </li>
+
                                  </ul>
                               </li>
                               <li class="nav-item dropdown">
-                                 <a href="#" class="nav-link" id="cart-drop" data-bs-toggle="dropdown">
-                                    <div class="btn-icon btn-sm rounded-pill btn-action position-relative">
-                                       <span class="btn-inner">
-                                          <svg class="cart-icons" xmlns="http://www.w3.org/2000/svg" width="18"
-                                             height="17" viewBox="0 0 18 17" fill="none">
-                                             <path fill-rule="evenodd" clip-rule="evenodd"
-                                                d="M4.27385 4.95616L4.77635 10.9328C4.81302 11.3928 5.18885 11.7378 5.64802 11.7378H5.65135H14.7439H14.7455C15.1797 11.7378 15.5505 11.4145 15.6122 10.9853L16.4039 5.51949C16.4222 5.38949 16.3897 5.25949 16.3105 5.15449C16.2322 5.04866 16.1172 4.98033 15.9872 4.96199C15.813 4.96866 8.58552 4.95866 4.27385 4.95616ZM5.64631 12.9878C4.54881 12.9878 3.61964 12.1311 3.53047 11.0353L2.76714 1.95695L1.51131 1.74028C1.17048 1.68028 0.942975 1.35778 1.00131 1.01695C1.06131 0.676117 1.39047 0.45445 1.72381 0.507784L3.45714 0.807784C3.73631 0.85695 3.94881 1.08862 3.97297 1.37195L4.16881 3.70612C16.0655 3.71112 16.1038 3.71695 16.1613 3.72362C16.6255 3.79112 17.0338 4.03362 17.3121 4.40695C17.5905 4.77945 17.7071 5.23862 17.6405 5.69862L16.8496 11.1636C16.7005 12.2036 15.7971 12.9878 14.7471 12.9878H14.743H5.65297H5.64631Z"
-                                                fill="currentColor"></path>
-                                             <path fill-rule="evenodd" clip-rule="evenodd"
-                                                d="M13.4077 8.03638H11.0977C10.7518 8.03638 10.4727 7.75638 10.4727 7.41138C10.4727 7.06638 10.7518 6.78638 11.0977 6.78638H13.4077C13.7527 6.78638 14.0327 7.06638 14.0327 7.41138C14.0327 7.75638 13.7527 8.03638 13.4077 8.03638Z"
-                                                fill="currentColor"></path>
-                                             <path fill-rule="evenodd" clip-rule="evenodd"
-                                                d="M5.28815 15.2516C5.53898 15.2516 5.74148 15.4541 5.74148 15.7049C5.74148 15.9558 5.53898 16.1591 5.28815 16.1591C5.03648 16.1591 4.83398 15.9558 4.83398 15.7049C4.83398 15.4541 5.03648 15.2516 5.28815 15.2516Z"
-                                                fill="currentColor"></path>
-                                             <path fill-rule="evenodd" clip-rule="evenodd"
-                                                d="M5.28732 16.784C4.69232 16.784 4.20898 16.2998 4.20898 15.7048C4.20898 15.1098 4.69232 14.6265 5.28732 14.6265C5.88232 14.6265 6.36648 15.1098 6.36648 15.7048C6.36648 16.2998 5.88232 16.784 5.28732 16.784"
-                                                fill="currentColor"></path>
-                                             <path fill-rule="evenodd" clip-rule="evenodd"
-                                                d="M14.6877 16.784C14.0927 16.784 13.6094 16.2998 13.6094 15.7048C13.6094 15.1098 14.0927 14.6265 14.6877 14.6265C15.2835 14.6265 15.7677 15.1098 15.7677 15.7048C15.7677 16.2998 15.2835 16.784 14.6877 16.784"
-                                                fill="currentColor"></path>
-                                          </svg>
-                                       </span>
-                                       <span class=" badge-notification">4</span>
-                                    </div>
-                                 </a>
-                                 <div class="p-3 sub-drop dropdown-menu dropdown-menu-end">
-                                    <div class="m-0 shadow-none card">
-                                       <div class="card-body p-0 max-17 scroll-thin">
-                                          <div class="iq-sub-card" data-item="list">
-                                             <div class="d-flex justify-content-between">
-                                                <div class="d-flex align-items-center">
-                                                   <img class="avatar-40 rounded"
-                                                      src="./assets/images/shop/product-1.webp" alt="" loading="lazy" />
-                                                   <div class="ms-3 flex-grow-1">
-                                                      <h6 class="mb-0 ">Electric Toothbrush</h6>
-                                                      <div class="d-flex justify-content-between align-items-center">
-                                                         <p class="mb-0"><span>1</span> * <span>$123.00</span></p>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                                <div class="text-primary"><i class="far fa-times-circle delete-btn"></i>
-                                                </div>
-                                             </div>
-                                          </div>
-                                          <div class="iq-sub-card" data-item="list">
-                                             <div class="d-flex justify-content-between">
-                                                <div class="d-flex align-items-center">
-                                                   <img class="avatar-40 rounded"
-                                                      src="./assets/images/shop/product-2.webp" alt="" loading="lazy" />
-                                                   <div class="ms-3 flex-grow-1">
-                                                      <h6 class="mb-0 ">Medical Box</h6>
-                                                      <div class="d-flex justify-content-between align-items-center">
-                                                         <p class="mb-0"><span>1</span> * <span>$92.00</span></p>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                                <div class="text-primary"><i class="far fa-times-circle delete-btn"></i>
-                                                </div>
-                                             </div>
-                                          </div>
-                                          <div class="iq-sub-card" data-item="list">
-                                             <div class="d-flex justify-content-between">
-                                                <div class="d-flex align-items-center">
-                                                   <img class="avatar-40 rounded"
-                                                      src="./assets/images/shop/product-3.webp" alt="" loading="lazy" />
-                                                   <div class="ms-3 flex-grow-1">
-                                                      <h6 class="mb-0 ">Hand Sanitizer Bottle</h6>
-                                                      <div class="d-flex justify-content-between align-items-center">
-                                                         <p class="mb-0"><span>1</span> * <span>$90.00</span></p>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                                <div class="text-primary"><i class="far fa-times-circle delete-btn"></i>
-                                                </div>
-                                             </div>
-                                          </div>
-                                          <div class="iq-sub-card" data-item="list">
-                                             <div class="d-flex justify-content-between">
-                                                <div class="d-flex align-items-center">
-                                                   <img class="avatar-40 rounded"
-                                                      src="./assets/images/shop/product-4.webp" alt="" loading="lazy" />
-                                                   <div class="ms-3 flex-grow-1">
-                                                      <h6 class="mb-0 ">Wheel Chair</h6>
-                                                      <div class="d-flex justify-content-between align-items-center">
-                                                         <p class="mb-0"><span>1</span> * <span>$89.00</span></p>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                                <div class="text-primary"><i class="far fa-times-circle delete-btn"></i>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                       <div class="card-footer pt-3 px-0 pb-0 text-center">
-                                          <div class="d-flex align-items-center justify-content-between ">
-                                             <strong>Subtotal:</strong>
-                                             <span>$64.00</span>
-                                          </div>
-                                          <div
-                                             class="d-flex align-items-center justify-content-between my-3 pt-3 border-top">
-                                             <div class="cart-menu">
-                                                <div class="iq-btn-container">
-                                                   <a class="iq-button text-capitalize" href="./cart.html">
-                                                      <span class="iq-btn-text-holder position-relative">View
-                                                         Cart</span>
-                                                      <span class="iq-btn-icon-holder">
-                                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"
-                                                            viewBox="0 0 8 8" fill="none">
-                                                            <path
-                                                               d="M7.32046 4.70834H4.74952V7.25698C4.74952 7.66734 4.41395 8 4 8C3.58605 8 3.25048 7.66734 3.25048 7.25698V4.70834H0.679545C0.293423 4.6687 0 4.34614 0 3.96132C0 3.5765 0.293423 3.25394 0.679545 3.21431H3.24242V0.673653C3.28241 0.290878 3.60778 0 3.99597 0C4.38416 0 4.70954 0.290878 4.74952 0.673653V3.21431H7.32046C7.70658 3.25394 8 3.5765 8 3.96132C8 4.34614 7.70658 4.6687 7.32046 4.70834Z"
-                                                               fill="currentColor"></path>
-                                                         </svg>
-                                                      </span>
-                                                   </a>
-                                                </div>
-                                             </div>
-                                             <div class="button-primary">
-                                                <div class="iq-btn-container">
-                                                   <a class="iq-button text-capitalize" href="./checkout.html">
-                                                      <span class="iq-btn-text-holder position-relative">Checkout</span>
-                                                      <span class="iq-btn-icon-holder">
-                                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"
-                                                            viewBox="0 0 8 8" fill="none">
-                                                            <path
-                                                               d="M7.32046 4.70834H4.74952V7.25698C4.74952 7.66734 4.41395 8 4 8C3.58605 8 3.25048 7.66734 3.25048 7.25698V4.70834H0.679545C0.293423 4.6687 0 4.34614 0 3.96132C0 3.5765 0.293423 3.25394 0.679545 3.21431H3.24242V0.673653C3.28241 0.290878 3.60778 0 3.99597 0C4.38416 0 4.70954 0.290878 4.74952 0.673653V3.21431H7.32046C7.70658 3.25394 8 3.5765 8 3.96132C8 4.34614 7.70658 4.6687 7.32046 4.70834Z"
-                                                               fill="currentColor"></path>
-                                                         </svg>
-                                                      </span>
-                                                   </a>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
+
+
                               </li>
                               <li class="nav-item dropdown" id="itemdropdown1">
                                  <a class="nav-link d-flex align-items-center" href="#" id="navbarDropdown"
@@ -921,16 +383,16 @@
                                  </a>
                                  <ul class="dropdown-menu dropdown-menu-end dropdown-user"
                                     aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item border-bottom" href="./login.html">Sign in</a></li>
-                                    <li><a class="dropdown-item" href="./registration.html">Sign
-                                          up</a>
+                                    <li><a class="dropdown-item border-bottom" href="./login.html">Đăng
+                                          nhập</a></li>
+                                    <li><a class="dropdown-item" href="./registration.html">Đăng ký</a>
                                     </li>
                                  </ul>
                               </li>
                               <li>
                                  <div class="iq-btn-container">
                                     <a class="iq-button text-capitalize" href="./appointment.html">
-                                       <span class="iq-btn-text-holder position-relative">Appointment</span>
+                                       <span class="iq-btn-text-holder position-relative">Đặt lịch</span>
                                        <span class="iq-btn-icon-holder">
                                           <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"
                                              viewBox="0 0 8 8" fill="none">
@@ -1269,71 +731,6 @@
                               </div>
                            </div>
                         </div>
-
-
-                        <!-- <div class="appointment-tab-content h-100 appointment-content-active">
-                           <div class="tab-widget-inner h-100">
-                              <div
-                                 class="tab-widget-inner-data py-5 px-3 h-100 d-flex align-items-center justify-content-center">
-                                 <div class="row">
-                                    <div class="col-sm-12">
-                                       <div class="text-center">
-                                          <div class="mb-5 text-success">
-                                             <svg class="checkmark-animated" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 52 52" data-v-6b4a22d6="">
-                                                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"
-                                                   data-v-6b4a22d6=""></circle>
-                                                <path class="checkmark__check" fill="none"
-                                                   d="M14.1 27.2l7.1 7.2 16.7-16.8" data-v-6b4a22d6="">
-                                                </path>
-                                             </svg>
-                                          </div>
-                                          <h4>Your Appointment is Booked Sucessfully!</h4>
-                                          <p>Please check your email for verification</p>
-                                       </div>
-                                       <div
-                                          class="d-flex align-items-center justify-content-center gap-3 flex-wrap mt-5">
-                                          <a href="./appointment.html" class="bg-primary iq-button text-capitalize">
-                                             <span class="iq-btn-text-holder position-relative">Book More
-                                                Appointments</span>
-                                             <span class="iq-btn-icon-holder">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"
-                                                   viewBox="0 0 8 8" fill="none">
-                                                   <path
-                                                      d="M7.32046 4.70834H4.74952V7.25698C4.74952 7.66734 4.41395 8 4 8C3.58605 8 3.25048 7.66734 3.25048 7.25698V4.70834H0.679545C0.293423 4.6687 0 4.34614 0 3.96132C0 3.5765 0.293423 3.25394 0.679545 3.21431H3.24242V0.673653C3.28241 0.290878 3.60778 0 3.99597 0C4.38416 0 4.70954 0.290878 4.74952 0.673653V3.21431H7.32046C7.70658 3.25394 8 3.5765 8 3.96132C8 4.34614 7.70658 4.6687 7.32046 4.70834Z"
-                                                      fill="currentColor"></path>
-                                                </svg>
-                                             </span>
-                                          </a>
-                                          <a href="javascript:void(0);" class="iq-button text-capitalize">
-                                             <span class="iq-btn-text-holder position-relative">Print Detail</span>
-                                             <span class="iq-btn-icon-holder">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"
-                                                   viewBox="0 0 8 8" fill="none">
-                                                   <path
-                                                      d="M7.32046 4.70834H4.74952V7.25698C4.74952 7.66734 4.41395 8 4 8C3.58605 8 3.25048 7.66734 3.25048 7.25698V4.70834H0.679545C0.293423 4.6687 0 4.34614 0 3.96132C0 3.5765 0.293423 3.25394 0.679545 3.21431H3.24242V0.673653C3.28241 0.290878 3.60778 0 3.99597 0C4.38416 0 4.70954 0.290878 4.74952 0.673653V3.21431H7.32046C7.70658 3.25394 8 3.5765 8 3.96132C8 4.34614 7.70658 4.6687 7.32046 4.70834Z"
-                                                      fill="currentColor"></path>
-                                                </svg>
-                                             </span>
-                                          </a>
-                                          <a href="javascript:void(0);" class="bg-primary iq-button text-capitalize">
-                                             <span class="iq-btn-text-holder position-relative">Add To
-                                                Calendar</span>
-                                             <span class="iq-btn-icon-holder">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"
-                                                   viewBox="0 0 8 8" fill="none">
-                                                   <path
-                                                      d="M7.32046 4.70834H4.74952V7.25698C4.74952 7.66734 4.41395 8 4 8C3.58605 8 3.25048 7.66734 3.25048 7.25698V4.70834H0.679545C0.293423 4.6687 0 4.34614 0 3.96132C0 3.5765 0.293423 3.25394 0.679545 3.21431H3.24242V0.673653C3.28241 0.290878 3.60778 0 3.99597 0C4.38416 0 4.70954 0.290878 4.74952 0.673653V3.21431H7.32046C7.70658 3.25394 8 3.5765 8 3.96132C8 4.34614 7.70658 4.6687 7.32046 4.70834Z"
-                                                      fill="currentColor"></path>
-                                                </svg>
-                                             </span>
-                                          </a>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div> -->
                      </div>
                   </div>
                </div>
@@ -1538,60 +935,6 @@
       </div>
    </footer> <!-- footer end -->
 
-   <!-- setting -->
-   <div class="rtl-box">
-      <a class="btn btn-icon btn-setting bg-primary" id="settingbutton" data-bs-toggle="offcanvas"
-         data-bs-target="#live-customizer" role="button" aria-controls="live-customizer">
-         <svg xmlns="http://www.w3.org/2000/svg" width="1.875em" height="1.875em" viewBox="0 0 20 20" fill="white">
-            <path fill-rule="evenodd"
-               d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-               clip-rule="evenodd" />
-         </svg>
-      </a>
-      <div class="offcanvas offcanvas-end live-customizer on-rtl end" tabindex="-1" id="live-customizer"
-         data-bs-scroll="true" data-bs-backdrop="false" aria-labelledby="live-customizer-label" aria-modal="true"
-         role="dialog">
-         <div class="offcanvas-header gap-3 pb-2">
-            <div class="d-flex align-items-center">
-               <h5 class="offcanvas-title" id="live-customizer-label">Language Mode</h5>
-            </div>
-            <div class="d-flex gap-1 align-items-center">
-               <button class="btn btn-icon text-primary border-0" data-reset="settings" data-bs-toggle="tooltip"
-                  data-bs-placement="left" aria-label="Reset All Settings" data-bs-original-title="Reset All Settings">
-                  <span class="btn-inner">
-                     <i class="fas fa-sync-alt"></i>
-                  </span>
-               </button>
-               <button type="button" class="btn btn-icon btn-close px-0 shadow-none" data-bs-dismiss="offcanvas"
-                  aria-label="Close">
-                  <i class="fas fa-times"></i>
-               </button>
-            </div>
-         </div>
-         <div class="offcanvas-body pt-0">
-            <div class="modes row row-cols-2 gx-2">
-               <div class="col">
-                  <div data-setting="attribute" class="text-center w-100">
-                     <input type="radio" value="ltr" class="btn-check" name="theme_scheme_direction" data-prop="dir"
-                        id="theme-scheme-direction-ltr" checked>
-                     <label class="btn dir-btn cutomizer-button w-100" for="theme-scheme-direction-ltr">
-                        LTR
-                     </label>
-                  </div>
-               </div>
-               <div class="col">
-                  <div data-setting="attribute" class="text-center w-100">
-                     <input type="radio" value="rtl" class="btn-check" name="theme_scheme_direction" data-prop="dir"
-                        id="theme-scheme-direction-rtl">
-                     <label class="btn dir-btn cutomizer-button w-100" for="theme-scheme-direction-rtl">
-                        RTL
-                     </label>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div> <!-- setting -->
 
    <!-- Back To Top -->
    <div id="back-to-top" style="display: none;">
@@ -1643,6 +986,8 @@
    <!-- JS -->
    <script src="./assets/js/AppointmentVer2/appointment.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
 </body>
 
 </html>
