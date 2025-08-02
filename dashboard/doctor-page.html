@@ -289,8 +289,7 @@
                                             </svg>
                                             <span class="bg-danger dots"></span>
                                         </div>
-                                    </div>
-                                </a>
+                                    </a>
                                 <!-- Dropdown notification content -->
                             </li>
                             
@@ -371,23 +370,10 @@
                     <!-- Statistics Row -->
                     <div class="row mt-5">
                         <div class="col-md-6">
-                            <div class="card card-block card-stretch card-height overflow-hidden">
+                            <div class="card card-block card-stretch card-height overflow-hidden" style="cursor:pointer;" onclick="window.location.href='./patient-schedule.html'">
                                 <div class="card-body pb-0">
                                     <div class="d-flex justify-content-between">
                                         <h5 class="mb-3">Lịch Hẹn Hôm Nay</h5>
-                                        <div class="dropdown lh-1">
-                                            <span role="button" id="dropdownMenuTodayAppointment" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <svg width="3" height="20" viewBox="0 0 5 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform: rotate(90deg);">
-                                                    <circle cx="2.5" cy="3" r="2.5" fill="currentColor" />
-                                                    <circle cx="2.5" cy="10" r="2.5" fill="currentColor" />
-                                                    <circle cx="2.5" cy="17" r="2.5" fill="currentColor" />
-                                                </svg>
-                                            </span>
-                                            <ul class="dropdown-menu dropdown-menu-soft-primary sub-dropdown" aria-labelledby="dropdownMenuTodayAppointment">
-                                                <li><a class="dropdown-item active" href="./my-appointments.html">Xem</a></li>
-                                                <li><a class="dropdown-item my-1" href="./patient-schedule.html?doctorId=1&autoLoad=true">Chi tiết</a></li>
-                                            </ul>
-                                        </div>
                                     </div>
                                     <div class="d-flex align-items-center gap-3">
                                         <h3 class="text-primary d-inline-block counter mb-0" style="visibility: visible;" id="todayCount">0</h3>

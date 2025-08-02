@@ -202,13 +202,13 @@ function displayMedicalRecords(records) {
         const row = `
             <tr>
                 <td>${index + 1}</td>
+                <td>${record.appointmentId || 'N/A'}</td>
                 <td>
                     <div>
                         <strong>${formattedDate}</strong>
                         <br><small class="text-muted">${formattedTime}</small>
                     </div>
                 </td>
-                <td>${record.appointmentId || 'N/A'}</td>
                 <td>${record.doctorName || 'N/A'}</td>
                 <td>
                     <div class="text-truncate" style="max-width: 200px;" title="${record.diagnosis || 'N/A'}">
@@ -227,6 +227,9 @@ function displayMedicalRecords(records) {
                         <button class="btn btn-sm btn-danger" title="Xoá hồ sơ" onclick="deleteMedicalRecord(${record.id})">
                             <i class="fas fa-trash-alt"></i>
                         </button>
+                        <button class="btn btn-sm btn-info" title="Cập nhật hóa đơn" onclick="updateInvoice(${record.appointmentId})">
+                            <i class="fas fa-file-invoice"></i>
+                        </button>
                     </div>
                 </td>
             </tr>
@@ -235,23 +238,18 @@ function displayMedicalRecords(records) {
     });
 }
 
-// View medical record detail - CHUYỂN SANG TRANG RIÊNG
 function viewMedicalRecordDetail(recordId) {
-    // Chuyển đến trang chi tiết medical record
     window.location.href = `./medical-record-detail.html?recordId=${recordId}`;
 }
 
-// Refresh records
 function refreshRecords() {
     loadMedicalRecords();
 }
 
-// Update record count
 function updateRecordCount(count) {
     document.getElementById('recordCount').textContent = `Tổng: ${count} báo cáo`;
 }
 
-// Show error in table
 function showError(message) {
     const tbody = document.getElementById('medicalRecordsTableBody');
     tbody.innerHTML = `
@@ -280,7 +278,6 @@ function createNewMedicalRecord() {
     window.location.href = `./medical-record.html?${params.toString()}`;
 }
 
-// Utility functions
 function getStatusClass(status) {
     switch(status?.toLowerCase()) {
         case 'open': return 'bg-info text-white';
@@ -294,7 +291,7 @@ function getStatusClass(status) {
 function getStatusText(status) {
     switch(status?.toLowerCase()) {
         case 'open': return 'Đang mở';
-        case 'closed': return 'Đã đóng';  // API có "Closed"
+        case 'closed': return 'Đã đóng';
         case 'inprogress': return 'Đang xử lý';
         case 'cancelled': return 'Đã hủy';
         default: return status || 'Không xác định';
@@ -326,4 +323,25 @@ function deleteMedicalRecord(recordId) {
     if (confirm('Bạn có chắc chắn muốn xoá hồ sơ này?')) {
         showNotification('Chức năng xoá hồ sơ đang được phát triển', 'info');
     }
+}
+function updateInvoice(appointmentId) {
+    fetch(`${API_BASE_URL}/api/Invoice/generate-invoice-details/${appointmentId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error");
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert("Cập nhật hóa đơn thành công!");
+    })
+    .catch(error => {
+        console.error("Lỗi cập nhật: ", error);
+        showNotification("Không thể cập nhật hóa đơn. Vui lòng thử lại sau!", "error");
+    });
 }
