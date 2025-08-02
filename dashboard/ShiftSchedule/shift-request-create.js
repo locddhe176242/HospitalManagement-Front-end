@@ -14,6 +14,7 @@ function getDoctorId() {
     }
 }
 document.addEventListener('DOMContentLoaded', async function () {
+    document.getElementById('loading').style.display = 'none';
     const doctorId = getDoctorId();
     if (!doctorId) {
         showNotification('Không tìm thấy thông tin bác sĩ!', 'danger');
