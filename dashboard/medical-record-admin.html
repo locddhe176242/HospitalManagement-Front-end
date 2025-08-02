@@ -1,11 +1,7 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="theme-fs-sm" data-bs-theme="light" data-bs-theme-color="default" dir="ltr">
 
-
-
-
 <head>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title data-setting="app_name" data-rightJoin=" Clinic And Patient Management Dashboard">KiviCare Clinic And Patient
@@ -21,7 +17,6 @@
     content='{&quot;saveLocal&quot;:&quot;sessionStorage&quot;,&quot;storeKey&quot;:&quot;kivicare&quot;,&quot;setting&quot;:{&quot;app_name&quot;:{&quot;value&quot;:&quot;KiviCare&quot;},&quot;theme_scheme_direction&quot;:{&quot;value&quot;:&quot;ltr&quot;},&quot;theme_scheme&quot;:{&quot;value&quot;:&quot;light&quot;},&quot;theme_style_appearance&quot;:{&quot;value&quot;:[&quot;theme-default&quot;]},&quot;theme_color&quot;:{&quot;value&quot;:&quot;default&quot;},&quot;theme_transition&quot;:{&quot;value&quot;:&quot;theme-with-animation&quot;},&quot;theme_font_size&quot;:{&quot;value&quot;:&quot;theme-fs-sm&quot;},&quot;page_layout&quot;:{&quot;value&quot;:&quot;container-fluid&quot;},&quot;header_navbar&quot;:{&quot;value&quot;:&quot;default&quot;},&quot;header_banner&quot;:{&quot;value&quot;:&quot;default&quot;},&quot;sidebar_color&quot;:{&quot;value&quot;:&quot;sidebar-white&quot;},&quot;card_color&quot;:{&quot;value&quot;:&quot;card-default&quot;},&quot;sidebar_type&quot;:{&quot;value&quot;:[]},&quot;sidebar_menu_style&quot;:{&quot;value&quot;:&quot;text-hover&quot;},&quot;footer&quot;:{&quot;value&quot;:&quot;default&quot;},&quot;body_font_family&quot;:{&quot;value&quot;:null},&quot;heading_font_family&quot;:{&quot;value&quot;:null}}}'>
   <!-- Google Font Api KEY-->
   <meta name="google_font_api" content="AIzaSyBG58yNdAjc20_8jAvLNSVi9E4Xhwjau_k">
-
   <!-- Favicon -->
   <link rel="shortcut icon" href="./assets/images/favicon.ico" />
 
@@ -32,20 +27,20 @@
   <link rel="stylesheet" href="./assets/vendor/flaticon/css/flaticon.css" />
 
   <!-- font-awesome css -->
-
-  <link rel="stylesheet" href="./assets/vendor/font-awesome/css/all.min.css" />
-
-  <!-- Flatpickr css -->
-  <link rel="stylesheet" href="./assets/vendor/flatpickr/dist/flatpickr.min.css" />
-
-  <link rel="stylesheet" href="./assets/vendor/sheperd/dist/css/sheperd.css" />
-
   <link rel="stylesheet" href="./assets/vendor/font-awesome/css/all.min.css" />
 
   <!-- Flatpickr css -->
   <link rel="stylesheet" href="./assets/vendor/flatpickr/dist/flatpickr.min.css" />
 
   <link rel="stylesheet" href="./assets/vendor/sheperd/dist/css/sheperd.css">
+
+
+
+  <!-- Sweetlaert2 css -->
+  <link rel="stylesheet" href="./assets/vendor/sweetalert2/dist/sweetalert2.min.css" />
+
+
+
 
   <!-- Kivicare Design System Css -->
   <link rel="stylesheet" href="./assets/css/kivicare.min.css?v=1.4.1" />
@@ -60,12 +55,47 @@
   <link rel="stylesheet" href="./assets/css/customizer.min.css?v=1.4.1" />
 
   <!-- Google Font -->
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,300;1,400;1,500&display=swap"
-    rel="stylesheet" />
+    rel="stylesheet">
+
+  <style>
+    /* Pagination styles */
+    .pagination {
+      display: flex;
+      justify-content: flex-start;
+      /* Căn lề sang trái */
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .pagination li {
+      display: inline-block;
+      padding: 8px 12px;
+      cursor: pointer;
+      background-color: #f1f1f1;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+
+    .pagination li:hover {
+      background-color: #2980b9;
+      color: #fff;
+    }
+
+    .pagination li.active {
+      background-color: #3498db;
+      color: #fff;
+      pointer-events: none;
+    }
+
+    .pagination li.disabled {
+      background-color: #e0e0e0;
+      cursor: not-allowed;
+    }
+  </style>
 </head>
 
 <body class="  ">
@@ -597,6 +627,7 @@
       <!--Nav End-->
     </div>
     <div class="content-inner container-fluid pb-0" id="page_layout">
+
       <div class="d-flex align-items-center mb-4 mb-4 pb-3 pt-3">
         <svg class="icon-18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -607,463 +638,331 @@
           <path d="M8.5 5L15.5 12L8.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
             stroke-linejoin="round"></path>
         </svg>
-        <span class="head-title fw-500 mt-1">Dashboard</span>
+        <span class="head-title fw-500 mt-1">Dach sách bệnh án</span>
       </div>
-      <div class="row">
-        <div class="col-lg-8">
-          <div class="d-flex align-items-center justify-content-between flex-sm-row flex-column-reverse">
-            <div>
-              <h1 class="fs-37">
-                <span class="left-text text-capitalize fw-light">Xin chào ngày mới
-                </span>
-                <span class="right-text text-capitalize">
-                </span>
-              </h1>
-              <p class="mb-5">
-                Chúc bạn một ngày làm việc tốt lành. Tiến độ công việc rất tốt!
-              </p>
-              <div class="d-flex align-items-center flex-wrap gap-3">                
-                <a href="appointment.html" class="btn btn-secondary">
-                  <span class="btn-inner">
-                    <span class="text d-inline-block align-middle">Lịch khám</span>
-                    <span class="icon d-inline-block align-middle ms-1 ps-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                        <path
-                          d="M7.32046 4.70834H4.74952V7.25698C4.74952 7.66734 4.41395 8 4 8C3.58605 8 3.25048 7.66734 3.25048 7.25698V4.70834H0.679545C0.293423 4.6687 0 4.34614 0 3.96132C0 3.5765 0.293423 3.25394 0.679545 3.21431H3.24242V0.673653C3.28241 0.290878 3.60778 0 3.99597 0C4.38416 0 4.70954 0.290878 4.74952 0.673653V3.21431H7.32046C7.70658 3.25394 8 3.5765 8 3.96132C8 4.34614 7.70658 4.6687 7.32046 4.70834Z"
-                          fill="currentColor" />
-                      </svg>
-                    </span>
-                  </span>
-                </a>
-                <a href="./schedule/doctor-schedule.html" class="btn btn-warning">
-                  <span class="btn-inner">
-                    <span class="text d-inline-block align-middle">Sắp xếp lịch làm việc</span>
-                    <span class="icon d-inline-block align-middle ms-1 ps-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                        <path d="M4 0v8M0 4h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                      </svg>
-                    </span>
-                  </span>
-                </a>
 
-                <a href="./disease/disease-list.html" class="btn btn-success">
-                  <span class="btn-inner">
-                    <span class="text d-inline-block align-middle">Danh sách bệnh</span>
-                    <span class="icon d-inline-block align-middle ms-1 ps-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                        <path d="M4 0v8M0 4h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                      </svg>
-                    </span>
-                  </span>
-                </a>
-              </div>
-            </div>
-            <div>
-              <img class="img-fluid" src="./assets/images/dashboard/dr-dashboard.png" alt="dr-profile" loading="lazy" />
-            </div>
-          </div>
-          <div class="row mt-5">
-
-            <div class="col-md-4">
-              <div class="card card-block card-stretch card-height overflow-hidden">
-                <div class="card-body pb-0">
-                  <div class="d-flex justify-content-between">
-                    <h5 class="mb-3">Số lượng bác sĩ</h5>
-                    <div class="dropdown lh-1">
-                      <span role="button" id="dropdownMenuTotalDoctors" data-bs-toggle="dropdown" aria-expanded="false">
-                        <svg width="3" height="20" viewBox="0 0 5 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                          style="transform: rotate(90deg)">
-                          <circle cx="2.5" cy="3" r="2.5" fill="currentColor" />
-                          <circle cx="2.5" cy="10" r="2.5" fill="currentColor" />
-                          <circle cx="2.5" cy="17" r="2.5" fill="currentColor" />
-                        </svg>
-                      </span>
-                      <ul class="dropdown-menu dropdown-menu-soft-primary sub-dropdown"
-                        aria-labelledby="dropdownMenuTotalDoctors">
-                        <li>
-                          <a class="dropdown-item active" href="./doctors.html">Xem</a>
-                        </li>
-                        <li>
-                          <a class="dropdown-item my-1" href="#">In</a>
-                        </li>
-                        <li><a class="dropdown-item" href="#">Tải về</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="d-flex align-items-center gap-3">
-                    <h3 class="text-primary d-inline-block counter mb-0" id="totalDoctorsCount"
-                      style="visibility: visible">
-                      <!-- Số lượng bác sĩ sẽ được cập nhật ở đây -->
-                    </h3>
-                    <span class="badge rounded-pill bg-success-subtle text-success p-2" id="doctorsPercentage">
-                      <!-- Tỷ lệ thay đổi sẽ được cập nhật ở đây -->
-                    </span>
-                  </div>
-                </div>
-                <div class="card-bg position-relative mt-2">
-                  <img class="img-fluid float-end" src="./assets/images/dashboard/finance.png" alt="finance"
-                    loading="lazy" />
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card card-block card-stretch card-height overflow-hidden">
-                <div class="card-body pb-0">
-                  <div class="d-flex justify-content-between">
-                    <h5 class="mb-3">Số lượng bệnh nhân</h5>
-                    <div class="dropdown lh-1">
-                      <span role="button" id="dropdownMenuTotalPatients" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <svg width="3" height="20" viewBox="0 0 5 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                          style="transform: rotate(90deg)">
-                          <circle cx="2.5" cy="3" r="2.5" fill="currentColor" />
-                          <circle cx="2.5" cy="10" r="2.5" fill="currentColor" />
-                          <circle cx="2.5" cy="17" r="2.5" fill="currentColor" />
-                        </svg>
-                      </span>
-                      <ul class="dropdown-menu dropdown-menu-soft-primary sub-dropdown"
-                        aria-labelledby="dropdownMenuTotalPatients">
-                        <li>
-                          <a class="dropdown-item active" href="./patient.html">Xem</a>
-                        </li>
-                        <li>
-                          <a class="dropdown-item my-1" href="#">In</a>
-                        </li>
-                        <li>
-                          <a class="dropdown-item" href="#">Tải về</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="d-flex align-items-center gap-3">
-                    <h3 class="text-primary d-inline-block counter mb-0" id="totalPatientsCount"
-                      style="visibility: visible">
-                      <!-- Số lượng bệnh nhân sẽ được cập nhật ở đây -->
-                    </h3>
-                    <span class="badge rounded-pill bg-success-subtle text-success p-2" id="patientsPercentage">
-                      <!-- Tỷ lệ thay đổi sẽ được cập nhật ở đây -->
-                    </span>
-                  </div>
-                </div>
-                <div class="card-bg position-relative mt-2">
-                  <img class="img-fluid float-end" src="./assets/images/dashboard/hand-holding-heart.png" alt="finance"
-                    loading="lazy" />
-                </div>
-              </div>
-            </div>
-<div class="col-md-4">
-  <div class="card card-block card-stretch card-height overflow-hidden">
-    <div class="card-body pb-0">
-  <div class="d-flex justify-content-between">
-    <h5 class="mb-3">Số lượng lịch hẹn</h5>
-    <div class="dropdown lh-1">
-      <span role="button" id="dropdownMenuTotalAppointments" data-bs-toggle="dropdown" aria-expanded="false">
-        <svg width="3" height="20" viewBox="0 0 5 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform: rotate(90deg)">
-          <circle cx="2.5" cy="3" r="2.5" fill="currentColor" />
-          <circle cx="2.5" cy="10" r="2.5" fill="currentColor" />
-          <circle cx="2.5" cy="17" r="2.5" fill="currentColor" />
-        </svg>
-      </span>
-      <ul class="dropdown-menu dropdown-menu-soft-primary sub-dropdown" aria-labelledby="dropdownMenuTotalAppointments">
-        <li><a class="dropdown-item active" href="./appointment.html">Xem</a></li>
-        <li><a class="dropdown-item my-1" href="#">In</a></li>
-        <li><a class="dropdown-item" href="#">Tải về</a></li>
-      </ul>
+<!-- DANH SÁCH BỆNH ÁN -->
+<div class="card" id="medicalRecordListCard">
+  <h2>Danh Sách Bệnh Án</h2>
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="medicalRecordSearchInput">Tìm kiếm (ID, tên bệnh nhân, bác sĩ...):</label>
+      <input type="text" id="medicalRecordSearchInput" class="form-control"
+        placeholder="Nhập ID, tên bệnh nhân, tên bác sĩ hoặc lịch hẹn...">
+    </div>
+    <div class="col-md-4">
+      <label for="startDate">Từ ngày:</label>
+      <input type="date" id="startDate" class="form-control">
+    </div>
+    <div class="col-md-4">
+      <label for="endDate">Đến ngày:</label>
+      <input type="date" id="endDate" class="form-control">
     </div>
   </div>
-  <div class="d-flex align-items-center gap-3">
-    <h3 class="text-primary d-inline-block counter mb-0" id="totalAppointmentsCount" style="visibility: visible">
-      <!-- Số lượng lịch hẹn sẽ được cập nhật ở đây -->
-    </h3>
-    <span class="badge rounded-pill bg-success-subtle text-success p-2" id="appointmentsPercentage">
-      <!-- Tỷ lệ thay đổi sẽ được cập nhật ở đây -->
-    </span>
+  <div class="col-auto text-end">
+    <button class="btn btn-primary btn-sm px-3" id="filterMedicalRecordBtn" style="margin-bottom: 3px;">Lọc</button>
   </div>
-</div>
-    <div class="card-bg position-relative mt-2">
-                  <img class="img-fluid float-end" src="./assets/images/dashboard/finance.png" alt="finance"
-                    loading="lazy" />
-                </div>
+  <div class="table-responsive">
+    <table class="table table-bordered align-right mb- rounded" id="medicalRecordTable">
+      <thead class="table-dark">
+        <tr>
+          <th>STT</th>
+          <th>ID</th>
+          <th>Ngày</th>
+          <th>Lịch khám</th>
+          <th>Bệnh nhân</th>
+          <th>Bác sĩ</th>
+          <th>Đơn thuốc</th>
+          <th>Trạng thái</th>
+          <th>Chi tiết</th>
+        </tr>
+      </thead>
+      <tbody id="medicalRecordTableBody">
+        <!-- Data will be injected here -->
+      </tbody>
+    </table>
   </div>
-</div>
-
-
-
-            <div class="col-md-6">
-  <div class="card">
-    <div class="card-body">
-      <div class="d-flex justify-content-between">
-        <a class="mb-3" href="./payment.html" style="font-size: 1.5rem;">Doanh thu</a>
-        <div>
-          <select id="timePeriod" class="badge bg-primary" aria-label="Chọn khoảng thời gian">
-            <option value="current">Hiện tại</option>
-            <option value="month">Tháng này</option>
-            <option value="year">Năm nay</option>
-            <option value="custom">Tùy chọn ngày</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Thêm input chọn ngày -->
-      <div id="customDateRange" class="d-flex justify-content-between mt-2" style="display:none;">
-        <input type="date" id="startDate" class="form-control me-2" style="width: 48%;" />
-        <input type="date" id="endDate" class="form-control" style="width: 48%;" />
-      </div>
-
-      <div class="d-flex justify-content-between mt-3">
-        <div>
-          <span>Mục tiêu:</span>
-        </div>
-        <div>
-          <input id="target" type="number" value="10000000" class="form-control" style="width: 120px;" />
-        </div>
-      </div>
-
-      <div class="d-flex justify-content-between mt-2">
-        <div>
-          <span>Tổng doanh thu </span>
-        </div>
-        <div>
-          <span id="currentRevenue">₫0</span>
-        </div>
-      </div>
-
-      <div class="d-flex justify-content-between mt-2">
-        <div>
-          <span id="targetComparison">0%</span>
-        </div>
-      </div>
-
-      <div class="mt-3">
-        <div class="progress bg-primary-subtle shadow-none w-100" style="height: 6px">
-          <div id="revenueProgressBar" class="progress-bar bg-primary" role="progressbar" aria-valuenow="0"
-            aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="pagination" id="medicalRecordPagination"></div>
 </div>
 
-
-
-
-
-          </div>
-        </div>
-
-
-       <div class="col-lg-4">
-  <div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-3">
-      <div>
-        <h4>Các lịch khám gần đây</h4>
-        <p class="mb-0">Có <span id="appointmentCount" >0</span> lịch khám </p>
-      </div>
-    </div>
-    <div class="card-body pt-0" id="appointmentList">
-      <!-- Các lịch khám sẽ được render ở đây -->
-    </div>
-  </div>
-</div>
-
-<!-- Modal Chi tiết lịch khám -->
-<div class="modal fade" id="appointmentDetailModal" tabindex="-1" aria-labelledby="appointmentModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
+<!-- Modal Chi tiết Bệnh án -->
+<div class="modal fade" id="medicalRecordDetailModal" tabindex="-1" aria-labelledby="medicalRecordDetailLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="appointmentModalLabel">Chi tiết lịch khám</h5>
+        <h5 class="modal-title" id="medicalRecordDetailLabel">Chi tiết bệnh án</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
       </div>
       <div class="modal-body">
-        <ul class="list-group">
-          <li class="list-group-item"><strong>Mã lịch hẹn:</strong> <span id="modalCode"></span></li>
-          <li class="list-group-item"><strong>Ngày khám:</strong> <span id="modalDate"></span></li>
-          <li class="list-group-item"><strong>Giờ bắt đầu:</strong> <span id="modalStart"></span></li>
-          <li class="list-group-item"><strong>Giờ kết thúc:</strong> <span id="modalEnd"></span></li>
-          <li class="list-group-item"><strong>Trạng thái:</strong> <span id="modalStatus"></span></li>
-          <li class="list-group-item"><strong>Lý do khám:</strong> <span id="modalNote"></span></li>
-          <li class="list-group-item"><strong>Bệnh nhân:</strong> <span id="modalPatient"></span></li>
-          <li class="list-group-item"><strong>Phòng khám:</strong> <span id="modalClinic"></span></li>
-          <li class="list-group-item"><strong>Lễ tân:</strong> <span id="modalReception"></span></li>
-          <li class="list-group-item"><strong>Dịch vụ:</strong> <span id="modalService"></span></li>
-          <li class="list-group-item"><strong>Đã gửi thông báo:</strong> <span id="modalSend"></span></li>
-        </ul>
+        <h5>Thông tin bệnh án</h5>
+        <div id="medicalRecordDetailContent"></div>
+        <hr>
+        <h5>Chi tiết đơn thuốc</h5>
+        <div id="prescriptionDetailContent"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
       </div>
     </div>
   </div>
 </div>
 
 
-<!-- Modal -->
-<div class="modal fade" id="appointmentDetailModal" tabindex="-1" aria-labelledby="appointmentModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="appointmentModalLabel">Appointment Details</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <ul class="list-group">
-          <li class="list-group-item"><strong>Code:</strong> <span id="modalCode"></span></li>
-          <li class="list-group-item"><strong>Date:</strong> <span id="modalDate"></span></li>
-          <li class="list-group-item"><strong>Start Time:</strong> <span id="modalStart"></span></li>
-          <li class="list-group-item"><strong>End Time:</strong> <span id="modalEnd"></span></li>
-          <li class="list-group-item"><strong>Status:</strong> <span id="modalStatus"></span></li>
-          <li class="list-group-item"><strong>Reason:</strong> <span id="modalNote"></span></li>
-          <li class="list-group-item"><strong>Patient:</strong> <span id="modalPatient"></span></li>
-          <li class="list-group-item"><strong>Clinic:</strong> <span id="modalClinic"></span></li>
-          <li class="list-group-item"><strong>Reception:</strong> <span id="modalReception"></span></li>
-          <li class="list-group-item"><strong>Service:</strong> <span id="modalService"></span></li>
-          <li class="list-group-item"><strong>Sent:</strong> <span id="modalSend"></span></li>
+    </div>
+    <!-- Footer Section Start -->
+    <footer class="footer">
+      <div class="footer-body">
+        <ul class="left-panel list-inline mb-0 p-0">
+          <li class="list-inline-item fw-500"><a class="footer-link" href="">Chính sách bảo mật</a></li>
+          <li class="list-inline-item fw-500"><a class="footer-link" href="">Điều khoản sử dụng</a></li>
         </ul>
-      </div>
-    </div>
-  </div>
-</div>
-
-
 
       </div>
-      <div class="row">
-        <div class="col-lg-10">
-          <div class="card">
-            
-            <div class="card">
-              <div class="card-header d-flex justify-content-between align-items-center">
-                <h4 class="card-title mb-0">Số lượng bệnh nhân đăng ký theo giới tính</h4>
-                <div class="text-end">
-                  <span class="badge bg-primary me-2">Nam: <span id="tongNam">0</span></span>
-                  <span class="badge bg-danger">Nữ: <span id="tongNu">0</span></span>
-                </div>
-              </div>
-              <div class="card-body py-0">
-                <canvas id="appointment-line-chart" height="120"></canvas>
-              </div>
-            </div>
-            
-          </div>
-          <!-- <div class="col-lg-4">
-            <div class="card">
-              <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
-                <h4 class="mb-0">Available Doctors</h4>
-                <div class="dropdown text-end">
-                  <button class="dropdown btn border-0 p-0" id="dropdownMenuAvailableDoc" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <span class="fw-500 d-inline-block align-middle">View All</span>
-                    <svg width="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                      class="transform-icon transform-down">
-                      <path d="M8.5 5L15.5 12L8.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                        stroke-linejoin="round"></path>
-                    </svg>
-                  </button>
-                  <ul class="dropdown-menu dropdown-menu-soft-primary sub-dropdown"
-                    aria-labelledby="dropdownMenuAvailableDoc">
-                    <li><a class="dropdown-item active" href="#">View</a></li>
-                    <li><a class="dropdown-item" href="#">Appointment</a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="card-body pt-0">
-                <ul class="list-inline m-0 p-0">
-                  <li class="d-flex mb-4 align-items-center">
-                    <div>
-                      <img class="img-fluid" src="./assets/images/dashboard/draminelouis.png" alt="Dr-profile"
-                        loading="lazy" />
-                    </div>
-                    <div class="ms-4 flex-grow-1">
-                      <h5>Dr.Amine Louis</h5>
-                      <p class="mb-0">Skin Specialist</p>
-                    </div>
-                    <div>
-                      <h6 class="text-primary mb-0">120 patients</h6>
-                    </div>
-                  </li>
-                  <li class="d-flex mb-4 align-items-center">
-                    <div>
-                      <img class="img-fluid" src="./assets/images/dashboard/drKeinoshine.png" alt="Dr-profile"
-                        loading="lazy" />
-                    </div>
-                    <div class="ms-4 flex-grow-1">
-                      <h5>Dr.Keino Shine</h5>
-                      <p class="mb-0">Cardiologist</p>
-                    </div>
-                    <div>
-                      <h6 class="text-primary mb-0">89 Patients</h6>
-                    </div>
-                  </li>
-                  <li class="d-flex align-items-center">
-                    <div>
-                      <img class="img-fluid" src="./assets/images/dashboard/drMaxwellena.png" alt="Dr-profile"
-                        loading="lazy" />
-                    </div>
-                    <div class="ms-4 flex-grow-1">
-                      <h5>Dr.Maxwell Ena</h5>
-                      <p class="mb-0">Orthopedics</p>
-                    </div>
-                    <div>
-                      <h6 class="text-primary mb-0">106 patients</h6>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div> -->
-        </div>
-        
-        <div class="row">
-          <div class="col-lg-5">
-  <div class="card">
-    <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
-      <div>
-       <h4 class="mb-0">Lịch sử giao dịch</h4>
-      <p class="mb-0"> Các giao dịch gần nhất </p>
-
-      </div>
-      
-      <div class="dropdown text-end">
-        <button class="dropdown btn border-0 p-0" id="dropdownMenuTransaction" data-bs-toggle="dropdown" aria-expanded="false">
-          <span class="fw-500 d-inline-block align-middle">Xem tất cả</span>
-          <svg width="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="transform-icon transform-down">
-            <path d="M8.5 5L15.5 12L8.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-soft-primary sub-dropdown transform-left-dropdown" aria-labelledby="dropdownMenuTransaction">
-          <li><a class="dropdown-item active" href="./payment.html">Xem</a></li>
-          <li><a class="dropdown-item" href="#">In</a></li>
-          <li><a class="dropdown-item" href="#">Tải xuống</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="card-body pt-0">
-      <ul id="transaction-list" class="list-inline m-0 p-0">
-        <!-- Dữ liệu giao dịch sẽ tự động hiển thị ở đây -->
-      </ul>
-    </div>
-  </div>
-</div>
-
-          <div class="col-lg-5">
-    <div class="card">
-        <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
-            <h4 class="mb-0">Top Bác sĩ </h4>
-            <a href="./doctors.html" class="fw-500 d-inline-block align-middle text-decoration-none">Xem tất cả</a>
-        </div>
-        <div class="card-body pt-0">
-            <ul id="top-doctor-list" class="list-unstyled m-0 p-0">
-                <!-- Dữ liệu bác sĩ sẽ được JS đổ vào đây -->
-            </ul>
-        </div>
-    </div>
-</div>
-
-        </div>
-      </div>
-
+    </footer>
+    <!-- Footer Section End -->
   </main>
 
 
+  <!-- Wrapper End-->
 
 
+ <!-- jQuery và Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- Nếu dùng Bootstrap 5 thì bổ sung link JS bundle ở đây -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// API endpoint cho danh sách bệnh án
+const medicalRecordApiBase = 'https://localhost:7097/api/medical-record-admin/GetAll';
+// Số lượng bệnh án mỗi trang
+const itemsPerPageMedicalRecord = 7;
+let currentPageMedicalRecord = 1;
+let medicalRecords = [];
+let filteredMedicalRecords = [];
+
+// Định dạng ngày giờ sang kiểu Việt Nam
+function formatDateTime(str) {
+  if (!str) return '';
+  const d = new Date(str);
+  return d.toLocaleDateString('vi-VN') + ' ' + d.toLocaleTimeString('vi-VN');
+}
+
+// Hiển thị trạng thái bệnh án
+function getMedicalRecordStatusText(status) {
+  if (status === 0 || status === '0' || status === 'Open') return "Đang mở";
+  if (status === 1 || status === '1' || status === 'Closed') return "Đã đóng";
+  if (status === 2 || status === '2' || status === 'Archived') return "Lưu trữ";
+  return "";
+}
+
+// Lọc theo ô tìm kiếm (ID, tên bệnh nhân, bác sĩ, lịch hẹn)
+function applyMedicalRecordFilters() {
+  const q = $('#medicalRecordSearchInput').val().trim().toLowerCase();
+  filteredMedicalRecords = medicalRecords.filter(rec =>
+    (rec.id + '').toLowerCase().includes(q)
+    || (rec.patientName || '').toLowerCase().includes(q)
+    || (rec.doctorName || '').toLowerCase().includes(q)
+    || (rec.appointmentName || '').toLowerCase().includes(q)
+  );
+  currentPageMedicalRecord = 1;
+  renderMedicalRecordTable();
+  renderMedicalRecordPagination();
+}
+
+// Gọi API lấy danh sách bệnh án, có lọc theo ngày nếu nhập
+async function loadMedicalRecords() {
+  let url = medicalRecordApiBase;
+  const start = $('#startDate').val();
+  const end = $('#endDate').val();
+  if (start && end) {
+    url += `?startDate=${start}&endDate=${end}`;
+  }
+  try {
+    const res = await fetch(url);
+    medicalRecords = await res.json();
+    applyMedicalRecordFilters();
+  } catch (e) {
+    alert('Không thể tải danh sách bệnh án!');
+  }
+}
+
+// Render bảng danh sách bệnh án
+function renderMedicalRecordTable() {
+  const tbody = document.getElementById('medicalRecordTableBody');
+  tbody.innerHTML = '';
+  const start = (currentPageMedicalRecord - 1) * itemsPerPageMedicalRecord;
+  const paginatedRecords = filteredMedicalRecords.slice(start, start + itemsPerPageMedicalRecord);
+
+  paginatedRecords.forEach((record, index) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${start + index + 1}</td>
+      <td>${record.id}</td>
+      <td>${formatDateTime(record.createDate)}</td>
+      <td>${record.appointmentName || ''}</td>
+      <td>${record.patientName || ''}</td>
+      <td>${record.doctorName || ''}</td>
+      <td>${record.prescriptionId || ''}</td>
+      <td>${getMedicalRecordStatusText(record.status)}</td>
+      <td>
+        <button class="btn btn-sm btn-info" onclick="showMedicalRecordDetail('${record.id}', '${record.prescriptionId}')">
+          Xem chi tiết
+        </button>
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+// Render nút chuyển trang cho bảng
+function renderMedicalRecordPagination() {
+  const totalPages = Math.ceil(filteredMedicalRecords.length / itemsPerPageMedicalRecord);
+  const pagination = document.getElementById('medicalRecordPagination');
+  pagination.innerHTML = '';
+  for (let i = 1; i <= totalPages; i++) {
+    const pageBtn = document.createElement('button');
+    pageBtn.textContent = i;
+    pageBtn.className = 'btn btn-light btn-sm mx-1' + (i === currentPageMedicalRecord ? ' btn-primary text-white' : '');
+    pageBtn.onclick = () => {
+      currentPageMedicalRecord = i;
+      renderMedicalRecordTable();
+      renderMedicalRecordPagination();
+    };
+    pagination.appendChild(pageBtn);
+  }
+}
+
+// Sự kiện lọc, tìm kiếm
+$('#medicalRecordSearchInput').on('input', applyMedicalRecordFilters);
+$('#filterMedicalRecordBtn').on('click', loadMedicalRecords);
+
+// Tải danh sách khi vào trang
+$(function () { loadMedicalRecords(); });
+
+// --- Nên để biến toàn cục để không gọi lại nhiều lần ---
+let allMedicines = [];
+
+// Hàm lấy tất cả thuốc (có token)
+async function loadAllMedicines() {
+  if (allMedicines.length) return; // Đã có thì không gọi lại
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) throw new Error('Chưa đăng nhập');
+    const res = await fetch('https://localhost:7097/api/Medicine/get-all', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    allMedicines = res.ok ? await res.json() : [];
+  } catch {
+    allMedicines = [];
+  }
+}
+
+/* -------- Modal XEM CHI TIẾT bệnh án ----------- */
+async function showMedicalRecordDetail(recordId, prescriptionId) {
+  // Lấy record từ danh sách đã load
+  const record = medicalRecords.find(x => x.id == recordId);
+  if (!record) return alert('Không tìm thấy thông tin bệnh án!');
+
+  // Hiện thông tin bệnh án
+  $('#medicalRecordDetailContent').html(`
+    <b>Tên bệnh án:</b> ${record.name || ''} <br/>
+    <b>Chẩn đoán:</b> ${record.diagnosis || ''} <br/>
+    <b>Kết quả xét nghiệm:</b> ${record.testResults || ''} <br/>
+    <b>Ghi chú:</b> ${record.notes || ''} <br/>
+    <b>ID đơn thuốc:</b> ${record.prescriptionId || ''}
+  `);
+
+  // Nếu có đơn thuốc thì lấy chi tiết
+  if (prescriptionId && prescriptionId !== '0') {
+    try {
+      // Lấy token
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('Chưa đăng nhập hoặc hết hạn token');
+
+      // Lấy danh sách thuốc nếu chưa có
+      await loadAllMedicines();
+
+      // Gọi API chi tiết đơn thuốc (CÓ AUTHORIZATION)
+      const res = await fetch(
+        `https://localhost:7097/api/PrescriptionDetail/get-by-prescription/${prescriptionId}`,
+        {
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      if (!res.ok) throw new Error('Không thể tải chi tiết đơn thuốc');
+      const list = await res.json();
+
+      // Hiển thị bảng chi tiết thuốc (lấy đúng đơn vị từ allMedicines)
+      let total = 0;
+      let html = `
+        <div class="card-title" style="font-weight:600; margin-bottom:6px;">Chi tiết thuốc</div>
+        <table class="table table-sm table-bordered">
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Tên thuốc</th>
+              <th>Số lượng</th>
+              <th>Đơn vị</th>
+              <th>Cách dùng</th>
+              <th>Đơn giá</th>
+              <th>Thành tiền</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      list.forEach((item, idx) => {
+        // Tìm thông tin thuốc
+        const med = allMedicines.find(m =>
+          m.id == item.medicineId ||
+          m.name?.toLowerCase() == item.medicineName?.toLowerCase()
+        );
+        // Lấy đúng đơn vị
+        const unitName = med?.unitName || med?.unit?.name || med?.unit || item.unit || '';
+        const donGia = item.unitPrice ?? item.price ?? 0;
+        const soLuong = item.quantity ?? 0;
+        const thanhTien = donGia * soLuong;
+        total += thanhTien;
+
+        html += `
+          <tr>
+            <td>${idx + 1}</td>
+            <td>${item.medicineName || ''}</td>
+            <td>${soLuong}</td>
+            <td>${unitName}</td>
+            <td>${item.usage || ''}</td>
+            <td>${donGia.toLocaleString('vi-VN')} đ</td>
+            <td>${thanhTien.toLocaleString('vi-VN')} đ</td>
+          </tr>
+        `;
+      });
+      html += `
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="6" style="text-align:right; font-weight:600;">Tổng giá trị đơn thuốc:</td>
+              <td style="font-weight:600;">${total.toLocaleString('vi-VN')} đ</td>
+            </tr>
+          </tfoot>
+        </table>
+      `;
+      $('#prescriptionDetailContent').html(html);
+
+    } catch (e) {
+      $('#prescriptionDetailContent').html('<i>Không thể tải chi tiết đơn thuốc</i>');
+    }
+  } else {
+    $('#prescriptionDetailContent').html('<i>Không có đơn thuốc</i>');
+  }
+
+  // Hiện modal
+  $('#medicalRecordDetailModal').modal('show');
+}
+
+
+</script>
 
 
   <!-- Library Bundle Script -->
@@ -1076,594 +975,28 @@
   <!-- Flatpickr Script -->
   <script src="./assets/vendor/flatpickr/dist/flatpickr.min.js"></script>
   <script src="./assets/js/plugins/flatpickr.js" defer></script>
-
   <!-- Slider-tab Script -->
   <script src="./assets/js/plugins/slider-tabs.js"></script>
-
   <!-- fslightbox Script -->
   <script src="./assets/js/plugins/fslightbox.js" defer></script>
-
+  <!-- Sweet-alert Script -->
+  <script src="./assets/vendor/sweetalert2/dist/sweetalert2.min.js" async></script>
+  <script src="./assets/js/plugins/sweet-alert.js" defer></script>
   <!-- Select2 Script -->
   <script src="./assets/js/plugins/select2.js" defer></script>
-
-
-
-
-  <!-- Slider-tab Script -->
-  <script src="./assets/js/plugins/slider-tabs.js"></script>
-
-
-  <!-- fslightbox Script -->
-  <script src="./assets/js/plugins/fslightbox.js" defer></script>
-
-
-
-
-  <!-- Select2 Script -->
-  <script src="./assets/js/plugins/select2.js" defer></script>
-
-
 
   <!-- Lodash Utility -->
   <script src="./assets/vendor/lodash/lodash.min.js"></script>
   <!-- Utilities Functions -->
   <script src="./assets/js/iqonic-script/utility.min.js"></script>
-  <!-- Settings Script -->
-  <script src="./assets/js/iqonic-script/setting.min.js"></script>
-  <!-- Settings Init Script -->
-  <script src="./assets/js/setting-init.js"></script>
-  <!-- External Library Bundle Script -->
-  <script src="./assets/js/core/external.min.js"></script>
-  <!-- Widgetchart Script -->
-  <script src="./assets/js/charts/widgetcharts.js?v=1.4.1" defer></script>
-  <!-- Dashboard Script -->
-  <script src="./assets/js/charts/dashboard.js?v=1.4.1" defer></script>
+
   <!-- Hopeui Script -->
   <script src="./assets/js/kivicare.js?v=1.4.1" defer></script>
   <script src="./assets/js/kivicare-advance.js?v=1.4.1" defer></script>
   <script src="./assets/js/sidebar.js?v=1.4.1" defer></script>
 
   <!-- Icons -->
-
   <script src="./assets/js/solid-icon-search-filter.js?v=1.4.1" defer></script>
-
-  <!--sc  Số lượng bênh nhân -->
-  <script>
-    fetch('https://localhost:7097/api/Patient/calculate%')
-    .then(res => res.json())
-    .then(growth => {
-      fetch('https://localhost:7097/api/Patient/GetAll')
-        .then(res => res.json())
-        .then(data => {
-          const total = data.length;
-          const percent = growth.toFixed(2);
-
-          document.getElementById('totalPatientsCount').textContent = `${total} Bệnh nhân`;
-
-          const percentageElem = document.getElementById('patientsPercentage');
-          percentageElem.textContent = `${growth >= 0 ? '+' : ''}${percent}% tháng trước`;
-          percentageElem.classList.toggle('text-success', growth >= 0);
-          percentageElem.classList.toggle('text-danger', growth < 0);
-        })
-        .catch(error => {
-          console.error("Lỗi lấy tổng số bệnh nhân:", error);
-        });
-    })
-    .catch(error => {
-      console.error("Lỗi lấy % tăng trưởng bệnh nhân:", error);
-    });
-  </script>
-
-  <!--sc  Số lượng Bác sĩ -->
-  <script>
-    // Lấy tỷ lệ phần trăm tăng trưởng số lượng bác sĩ từ API
-    fetch('https://localhost:7097/api/Doctors/doctor-calculate%')
-    .then(res => res.json())
-    .then(growth => {
-      fetch('https://localhost:7097/api/Doctors/GetAll')
-        .then(res => res.json())
-        .then(data => {
-          const total = data.length;
-          const percent = growth.toFixed(2);
-
-          document.getElementById('totalDoctorsCount').textContent = `${total} Bác sĩ`;
-
-          const percentageElem = document.getElementById('doctorsPercentage');
-          percentageElem.textContent = `${growth >= 0 ? '+' : ''}${percent}% tháng trước`;
-          percentageElem.classList.toggle('text-success', growth >= 0);
-          percentageElem.classList.toggle('text-danger', growth < 0);
-        })
-        .catch(error => {
-          console.error("Lỗi lấy tổng số bác sĩ:", error);
-        });
-    })
-    .catch(error => {
-      console.error("Lỗi lấy % tăng trưởng bác sĩ:", error);
-    });
-
-  </script>
-
-<!--sc số lượng lịch khám -->
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    // Lấy % tăng trưởng lịch hẹn
-    fetch('https://localhost:7097/api/AppointmentController_1/calculate%')
-      .then(res => res.json())
-      .then(growth => {
-        // Sau đó lấy tổng số lịch hẹn
-        fetch('https://localhost:7097/api/AppointmentController_1/all')
-          .then(res => res.json())
-          .then(data => {
-            const total = data.length;
-            const percent = growth.toFixed(2);
-
-            // Cập nhật số lượng
-            document.getElementById('totalAppointmentsCount').textContent = `${total} lịch hẹn`;
-
-            // Cập nhật % tăng trưởng
-            const percentageElem = document.getElementById('appointmentsPercentage');
-            percentageElem.textContent = `${growth >= 0 ? '+' : ''}${percent}% tháng trước`;
-            percentageElem.classList.toggle('text-success', growth >= 0);
-            percentageElem.classList.toggle('text-danger', growth < 0);
-          })
-          .catch(error => {
-            console.error("Lỗi lấy tổng số lịch hẹn:", error);
-          });
-      })
-      .catch(error => {
-        console.error("Lỗi lấy % tăng trưởng lịch hẹn:", error);
-      });
-  });
-</script>
-
-
-
-
-
-  <!--sc  Doanh số -->
-  <script>
- let currentRevenue = 0;
-
-document.addEventListener('DOMContentLoaded', function () {
-  const timePeriod = document.getElementById('timePeriod');
-  if (timePeriod.value === 'current') {
-    fetchCurrentRevenue();
-  }
-  document.getElementById('customDateRange').style.display = 'none';
-});
-
-// Xử lý đổi loại thời gian
-document.getElementById('timePeriod').addEventListener('change', function () {
-  const selectedPeriod = this.value;
-  const customDateDiv = document.getElementById('customDateRange');
-  const start = document.getElementById('startDate').value;
-  const end = document.getElementById('endDate').value;
-
-  if (selectedPeriod === 'custom') {
-    customDateDiv.style.display = 'flex';
-    // Nếu đã đủ ngày thì fetch ngay, không reset về 0
-    if (start && end) {
-      fetchCustomRevenueIfValid();
-    } else {
-      // Chưa đủ ngày thì reset về 0
-      currentRevenue = 0;
-      updateRevenueData();
-    }
-  } else {
-    customDateDiv.style.display = 'none';
-    if (selectedPeriod === 'current') {
-      fetchCurrentRevenue();
-    } else if (selectedPeriod === 'month') {
-      fetch('https://localhost:7097/api/Invoice/total-revenue-month')
-        .then(handleResponse)
-        .then(data => {
-          currentRevenue = data;
-          updateRevenueData();
-        })
-        .catch(error => {
-          handleFetchError(error);
-        });
-    } else if (selectedPeriod === 'year') {
-      fetch('https://localhost:7097/api/Invoice/total-revenue-year')
-        .then(handleResponse)
-        .then(data => {
-          currentRevenue = data;
-          updateRevenueData();
-        })
-        .catch(error => {
-          handleFetchError(error);
-        });
-    }
-  }
-});
-
-// Bắt sự kiện chọn ngày
-document.getElementById('startDate').addEventListener('change', fetchCustomRevenueIfValid);
-document.getElementById('endDate').addEventListener('change', fetchCustomRevenueIfValid);
-
-// Chuyển đổi date dd/MM/yyyy (nếu có) -> yyyy-MM-dd
-function convertToIso(dateStr) {
-  if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
-  if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
-    const [d, m, y] = dateStr.split('/');
-    return `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
-  }
-  return '';
-}
-
-// Fetch doanh thu tuỳ chọn ngày
-function fetchCustomRevenueIfValid() {
-  const timePeriod = document.getElementById('timePeriod').value;
-  if (timePeriod !== 'custom') return;
-
-  let start = document.getElementById('startDate').value;
-  let end = document.getElementById('endDate').value;
-
-  start = convertToIso(start);
-  end = convertToIso(end);
-
-  const url = `https://localhost:7097/api/Invoice/GetAll?startDate=${start}&endDate=${end}`;
-  console.log("Fetch URL:", url);
-
-  if (start && end) {
-    fetch(url)
-      .then(handleResponse)
-      .then(data => {
-        console.log("API Response:", data); // Log kết quả về để debug
-        let total = 0;
-        if (Array.isArray(data)) {
-          // Lấy đúng trường tổng tiền từ API
-          total = data.reduce((sum, invoice) => sum + (invoice.totalAmount || invoice.TotalAmount || 0), 0);
-        }
-        currentRevenue = total;
-        updateRevenueData();
-      })
-      .catch(error => {
-        handleFetchError(error);
-      });
-  }
-}
-
-// Fetch doanh thu tổng hiện tại
-function fetchCurrentRevenue() {
-  fetch('https://localhost:7097/api/Invoice/total-revenue')
-    .then(handleResponse)
-    .then(data => {
-      currentRevenue = data;
-      updateRevenueData();
-    })
-    .catch(error => {
-      handleFetchError(error);
-    });
-}
-
-// Xử lý response API
-function handleResponse(response) {
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
-  }
-  return response.json();
-}
-
-// Xử lý lỗi fetch
-function handleFetchError(error) {
-  console.error('Error fetching revenue data:', error);
-  currentRevenue = 0;
-  updateRevenueData();
-}
-
-// Update giao diện doanh thu và tiến độ
-function updateRevenueData() {
-  const formattedRevenue = new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND'
-  }).format(currentRevenue);
-
-  const target = parseFloat(document.getElementById('target').value);
-  const comparison = ((currentRevenue / target) * 100).toFixed(2);
-  document.getElementById('targetComparison').textContent = `${comparison}%`;
-
-  const progress = (currentRevenue / target) * 100;
-  document.getElementById('revenueProgressBar').style.width = `${progress}%`;
-
-  document.getElementById('currentRevenue').textContent = formattedRevenue;
-}
-
-// Cập nhật khi đổi mục tiêu
-document.getElementById('target').addEventListener('input', function () {
-  const target = parseFloat(this.value);
-  if (isNaN(target) || target <= 0) return;
-  const comparison = ((currentRevenue / target) * 100).toFixed(2);
-  document.getElementById('targetComparison').textContent = `${comparison}%`;
-  const progress = (currentRevenue / target) * 100;
-  document.getElementById('revenueProgressBar').style.width = `${progress}%`;
-});
-
-document.getElementById('target').addEventListener('keypress', function (event) {
-  if (event.key === 'Enter') {
-    const target = parseFloat(this.value);
-    if (isNaN(target) || target <= 0) return;
-    const comparison = ((currentRevenue / target) * 100).toFixed(2);
-    document.getElementById('targetComparison').textContent = `${comparison}%`;
-    const progress = (currentRevenue / target) * 100;
-    document.getElementById('revenueProgressBar').style.width = `${progress}%`;
-  }
-});
-
-
-  </script>
-
-
-<!--sc  Biểu đồ bệnh nhân -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    async function fetchPatientData() {
-      try {
-        const response = await fetch('https://localhost:7097/api/Patient/GetAll');
-        const data = await response.json();
-
-        // Khởi tạo
-        const labels = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8'];
-        const femaleData = Array(8).fill(0);
-        const maleData = Array(8).fill(0);
-        let tongNu = 0;
-        let tongNam = 0;
-
-        // Phân loại giới tính theo tháng
-        data.forEach(patient => {
-          const gender = (patient.gender || '').toLowerCase();
-          const createdDate = new Date(patient.createDate);
-          const monthIndex = createdDate.getMonth(); // 0 = Jan
-
-          if (monthIndex >= 0 && monthIndex <= 7) {
-            if (gender === 'female') {
-              femaleData[monthIndex]++;
-              tongNu++;
-            } else if (gender === 'male') {
-              maleData[monthIndex]++;
-              tongNam++;
-            }
-          }
-        });
-
-        // Cập nhật tổng vào HTML
-        document.getElementById('tongNam').textContent = tongNam;
-        document.getElementById('tongNu').textContent = tongNu;
-
-        // Vẽ biểu đồ
-        const ctx = document.getElementById('appointment-line-chart').getContext('2d');
-        new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: labels,
-            datasets: [
-              {
-                label: 'Nam',
-                data: maleData,
-                borderColor: 'rgba(88,130,255,1)', // Xanh dương
-                backgroundColor: 'transparent',
-                tension: 0.5,
-                borderWidth: 2,
-                pointRadius: 4,
-                pointBorderColor: 'rgba(88,130,255,1)',
-                pointBackgroundColor: '#fff'
-              },
-              {
-                label: 'Nữ',
-                data: femaleData,
-                borderColor: 'rgba(255,99,132,1)', // Đỏ
-                backgroundColor: 'transparent',
-                tension: 0.5,
-                borderWidth: 2,
-                pointRadius: 4,
-                pointBorderColor: 'rgba(255,99,132,1)',
-                pointBackgroundColor: '#fff'
-              }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                labels: {
-                  usePointStyle: true,
-                  pointStyle: 'circle',
-                  font: {
-                    size: 14
-                  }
-                }
-              }
-            },
-            scales: {
-              y: {
-                beginAtZero: true,
-                suggestedMax: 10, // Mặc định hiển thị đến 10, vượt thì tự tăng
-                title: {
-                  display: true,
-                  text: 'Số lượng'
-                },
-                ticks: {
-                  stepSize: 1
-                }
-              },
-              x: {
-                title: {
-                  display: true,
-                  text: 'Tháng'
-                }
-              }
-            }
-          }
-        });
-
-      } catch (error) {
-        console.error('Không thể lấy dữ liệu bệnh nhân:', error);
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', fetchPatientData);
-  </script>
-
-
-
-<!--sc list 3 lịch gần nhất -->
-<script>
-function formatDate(dateString) {
-  const d = new Date(dateString);
-  const day = String(d.getDate()).padStart(2, '0');
-  const month = String(d.getMonth() + 1).padStart(2, '0');
-  const year = d.getFullYear();
-  return `${day}/${month}/${year}`;
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-  fetch("https://localhost:7097/api/AppointmentController_1/all")
-    .then(response => response.json())
-    .then(data => {
-      const sorted = data.sort((a, b) => new Date(a.appointmentDate) - new Date(b.appointmentDate));
-      const list = sorted.slice(0, 3);
-      const listContainer = document.getElementById("appointmentList");
-      document.getElementById("appointmentCount").innerText = list.length;
-
-      list.forEach(item => {
-        const html = `
-          <div class="d-flex align-items-center mb-3 bg-primary-subtle px-3 py-3 rounded">
-            <h6 class="mb-0 text-primary f-none">${formatDate(item.appointmentDate)}</h6>
-            <div class="border-start ps-3 ms-3 flex-grow-1">
-              <h5>${item.patientName}</h5>
-              <h6 class="mb-0">Lý do: <span class="text-body fw-normal">${item.note}</span></h6>
-            </div>
-            <div>
-              <button class="dropdown btn border-0 p-0" onclick='showAppointmentDetail(${JSON.stringify(item)})' data-bs-toggle="modal" data-bs-target="#appointmentDetailModal">
-                <svg width="15" viewBox="0 0 24 24" fill="none">
-                  <path d="M8.5 5L15.5 12L8.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-            </div>
-          </div>`;
-        listContainer.innerHTML += html;
-      });
-    });
-
-  window.showAppointmentDetail = function (item) {
-    document.getElementById("modalCode").innerText = item.code;
-    document.getElementById("modalDate").innerText = formatDate(item.appointmentDate);
-    document.getElementById("modalStart").innerText = item.startTime?.slice(0, 5) || "-";
-    document.getElementById("modalEnd").innerText = item.endTime?.slice(0, 5) || "-";
-    document.getElementById("modalStatus").innerText = mapStatus(item.status);
-    document.getElementById("modalNote").innerText = item.note;
-    document.getElementById("modalPatient").innerText = item.patientName;
-    document.getElementById("modalClinic").innerText = item.clinicName;
-    document.getElementById("modalReception").innerText = item.receptionName || "-";
-    document.getElementById("modalService").innerText = item.serviceName || "-";
-    document.getElementById("modalSend").innerText = item.isSend ? "Đã gửi" : "Chưa gửi";
-  };
-
-  function mapStatus(status) {
-    switch (status) {
-      case "Scheduled": return "Đã lên lịch";
-      case "Confirmed": return "Đã xác nhận";
-      case "Completed": return "Hoàn thành";
-      case "Cancelled": return "Đã hủy";
-      default: return status;
-    }
-  }
-});
-</script>
-
-  <!-- List các giao dịch -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  fetch('https://localhost:7097/api/Payment/all')
-    .then(res => {
-      if (!res.ok) throw new Error('Lỗi mạng hoặc không phản hồi');
-      return res.json();
-    })
-    .then(data => {
-      const list = document.getElementById('transaction-list');
-      list.innerHTML = '';
-      if (!data || data.length === 0) {
-        list.innerHTML = '<li class="p-3 text-center">Không có giao dịch nào.</li>';
-        return;
-      }
-      // Sắp xếp giảm dần theo paymentDate, chỉ lấy 3 giao dịch đầu tiên
-      const dataSorted = data
-        .sort((a, b) => new Date(b.paymentDate) - new Date(a.paymentDate))
-        .slice(0, 3);
-
-      dataSorted.forEach(item => {
-        const tenNguoi = item.payer || 'Không rõ';
-        const ngayThanhToan = item.paymentDate ? new Date(item.paymentDate) : null;
-        const ngayViet = ngayThanhToan ?
-          `${ngayThanhToan.getDate().toString().padStart(2, '0')}/${(ngayThanhToan.getMonth()+1).toString().padStart(2, '0')}/${ngayThanhToan.getFullYear()}`
-          : 'Không rõ';
-        const soTien = item.amount ? Number(item.amount).toLocaleString('vi-VN') + '₫' : '0₫';
-
-        const li = document.createElement('li');
-        li.className = 'd-flex justify-content-between align-items-center bg-light p-3 mb-3 rounded';
-        li.innerHTML = `
-          <div>
-            <div class="fw-bold">${tenNguoi}</div>
-            <div class="small text-muted">${ngayViet}</div>
-          </div>
-          <div class="fw-bold text-primary">${soTien}</div>
-        `;
-        list.appendChild(li);
-      });
-    })
-    .catch(err => {
-      const list = document.getElementById('transaction-list');
-      list.innerHTML = `<li class="p-3 text-center text-danger">Không lấy được dữ liệu</li>`;
-      console.error(err);
-    });
-});
-
-</script>
-
-<!-- Top Bác sĩ -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    fetch('https://localhost:7097/api/Doctors/top-prescriptions?top=3')
-        .then(res => res.json())
-        .then(data => {
-            const list = document.getElementById('top-doctor-list');
-            list.innerHTML = '';
-            if (!data || data.length === 0) {
-                list.innerHTML = '<li class="p-3 text-center">Không có dữ liệu</li>';
-                return;
-            }
-            data.forEach(item => {
-                const imgSrc = item.imageUrl && item.imageUrl.trim() !== '' ? item.imageUrl : 'https://ui-avatars.com/api/?name=' + encodeURIComponent(item.name);
-                const li = document.createElement('li');
-                li.className = 'd-flex mb-4 align-items-center';
-                li.innerHTML = `
-                    
-                    <div class="ms-4 flex-grow-1">
-                        <h5 class="mb-1">${item.name}</h5>
-                        
-                        <p class="mb-0 small">Kinh nghiệm: ${item.yearOfExperience} năm</p>
-                    </div>
-                    <div>
-                        <h6 class="text-primary mb-0">${item.prescriptionCount} Lượt khám </h6>
-                    </div>
-                `;
-                list.appendChild(li);
-            });
-        })
-        .catch(err => {
-            document.getElementById('top-doctor-list').innerHTML = '<li class="p-3 text-center text-danger">Không lấy được dữ liệu</li>';
-            console.error(err);
-        });
-});
-
-  </script>
-
-</body>
-
-</html>
-
-<script src="./assets/js/solid-icon-search-filter.js?v=1.4.1" defer></script>
 </body>
 
 </html>

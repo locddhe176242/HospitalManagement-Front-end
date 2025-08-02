@@ -735,6 +735,24 @@
                         </select>
 
                     </div>
+                    <div class="col-md-3">
+    <select id="bloodGroupFilter" class="form-select">
+        <option value="">Tất cả nhóm máu</option>
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="AB">AB</option>
+        <option value="O">O</option>
+        <option value="A+">A+</option>
+        <option value="A-">A-</option>
+        <option value="B+">B+</option>
+        <option value="B-">B-</option>
+        <option value="AB+">AB+</option>
+        <option value="AB-">AB-</option>
+        <option value="O+">O+</option>
+        <option value="O-">O-</option>
+    </select>
+</div>
+
                 </div>
 
                 <div class="table-responsive">
@@ -863,29 +881,27 @@
 
         // --- Lọc kết hợp ---
         function applyFilters() {
-            const q = $('#searchInput').val().trim().toLowerCase();
-            const genderVal = $('#genderFilter').val();
-            const statusVal = $('#statusFilter').val();
+    const q = $('#searchInput').val().trim().toLowerCase();
+    const genderVal = $('#genderFilter').val();
+    const statusVal = $('#statusFilter').val();
+    const bloodGroupVal = $('#bloodGroupFilter').val();  // Lấy giá trị nhóm máu
 
-            filteredPatients = patients.filter(p =>
-                // Lọc tìm kiếm
-                (
-                    (p.name || '').toLowerCase().includes(q) ||
-                    (p.code || '').toLowerCase().includes(q) ||
-                    getStatusText(p.status).toLowerCase().includes(q) ||
-                    getGenderText(p.gender).toLowerCase().includes(q)
-                )
-                // Lọc giới tính
-                && (genderVal === "" || getGenderText(p.gender) === genderVal || (typeof p.gender === "string" && p.gender === genderVal))
+    filteredPatients = patients.filter(p =>
+        (
+            (p.name || '').toLowerCase().includes(q) ||
+            (p.code || '').toLowerCase().includes(q) ||
+            getStatusText(p.status).toLowerCase().includes(q) ||
+            getGenderText(p.gender).toLowerCase().includes(q)
+        )
+        && (genderVal === "" || getGenderText(p.gender) === genderVal || (typeof p.gender === "string" && p.gender === genderVal))
+        && (statusVal === "" || getStatusText(p.status) === statusVal || (typeof p.status === "string" && p.status === statusVal))
+        && (bloodGroupVal === "" || (p.bloodType || "") === bloodGroupVal)   // THÊM DÒNG NÀY
+    );
+    currentPage = 1;
+    renderTable();
+    renderPagination();
+}
 
-                // Lọc trạng thái
-                && (statusVal === "" || getStatusText(p.status) === statusVal || (typeof p.status === "string" && p.status === statusVal))
-
-            );
-            currentPage = 1;
-            renderTable();
-            renderPagination();
-        }
 
         // ----- Load danh sách bệnh nhân từ API -----
         async function loadPatients() {
@@ -985,7 +1001,8 @@
         $('#searchInput').on('input', applyFilters);
         $('#genderFilter').on('change', applyFilters);
         $('#statusFilter').on('change', applyFilters);
-
+        $('#bloodGroupFilter').on('change', applyFilters);
+        
         // ----- Khi trang load thì lấy danh sách -----
         $(function () { loadPatients(); });
 
