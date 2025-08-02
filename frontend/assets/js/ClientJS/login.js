@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     try {
-      // Sử dụng UserSessionManager nếu có
+      
       if (window.userSessionManager) {
         const result = await window.userSessionManager.login(email, password, userType);
         if (result.success) {

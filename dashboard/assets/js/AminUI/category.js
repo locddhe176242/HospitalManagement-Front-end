@@ -2,6 +2,17 @@ document.addEventListener('DOMContentLoaded', function () {
   renderDepartmentList(); // Khi trang load
   setupAddDepartmentForm(); // Gắn xử lý form thêm
   setupEditDepartmentForm(); // Gắn xử lý form sửa
+
+  const searchInput = document.getElementById('searchDepartmentInput');
+let debounceTimer;
+
+searchInput?.addEventListener('input', function () {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    const keyword = searchInput.value.trim();
+    renderDepartmentList(keyword);
+  }, 300); // đợi 300ms sau khi dừng gõ
+});
 });
 
 // Load danh sách khoa khám
@@ -251,3 +262,62 @@ async function showDoctorsInDepartment(departmentId, departmentName) {
     console.error(err);
   }
 }
+
+
+
+async function renderDepartmentList(searchKeyword = "") {
+  const container = document.querySelector('.card-body .row');
+  container.innerHTML = '';
+
+  try {
+    let url = 'https://localhost:7097/api/Department/get-all';
+
+    if (searchKeyword.trim() !== "") {
+      url = `https://localhost:7097/api/Department/find-by-name/${encodeURIComponent(searchKeyword)}`;
+    }
+
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Lỗi API: ${await res.text()}`);
+
+    const departments = await res.json();
+
+    if (!departments || departments.length === 0) {
+      container.innerHTML = `<div class="alert alert-warning">Không tìm thấy khoa khám nào.</div>`;
+      return;
+    }
+
+    departments.forEach(dep => {
+      container.innerHTML += `
+        <div class="col">
+          <div class="bg-light-subtle p-4 d-flex justify-content-between mb-5 flex-column flex-md-row gap-2 align-items-md-center rounded"
+               style="cursor: pointer;" 
+               onclick="showDoctorsInDepartment(${dep.id}, '${dep.name}')">
+            <div class="d-flex align-items-start align-items-md-center gap-3 flex-column flex-md-row">
+              <img class="img-fluid avatar avatar-80" src="${dep.imageUrl || './assets/images/doctor/1.webp'}" alt="Doctor" />
+              <div>
+                <h5 class="mb-1 text-capitalize">${dep.name}</h5>
+                <span class="text-body">${dep.description}</span>
+              </div>
+            </div>
+            <div class="mt-2 d-flex gap-2">
+              <span class="badge bg-secondary mt-2">${dep.totalAmountOfPeople} người</span>
+              <button class="btn btn-sm btn-outline-primary" onclick="event.stopPropagation(); editDepartment(${dep.id})">
+                <i class="bi bi-pencil"></i> Sửa
+              </button>
+              <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); deleteDepartment(${dep.id})">
+                <i class="bi bi-trash"></i> Xóa
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+  } catch (err) {
+    console.error('Lỗi khi load danh sách khoa khám:', err);
+    container.innerHTML = `<div class="alert alert-danger">Không thể tải danh sách khoa khám.</div>`;
+  }
+}
+
+
+

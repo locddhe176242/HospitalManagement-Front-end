@@ -219,8 +219,8 @@ async function submitAppointment() {
         // Lấy dữ liệu từ localStorage
         const appointmentDate = localStorage.getItem("appointmentDate");
         const startTime = localStorage.getItem("startTime");
-        const appointmentTitle = localStorage.getItem("appointmentTitle") || "";
-        const appointmentNote = localStorage.getItem("appointmentNote") || "";
+        const appointmentTitle = localStorage.getItem("appointmentTitle") || "N/A";
+        const appointmentNote = localStorage.getItem("appointmentNote") || "N/A";
         const patientId = localStorage.getItem("patientId");
         // Lấy thông tin phần tử đã chọn
         const selectedClinic = document.querySelector('input[name="radios"]:checked')?.value;

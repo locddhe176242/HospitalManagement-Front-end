@@ -68,3 +68,103 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
+
+//reset password
+//forgot-password.html
+document.addEventListener('DOMContentLoaded', function () {
+  // Lấy tất cả form có id bắt đầu bằng "forgotPasswordForm"
+  const forms = document.querySelectorAll('form[id^="forgotPasswordFormDoctor"]');
+
+  forms.forEach(form => {
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const email = form.elements['user_login'].value;
+      const userType = form.elements['userType'].value;
+
+      try {
+        const response = await fetch('https://localhost:7097/api/Authentication/forgot-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, userType })
+        });
+
+        if (response.ok) {
+          alert('Vui lòng kiểm tra email để đặt lại mật khẩu!');
+          form.reset();
+        } else {
+          const data = await response.json();
+          alert(data.message || 'Có lỗi xảy ra, vui lòng thử lại.');
+        }
+      } catch (error) {
+        alert('Không thể kết nối đến máy chủ.');
+      }
+    });
+  });
+});
+
+//reset password
+//reset-password-form.html
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('resetPasswordFormDoctor');
+  if (!form) {
+      console.error('Không tìm thấy form!');
+      return;
+    }
+    
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const newPassword = form.elements['new_password'].value;
+    const confirmPassword = form.elements['confirm_password'].value;
+
+    if (newPassword.length < 8) {
+      alert('Mật khẩu phải có ít nhất 8 ký tự!');
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      alert('Mật khẩu không khớp!');
+      return;
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    const userTypeRaw = urlParams.get('userType') || form.elements['userType'].value;
+
+    if (!token || !userTypeRaw) {
+      alert('Link không hợp lệ!');
+      return;
+    }
+
+    const userType = userTypeRaw.charAt(0).toUpperCase() + userTypeRaw.slice(1).toLowerCase();
+
+    const payload = {
+      Token: token,
+      NewPassword: newPassword,
+      UserType: userType
+    };
+
+    console.log('Sending to server:', payload);
+
+    try {
+      const response = await fetch('https://localhost:7097/api/Authentication/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        alert('Đặt lại mật khẩu thành công!');
+        window.location.href = '/dashboard/auth/sign-in-doctor.html';
+      } else {
+        const data = await response.json();
+        console.error('Server response:', data);
+        alert(data.message || 'Đặt lại mật khẩu thất bại!');
+      }
+    } catch (error) {
+      console.error('Fetch error:', error);
+      alert('Không thể kết nối đến máy chủ.');
+    }
+  });
+});
