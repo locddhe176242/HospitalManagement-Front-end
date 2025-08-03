@@ -1,69 +1,189 @@
+//doctor.js
 document.addEventListener('DOMContentLoaded', function () {
   renderAllDoctors();
   setupAddDoctorForm();
   loadDepartmentOptions();
   setupEditDoctorForm();
+
+
 });
 
+let currentPage = 1;
+const pageSize = 6; 
+let allDoctors = []; 
+
+
 // Load danh sách khoa khám
+// async function renderAllDoctors() {
+//   try {
+//     const res = await fetch('https://localhost:7097/api/Doctors/GetAll');
+//     if (!res.ok) throw new Error('Lỗi khi lấy danh sách bác sĩ.');
+
+//     const doctors = await res.json();
+//     const container = document.getElementById('allDoctorsList'); // đảm bảo có div này trong HTML
+//     container.innerHTML = '';
+
+//     if (doctors.length === 0) {
+//       container.innerHTML = `<div class="alert alert-warning">Không có bác sĩ nào được tìm thấy.</div>`;
+//       return;
+//     }
+
+//     doctors.forEach(doc => {
+//   const genderVN = doc.gender === 'Male' ? 'Nam' : doc.gender === 'Female' ? 'Nữ' : doc.gender;
+//   const statusVN = doc.status === 'Available' ? 'Sẵn sàng' : 'Không rõ';
+//   const imageSrc = doc.imageURL || './assets/images/doctor/1.webp';
+
+//   container.innerHTML += `
+//   <div class="col">
+//     <div class="bg-light-subtle p-4 d-flex justify-content-between mb-5 flex-column flex-md-row gap-1 rounded"
+//          style="cursor: pointer;" 
+//          onclick="showDoctorsDetail(${doc.userId}, '${doc.name}')">
+//       <div class="d-flex align-items-start align-items-md-center gap-3 flex-column flex-md-row">
+//         <img class="img-fluid avatar avatar-80" src="${imageSrc}" alt="Dr-profile" loading="lazy" />
+//         <div>
+//           <h5 class="mb-1">${doc.name}</h5>
+//           <span class="text-body">${genderVN} – SĐT: ${doc.phone}</span>
+//           <h6 class="mb-0 pt-1"><span class="text-body fw-normal">Trạng thái:</span> ${statusVN}</h6>
+//         </div>
+//       </div>
+
+//       <div class="d-flex flex-column align-items-end mt-2">
+//         <span class="text-primary small text-capitalize mb-1">
+//           Kinh nghiệm: ${doc.yearOfExperience} năm
+//         </span>
+//         <div class="d-flex flex-row gap-2">
+//           <button class="btn btn-outline-primary btn-sm px-2 py-1"
+//                   onclick="event.stopPropagation(); editDoctor(${doc.userId})">
+//             <i class="bi bi-pencil"></i> Sửa
+//           </button>
+//           <button class="btn btn-outline-danger btn-sm px-2 py-1"
+//                   onclick="event.stopPropagation(); deleteDoctor(${doc.id})">
+//             <i class="bi bi-trash"></i> Xóa
+//           </button>
+//         </div>
+//       </div>
+
+//     </div>
+//   </div>
+// `;
+// });
+//   } catch (err) {
+//     console.error(err);
+//     alert('Không thể tải danh sách bác sĩ.');
+//   }
+// }
+
 async function renderAllDoctors() {
   try {
     const res = await fetch('https://localhost:7097/api/Doctors/GetAll');
     if (!res.ok) throw new Error('Lỗi khi lấy danh sách bác sĩ.');
 
-    const doctors = await res.json();
-    const container = document.getElementById('allDoctorsList'); // đảm bảo có div này trong HTML
-    container.innerHTML = '';
-
-    if (doctors.length === 0) {
-      container.innerHTML = `<div class="alert alert-warning">Không có bác sĩ nào được tìm thấy.</div>`;
-      return;
-    }
-
-    doctors.forEach(doc => {
-  const genderVN = doc.gender === 'Male' ? 'Nam' : doc.gender === 'Female' ? 'Nữ' : doc.gender;
-  const statusVN = doc.status === 'Available' ? 'Sẵn sàng' : 'Không rõ';
-  const imageSrc = doc.imageURL || './assets/images/doctor/1.webp';
-
-  container.innerHTML += `
-  <div class="col">
-    <div class="bg-light-subtle p-4 d-flex justify-content-between mb-5 flex-column flex-md-row gap-1 rounded"
-         style="cursor: pointer;" 
-         onclick="showDoctorsDetail(${doc.userId}, '${doc.name}')">
-      <div class="d-flex align-items-start align-items-md-center gap-3 flex-column flex-md-row">
-        <img class="img-fluid avatar avatar-80" src="${imageSrc}" alt="Dr-profile" loading="lazy" />
-        <div>
-          <h5 class="mb-1">${doc.name}</h5>
-          <span class="text-body">${genderVN} – SĐT: ${doc.phone}</span>
-          <h6 class="mb-0 pt-1"><span class="text-body fw-normal">Trạng thái:</span> ${statusVN}</h6>
-        </div>
-      </div>
-
-      <div class="d-flex flex-column align-items-end mt-2">
-        <span class="text-primary small text-capitalize mb-1">
-          Kinh nghiệm: ${doc.yearOfExperience} năm
-        </span>
-        <div class="d-flex flex-row gap-2">
-          <button class="btn btn-outline-primary btn-sm px-2 py-1"
-                  onclick="event.stopPropagation(); editDoctor(${doc.userId})">
-            <i class="bi bi-pencil"></i> Sửa
-          </button>
-          <button class="btn btn-outline-danger btn-sm px-2 py-1"
-                  onclick="event.stopPropagation(); deleteDoctor(${doc.id})">
-            <i class="bi bi-trash"></i> Xóa
-          </button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-`;
-});
+    allDoctors = await res.json(); // lưu tất cả để phân trang
+    renderDoctorsByPage(currentPage);
   } catch (err) {
     console.error(err);
     alert('Không thể tải danh sách bác sĩ.');
   }
 }
+function renderDoctorsByPage(page) {
+  const container = document.getElementById('allDoctorsList');
+  container.innerHTML = '';
+
+  const start = (page - 1) * pageSize;
+  const end = start + pageSize;
+  const doctors = allDoctors.slice(start, end);
+
+  if (doctors.length === 0) {
+    container.innerHTML = `<div class="alert alert-warning">Không có bác sĩ nào được tìm thấy.</div>`;
+    return;
+  }
+
+  doctors.forEach(doc => {
+    const genderVN = doc.gender === 'Male' ? 'Nam' : doc.gender === 'Female' ? 'Nữ' : doc.gender;
+    const statusVN = doc.status === 'Available' ? 'Sẵn sàng' : 'Không rõ';
+    const imageSrc = doc.imageURL || './assets/images/doctor/1.webp';
+
+    container.innerHTML += `
+      <div class="col">
+        <div class="bg-light-subtle p-4 d-flex justify-content-between mb-5 flex-column flex-md-row gap-1 rounded"
+             style="cursor: pointer;" 
+             onclick="showDoctorsDetail(${doc.userId}, '${doc.name}')">
+          <div class="d-flex align-items-start align-items-md-center gap-3 flex-column flex-md-row">
+            <img class="img-fluid avatar avatar-80" src="${imageSrc}" alt="Dr-profile" loading="lazy" />
+            <div>
+              <h5 class="mb-1">${doc.name}</h5>
+              <span class="text-body">${genderVN} – SĐT: ${doc.phone}</span>
+              <h6 class="mb-0 pt-1"><span class="text-body fw-normal">Trạng thái:</span> ${statusVN}</h6>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column align-items-end mt-2">
+            <span class="text-primary small text-capitalize mb-1">
+              Kinh nghiệm: ${doc.yearOfExperience} năm
+            </span>
+            <div class="d-flex flex-row gap-2">
+              <button class="btn btn-outline-primary btn-sm px-2 py-1"
+                      onclick="event.stopPropagation(); editDoctor(${doc.userId})">
+                <i class="bi bi-pencil"></i> Sửa
+              </button>
+              <button class="btn btn-outline-danger btn-sm px-2 py-1"
+                      onclick="event.stopPropagation(); deleteDoctor(${doc.id})">
+                <i class="bi bi-trash"></i> Xóa
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  renderPagination(allDoctors.length, pageSize, page);
+}
+function renderPagination(totalItems, itemsPerPage, currentPageInput) {
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const pagination = document.getElementById('pagination');
+  pagination.innerHTML = '';
+
+  // Previous
+  if (currentPageInput > 1) {
+    const prevBtn = document.createElement('li');
+    prevBtn.className = 'text-center bg-primary-subtle text-primary rounded px-2';
+    prevBtn.textContent = '«';
+    prevBtn.style.cursor = 'pointer';
+    prevBtn.onclick = () => {
+      currentPage--; // Sửa: dùng biến toàn cục
+      renderDoctorsByPage(currentPage);
+    };
+    pagination.appendChild(prevBtn);
+  }
+
+  // Page numbers
+  for (let i = 1; i <= totalPages; i++) {
+    const li = document.createElement('li');
+    li.className = 'text-center rounded px-2 ' + (i === currentPageInput ? 'bg-primary text-white' : 'bg-primary-subtle text-primary');
+    li.textContent = i;
+    li.style.cursor = 'pointer';
+    li.onclick = () => {
+      currentPage = i; // Cập nhật biến toàn cục
+      renderDoctorsByPage(currentPage);
+    };
+    pagination.appendChild(li);
+  }
+
+  // Next
+  if (currentPageInput < totalPages) {
+    const nextBtn = document.createElement('li');
+    nextBtn.className = 'text-center bg-primary-subtle text-primary rounded px-2';
+    nextBtn.textContent = '»';
+    nextBtn.style.cursor = 'pointer';
+    nextBtn.onclick = () => {
+      currentPage++; // Sửa: cập nhật global
+      renderDoctorsByPage(currentPage);
+    };
+    pagination.appendChild(nextBtn);
+  }
+}
+
 
 
 // Xử lý form thêm bác sĩ

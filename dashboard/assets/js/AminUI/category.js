@@ -2,12 +2,78 @@ document.addEventListener('DOMContentLoaded', function () {
   renderDepartmentList(); // Khi trang load
   setupAddDepartmentForm(); // Gắn xử lý form thêm
   setupEditDepartmentForm(); // Gắn xử lý form sửa
+ 
+
+  const searchInput = document.getElementById('searchDepartmentInput');
+  let debounceTimer;
+
+  searchInput?.addEventListener('input', function () {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      const keyword = searchInput.value.trim();
+      renderDepartmentList(keyword);
+    }, 300);
+  });
 });
+let allDepartments = []; // Dữ liệu toàn bộ
+let currentPage = 1;
+const pageSize = 6;
 
 // Load danh sách khoa khám
+// async function renderDepartmentList() {
+//   const container = document.querySelector('.card-body .row');
+//   container.innerHTML = ''; // Clear list cũ
+
+//   try {
+//     const res = await fetch('https://localhost:7097/api/Department/get-all');
+
+//     if (!res.ok) {
+//       const err = await res.text();
+//       throw new Error(`Lỗi API: ${err}`);
+//     }
+
+//     const departments = await res.json();
+
+//     if (!departments || departments.length === 0) {
+//       container.innerHTML = `<div class="alert alert-warning">Chưa có khoa khám nào.</div>`;
+//       return;
+//     }
+
+//     departments.forEach(dep => {
+//   container.innerHTML += `
+//     <div class="col">
+//       <div class="bg-light-subtle p-4 d-flex justify-content-between mb-5 flex-column flex-md-row gap-2 align-items-md-center rounded"
+//            style="cursor: pointer;" 
+//            onclick="showDoctorsInDepartment(${dep.id}, '${dep.name}')">
+//         <div class="d-flex align-items-start align-items-md-center gap-3 flex-column flex-md-row">
+//           <img class="img-fluid avatar avatar-80" src="${dep.imageUrl || './assets/images/doctor/1.webp'}" alt="Doctor" />
+//           <div>
+//             <h5 class="mb-1 text-capitalize">${dep.name}</h5>
+//             <span class="text-body">${dep.description}</span>
+//           </div>
+//         </div>
+//         <div class="mt-2 d-flex gap-2">
+//           <span class="badge bg-secondary mt-2">${dep.totalAmountOfPeople} người</span>
+//           <button class="btn btn-sm btn-outline-primary" onclick="event.stopPropagation(); editDepartment(${dep.id})">
+//             <i class="bi bi-pencil"></i> Sửa
+//           </button>
+//           <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); deleteDepartment(${dep.id})">
+//             <i class="bi bi-trash"></i> Xóa
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   `;
+// });
+
+//   } catch (err) {
+//     console.error('Lỗi khi load danh sách khoa khám:', err);
+//     container.innerHTML = `<div class="alert alert-danger">Không thể tải danh sách khoa khám.</div>`;
+//   }
+// }
 async function renderDepartmentList() {
   const container = document.querySelector('.card-body .row');
-  container.innerHTML = ''; // Clear list cũ
+  container.innerHTML = '';
 
   try {
     const res = await fetch('https://localhost:7097/api/Department/get-all');
@@ -17,46 +83,107 @@ async function renderDepartmentList() {
       throw new Error(`Lỗi API: ${err}`);
     }
 
-    const departments = await res.json();
+    allDepartment = await res.json();
 
-    if (!departments || departments.length === 0) {
+    if (!allDepartment || allDepartment.length === 0) {
       container.innerHTML = `<div class="alert alert-warning">Chưa có khoa khám nào.</div>`;
       return;
     }
 
-    departments.forEach(dep => {
-  container.innerHTML += `
-    <div class="col">
-      <div class="bg-light-subtle p-4 d-flex justify-content-between mb-5 flex-column flex-md-row gap-2 align-items-md-center rounded"
-           style="cursor: pointer;" 
-           onclick="showDoctorsInDepartment(${dep.id}, '${dep.name}')">
-        <div class="d-flex align-items-start align-items-md-center gap-3 flex-column flex-md-row">
-          <img class="img-fluid avatar avatar-80" src="${dep.imageUrl || './assets/images/doctor/1.webp'}" alt="Doctor" />
-          <div>
-            <h5 class="mb-1 text-capitalize">${dep.name}</h5>
-            <span class="text-body">${dep.description}</span>
-          </div>
-        </div>
-        <div class="mt-2 d-flex gap-2">
-          <span class="badge bg-secondary mt-2">${dep.totalAmountOfPeople} người</span>
-          <button class="btn btn-sm btn-outline-primary" onclick="event.stopPropagation(); editDepartment(${dep.id})">
-            <i class="bi bi-pencil"></i> Sửa
-          </button>
-          <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); deleteDepartment(${dep.id})">
-            <i class="bi bi-trash"></i> Xóa
-          </button>
-        </div>
-      </div>
-    </div>
-  `;
-});
-
+    renderDepartmentsByPage(currentPage);
   } catch (err) {
     console.error('Lỗi khi load danh sách khoa khám:', err);
     container.innerHTML = `<div class="alert alert-danger">Không thể tải danh sách khoa khám.</div>`;
   }
 }
 
+function renderDepartmentsByPage(page) {
+  const container = document.querySelector('.card-body .row');
+  container.innerHTML = '';
+
+  const start = (page - 1) * pageSize;
+  const end = start + pageSize;
+  const departments = allDepartment.slice(start, end);
+
+  if (departments.length === 0) {
+    container.innerHTML = `<div class="alert alert-warning">Không có khoa khám nào được tìm thấy.</div>`;
+    return;
+  }
+
+  departments.forEach(dep => {
+    container.innerHTML += `
+      <div class="col">
+        <div class="bg-light-subtle p-4 d-flex justify-content-between mb-5 flex-column flex-md-row gap-2 align-items-md-center rounded"
+             style="cursor: pointer;" 
+             onclick="showDoctorsInDepartment(${dep.id}, '${dep.name}')">
+          <div class="d-flex align-items-start align-items-md-center gap-3 flex-column flex-md-row">
+            <img class="img-fluid avatar avatar-80" src="${dep.imageUrl || './assets/images/doctor/1.webp'}" alt="Doctor" />
+            <div>
+              <h5 class="mb-1 text-capitalize">${dep.name}</h5>
+              <span class="text-body">${dep.description}</span>
+            </div>
+          </div>
+          <div class="mt-2 d-flex gap-2">
+            <span class="badge bg-secondary mt-2">${dep.totalAmountOfPeople} người</span>
+            <button class="btn btn-sm btn-outline-primary" onclick="event.stopPropagation(); editDepartment(${dep.id})">
+              <i class="bi bi-pencil"></i> Sửa
+            </button>
+            <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); deleteDepartment(${dep.id})">
+              <i class="bi bi-trash"></i> Xóa
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  renderDepartmentPagination(allDepartment.length, pageSize, page);
+}
+
+function renderDepartmentPagination(totalItems, itemsPerPage, currentPageInput) {
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const pagination = document.getElementById('pagination');
+  pagination.innerHTML = '';
+
+  // Previous
+  if (currentPageInput > 1) {
+    const prevBtn = document.createElement('li');
+    prevBtn.className = 'text-center bg-primary-subtle text-primary rounded px-2';
+    prevBtn.textContent = '«';
+    prevBtn.style.cursor = 'pointer';
+    prevBtn.onclick = () => {
+      currentPage--;
+      renderDepartmentsByPage(currentPage);
+    };
+    pagination.appendChild(prevBtn);
+  }
+
+  // Page numbers
+  for (let i = 1; i <= totalPages; i++) {
+    const li = document.createElement('li');
+    li.className = 'text-center rounded px-2 ' + (i === currentPageInput ? 'bg-primary text-white' : 'bg-primary-subtle text-primary');
+    li.textContent = i;
+    li.style.cursor = 'pointer';
+    li.onclick = () => {
+      currentPage = i;
+      renderDepartmentsByPage(currentPage);
+    };
+    pagination.appendChild(li);
+  }
+
+  // Next
+  if (currentPageInput < totalPages) {
+    const nextBtn = document.createElement('li');
+    nextBtn.className = 'text-center bg-primary-subtle text-primary rounded px-2';
+    nextBtn.textContent = '»';
+    nextBtn.style.cursor = 'pointer';
+    nextBtn.onclick = () => {
+      currentPage++;
+      renderDepartmentsByPage(currentPage);
+    };
+    pagination.appendChild(nextBtn);
+  }
+}
 
 // Xử lý form thêm khoa
 function setupAddDepartmentForm() {
@@ -249,5 +376,81 @@ async function showDoctorsInDepartment(departmentId, departmentName) {
   } catch (err) {
     alert('Lỗi khi tải danh sách bác sĩ!');
     console.error(err);
+  }
+}
+
+// async function renderSearchDepartmentList(searchKeyword = "") {
+//   const container = document.querySelector('.card-body .row');
+//   container.innerHTML = '';
+
+//   try {
+//     let url = 'https://localhost:7097/api/Department/get-all';
+
+//     if (searchKeyword.trim() !== "") {
+//       url = `https://localhost:7097/api/Department/find-by-name/${encodeURIComponent(searchKeyword)}`;
+//     }
+
+//     const res = await fetch(url);
+//     if (!res.ok) throw new Error(`Lỗi API: ${await res.text()}`);
+
+//     const departments = await res.json();
+
+//     if (!departments || departments.length === 0) {
+//       container.innerHTML = `<div class="alert alert-warning">Không tìm thấy khoa khám nào.</div>`;
+//       return;
+//     }
+
+//     departments.forEach(dep => {
+//       container.innerHTML += `
+//         <div class="col">
+//           <div class="bg-light-subtle p-4 d-flex justify-content-between mb-5 flex-column flex-md-row gap-2 align-items-md-center rounded"
+//                style="cursor: pointer;" 
+//                onclick="showDoctorsInDepartment(${dep.id}, '${dep.name}')">
+//             <div class="d-flex align-items-start align-items-md-center gap-3 flex-column flex-md-row">
+//               <img class="img-fluid avatar avatar-80" src="${dep.imageUrl || './assets/images/doctor/1.webp'}" alt="Doctor" />
+//               <div>
+//                 <h5 class="mb-1 text-capitalize">${dep.name}</h5>
+//                 <span class="text-body">${dep.description}</span>
+//               </div>
+//             </div>
+//             <div class="mt-2 d-flex gap-2">
+//               <span class="badge bg-secondary mt-2">${dep.totalAmountOfPeople} người</span>
+//               <button class="btn btn-sm btn-outline-primary" onclick="event.stopPropagation(); editDepartment(${dep.id})">
+//                 <i class="bi bi-pencil"></i> Sửa
+//               </button>
+//               <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); deleteDepartment(${dep.id})">
+//                 <i class="bi bi-trash"></i> Xóa
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       `;
+//     });
+
+//   } catch (err) {
+//     console.error('Lỗi khi load danh sách khoa khám:', err);
+//     container.innerHTML = `<div class="alert alert-danger">Không thể tải danh sách khoa khám.</div>`;
+//   }
+// }
+async function renderDepartmentList(searchKeyword = "") {
+  const container = document.querySelector('.card-body .row');
+  container.innerHTML = '';
+
+  try {
+    let url = 'https://localhost:7097/api/Department/get-all';
+
+    if (searchKeyword.trim() !== "") {
+      url = `https://localhost:7097/api/Department/find-by-name/${encodeURIComponent(searchKeyword)}`;
+    }
+
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Lỗi API: ${await res.text()}`);
+
+    allDepartment = await res.json();
+    currentPage = 1;
+    renderDepartmentsByPage(currentPage);
+  } catch (err) {
+    console.error('Lỗi khi load danh sách khoa khám:', err);
+    container.innerHTML = `<div class="alert alert-danger">Không thể tải danh sách khoa khám.</div>`;
   }
 }
