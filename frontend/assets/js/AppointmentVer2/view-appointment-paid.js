@@ -29,6 +29,17 @@ document.addEventListener("DOMContentLoaded", async function () {
       item.status && item.status.toLowerCase() === "scheduled"
     );
 
+    if (appointments.length === 0) {
+      tableBody.innerHTML = `
+    <tr>
+      <td colspan="11" class="p-3 text-center text-muted">
+        Bạn không có lịch hẹn nào
+      </td>
+    </tr>
+  `;
+      return; 
+    }
+
     const pageSize = 5;
     let currentPage = 1;
     const tableBody = document.getElementById("appointment-patient");
@@ -61,12 +72,12 @@ document.addEventListener("DOMContentLoaded", async function () {
           </tr>`;
         tableBody.insertAdjacentHTML("beforeend", row);
       });
-    
+
       pageInfo.textContent = `Trang ${currentPage} / ${Math.ceil(appointments.length / pageSize)}`;
       prevBtn.disabled = currentPage === 1;
       nextBtn.disabled = currentPage * pageSize >= appointments.length;
     }
-    
+
     prevBtn.addEventListener("click", () => {
       if (currentPage > 1) {
         currentPage--;
@@ -112,22 +123,24 @@ async function cancelAppointment(id) {
 
   try {
     const res = await fetch(`https://localhost:7097/api/AppointmentController_1/change-status/${id}?newStatus=Cancelled`, {
-      method: "PUT", 
+      method: "PUT",
       headers: {
         Authorization: "Bearer " + token,
         "Content-Type": "application/json"
       }
     });
 
+    const data = await res.json();
+
     if (!res.ok) {
-      throw new Error("Hủy lịch hẹn thất bại");
+      alert(data.message || "Hủy lịch hẹn thất bại");
+      return;
     }
 
-    alert("Hủy lịch hẹn thành công");
-
+    alert(data.message || "Hủy lịch hẹn thành công");
 
     location.reload();
-   
+
 
   } catch (err) {
     console.error("Lỗi khi hủy lịch hẹn:", err);
