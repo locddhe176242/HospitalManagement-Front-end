@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     try {
         await loadMedicalRecordDetail();
         if (currentPatientId) {
-            await loadPatientInfo();
+            await loadPatientInfo(currentPatientId);
         }
         await loadDiseases();
     } catch (error) {
@@ -47,73 +47,81 @@ document.addEventListener('DOMContentLoaded', async function() {
     setupCharCounters();
 });
 
-// Lấy thông tin bệnh nhân
-async function loadPatientInfo() {
+async function loadPatientInfo(patientId) {
     try {
         document.getElementById('patientInfo').innerHTML = `
-            <div class="col-md-6">
-                <div class="d-flex align-items-center">
-                    <div class="avatar avatar-lg me-3">
-                        <span class="avatar-title bg-primary rounded-circle fs-4">
-                            ${currentPatientName.charAt(0).toUpperCase()}
-                        </span>
-                    </div>
-                    <div>
-                        <h6 class="mb-1">${currentPatientName}</h6>
-                        <p class="text-muted mb-0">Mã BN: ${currentPatientId}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <small class="text-muted">Đang tải thông tin chi tiết...</small>
+            <div class="col-md-12 text-center">
+                <small class="text-muted">Đang tải thông tin bệnh nhân...</small>
             </div>
         `;
 
-        const response = await fetch(`${API_BASE_URL}/api/Patient/findId/${currentPatientId}`, {
+        const response = await fetch(`${API_BASE_URL}/api/Patient/findId/${patientId}`, {
             method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
+            headers: {
+                'Content-Type': 'application/json'
+            }
         });
 
         if (response.ok) {
             const patientData = await response.json();
             displayPatientInfo(patientData);
         } else {
-            throw new Error('Không thể tải thông tin bệnh nhân');
+            document.getElementById('patientInfo').innerHTML = `
+                <div class="col-md-12 text-center text-danger">
+                    Không tìm thấy thông tin bệnh nhân
+                </div>
+            `;
         }
     } catch (error) {
-        console.error('Lỗi khi tải thông tin bệnh nhân:', error);
-        showNotification('Lỗi khi tải thông tin bệnh nhân: ' + error.message, 'error');
+        document.getElementById('patientInfo').innerHTML = `
+            <div class="col-md-12 text-center text-danger">
+                Lỗi khi tải thông tin bệnh nhân
+            </div>
+        `;
     }
 }
 
+// Hiển thị thông tin bệnh nhân chi tiết
 function displayPatientInfo(patientData) {
     document.getElementById('patientInfo').innerHTML = `
-        <div class="col-md-6">
-            <div class="d-flex align-items-center">
-                <div class="avatar avatar-lg me-3">
-                    <span class="avatar-title bg-primary rounded-circle fs-4">
-                        ${(patientData.name || currentPatientName).charAt(0).toUpperCase()}
-                    </span>
-                </div>
-                <div>
-                    <h6 class="mb-1">${patientData.name || currentPatientName}</h6>
-                    <p class="text-muted mb-0">Mã BN: ${patientData.id || currentPatientId}</p>
-                </div>
+        <div class="row">
+            <div class="col-md-6 mb-2">
+                <span class="text-muted">Tên bệnh nhân:</span>
+                <div>${patientData.name || patientData.fullName || ''}</div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-12">
-                    <small class="text-muted">Giới tính:</small>
-                    <span class="ms-2">${patientData.gender || 'N/A'}</span>
-                </div>
-                <div class="col-12">
-                    <small class="text-muted">Ngày sinh:</small>
-                    <span class="ms-2">${patientData.dob ? new Date(patientData.dob).toLocaleDateString('vi-VN') : 'N/A'}</span>
-                </div>
+            <div class="col-md-6 mb-2">
+                <span class="text-muted">Ngày sinh:</span>
+                <div>${patientData.dob ? new Date(patientData.dob).toLocaleDateString() : (patientData.dateOfBirth ? new Date(patientData.dateOfBirth).toLocaleDateString() : '')}</div>
+            </div>
+            <div class="col-md-6 mb-2">
+                <span class="text-muted">Giới tính:</span>
+                <div>${getGenderText(patientData.gender)}</div>
+            </div>
+            <div class="col-md-6 mb-2">
+                <span class="text-muted">Điện thoại:</span>
+                <div>${patientData.phone || patientData.phoneNumber || ''}</div>
+            </div>
+            <div class="col-md-6 mb-2">
+                <span class="text-muted">CCCD:</span>
+                <div>${patientData.cccd || patientData.identityNumber || patientData.identityCard || ''}</div>
+            </div>
+            <div class="col-md-6 mb-2">
+                <span class="text-muted">Địa chỉ nơi ở:</span>
+                <div>${patientData.address || ''}</div>
             </div>
         </div>
     `;
+}
+
+// Helper chuyển giới tính sang text
+function getGenderText(gender) {
+    switch (gender) {
+        case 0: return "Nam";
+        case 1: return "Nữ";
+        case 2: return "Khác";
+        case "Nam": case "Nữ": case "Khác": return gender;
+        default: return "N/A";
+    }
 }
 
 // Lấy chi tiết hồ sơ bệnh án
@@ -331,7 +339,8 @@ async function updateMedicalRecordData(data) {
 function goBackToMedicalRecords() {
     const params = new URLSearchParams({
         patientId: currentPatientId,
-        patientName: currentPatientName
+        patientName: currentPatientName,
+        appointmentId: document.getElementById('appointmentId').value
     });
     window.location.href = `./patient-medical-records.html?${params.toString()}`;
 }

@@ -4,14 +4,9 @@ let medicalRecordData = null;
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('=== MEDICAL RECORD DETAIL PAGE ===');
-    console.log('API_BASE_URL:', API_BASE_URL);
-    
     // Lấy recordId từ URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     currentRecordId = urlParams.get('recordId');
-
-    console.log('Record ID:', currentRecordId);
 
     if (!currentRecordId) {
         showError('Thiếu thông tin ID báo cáo y tế');
@@ -27,18 +22,14 @@ document.addEventListener('DOMContentLoaded', function() {
 // Load medical record detail
 async function loadMedicalRecordDetail() {
     try {
-        console.log('Loading medical record detail for ID:', currentRecordId);
-        
         showLoading();
-        
+
         const response = await fetch(`${API_BASE_URL}/api/medical-record/view/${currentRecordId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             }
         });
-
-        console.log('Response status:', response.status);
 
         if (!response.ok) {
             if (response.status === 404) {
@@ -48,10 +39,15 @@ async function loadMedicalRecordDetail() {
         }
 
         const data = await response.json();
-        console.log('API Response:', data);
-
         medicalRecordData = data;
+
+        // Hiển thị chi tiết hồ sơ
         displayMedicalRecordDetail(data);
+
+        // Nếu có patientId, gọi API lấy chi tiết bệnh nhân
+        if (data.patientId) {
+            await loadPatientInfo(data.patientId);
+        }
 
     } catch (error) {
         console.error('Error loading medical record detail:', error);
@@ -59,22 +55,77 @@ async function loadMedicalRecordDetail() {
     }
 }
 
-// Display medical record detail
+// Load patient info từ API riêng
+async function loadPatientInfo(patientId) {
+    try {
+        document.getElementById('patientInfo').innerHTML = `
+            <div class="col-md-12 text-center">
+                <small class="text-muted">Đang tải thông tin bệnh nhân...</small>
+            </div>
+        `;
+
+        const response = await fetch(`${API_BASE_URL}/api/Patient/findId/${patientId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const patientData = await response.json();
+            displayPatientInfo(patientData);
+        } else {
+            document.getElementById('patientInfo').innerHTML = `
+                <div class="col-md-12 text-center text-danger">
+                    Không tìm thấy thông tin bệnh nhân
+                </div>
+            `;
+        }
+    } catch (error) {
+        document.getElementById('patientInfo').innerHTML = `
+            <div class="col-md-12 text-center text-danger">
+                Lỗi khi tải thông tin bệnh nhân
+            </div>
+        `;
+    }
+}
+
+// Hiển thị thông tin bệnh nhân chi tiết
+function displayPatientInfo(patientData) {
+    document.getElementById('patientInfo').innerHTML = `
+        <div class="row">
+            <div class="col-md-6 mb-2">
+                <span class="text-muted">Tên bệnh nhân:</span>
+                <div>${patientData.name || patientData.fullName || ''}</div>
+            </div>
+            <div class="col-md-6 mb-2">
+                <span class="text-muted">Ngày sinh:</span>
+                <div>${patientData.dob ? new Date(patientData.dob).toLocaleDateString() : (patientData.dateOfBirth ? new Date(patientData.dateOfBirth).toLocaleDateString() : '')}</div>
+            </div>
+            <div class="col-md-6 mb-2">
+                <span class="text-muted">Giới tính:</span>
+                <div>${getGenderText(patientData.gender)}</div>
+            </div>
+            <div class="col-md-6 mb-2">
+                <span class="text-muted">Điện thoại:</span>
+                <div>${patientData.phone || patientData.phoneNumber || ''}</div>
+            </div>
+            <div class="col-md-6 mb-2">
+                <span class="text-muted">CCCD:</span>
+                <div>${patientData.cccd || patientData.identityNumber || patientData.identityCard || ''}</div>
+            </div>
+            <div class="col-md-6 mb-2">
+                <span class="text-muted">Địa chỉ nơi ở:</span>
+                <div>${patientData.address || ''}</div>
+            </div>
+        </div>
+    `;
+}
+
+// Hiển thị chi tiết hồ sơ bệnh án (không render thông tin bệnh nhân ở đây nữa)
 function displayMedicalRecordDetail(data) {
     hideLoading();
     showContent();
-
-    // Patient Info
-    document.getElementById('patientInfo').innerHTML = `
-        <div class="detail-row">
-            <strong>Họ tên:</strong>
-            <span class="float-end">${data.patientName || 'N/A'}</span>
-        </div>
-        <div class="detail-row">
-            <strong>Mã bệnh nhân:</strong>
-            <span class="float-end">${data.patientId || 'N/A'}</span>
-        </div>
-    `;
 
     // Record Info
     const createDate = new Date(data.createDate);
@@ -151,6 +202,16 @@ function displayMedicalRecordDetail(data) {
 
     // Report Date
     document.getElementById('reportDate').textContent = createDate.toLocaleString('vi-VN');
+}
+
+// Helper chuyển giới tính sang text
+function getGenderText(gender) {
+    switch (gender) {
+        case 0: return "Nam";
+        case 1: return "Nữ";
+        case 2: return "Khác";
+        default: return gender || "N/A";
+    }
 }
 
 // Show loading state
