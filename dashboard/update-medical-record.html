@@ -110,7 +110,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="../my-patients.html">
+                    <a class="nav-link" aria-current="page" href="./my-doctor-patient.html">
                         <i class="icon" data-bs-toggle="tooltip" title="My Patients" data-bs-placement="right">
                             <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none">
                                 <path d="M11.997 15.1746C7.684 15.1746 4 15.8546 4 18.5746C4 21.2956 7.661 21.9996 11.997 21.9996C16.31 21.9996 19.994 21.3206 19.994 18.5996C19.994 15.8786 16.334 15.1746 11.997 15.1746Z" fill="currentColor"></path>
@@ -261,9 +261,8 @@
                                 Trạng thái <span class="required">*</span>
                             </label>
                             <select class="form-select" id="status" required>
-                                <option value="Open">Đang mở</option>
+                                <option value="Open">Đã Xong</option>
                                 <option value="InProgress">Đang xử lý</option>
-                                <option value="Closed">Đã đóng</option>
                             </select>
                         </div>
                         <div class="col-md-6 mb-3">
@@ -271,7 +270,7 @@
                             <div class="input-group">
                                 <input type="number" class="form-control" id="prescriptionId" placeholder="Nhập ID đơn thuốc">
                                 <button type="button" class="btn btn-outline-primary" id="createPrescriptionBtn">
-                                    Tạo đơn thuốc
+                                    Sửa đơn thuốc
                                 </button>
                             </div>
                             <div class="invalid-feedback">Vui lòng nhập mã đơn thuốc nếu có</div>

@@ -122,7 +122,7 @@ function renderScheduleTable(data) {
     const tbody = document.getElementById('scheduleTableBody');
     tbody.innerHTML = "";
     if (!data || data.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4">
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4">
             <i class="fas fa-search fa-2x text-muted mb-2"></i>
             <p class="text-muted">Không có lịch khám nào phù hợp</p>
         </td></tr>`;
@@ -137,6 +137,9 @@ function renderScheduleTable(data) {
                 <td>${item.appointmentDate ? new Date(item.appointmentDate).toLocaleDateString() : ""}</td>
                 <td>${item.startTime}</td>
                 <td>
+                    <span class="badge ${getStatusBadgeClass(item.appointmentStatus)}">${item.appointmentStatus || ''}</span>
+                </td>
+                <td>
                     <button class="btn btn-info btn-sm"
                         onclick="showPatientDetail('${item.patientId}', '${item.patientName}', '${item.appointmentId || ''}')">
                         Xem báo cáo
@@ -145,6 +148,15 @@ function renderScheduleTable(data) {
             </tr>
         `;
     });
+}
+function getStatusBadgeClass(status) {
+    switch ((status || '').toLowerCase()) {
+        case 'scheduled': return 'bg-primary';
+        case 'completed': return 'bg-success';
+        case 'cancelled': return 'bg-danger';
+        case 'noshow': return 'bg-warning text-dark';
+        default: return 'bg-secondary';
+    }
 }
 
 function showPatientDetail(patientId, patientName = '', appointmentId = '') {

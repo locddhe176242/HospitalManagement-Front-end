@@ -6,28 +6,34 @@ flatpickr(".flatpickr-time", {
     time_24hr: true
 });
 
-// Lấy id từ URL
+// Lấy id lịch trực từ URL
 const urlParams = new URLSearchParams(window.location.search);
 const scheduleId = urlParams.get('id');
 
 // Load dữ liệu lịch trực để fill vào form
-fetch(`https://localhost:7097/api/DoctorShiftFiller/detail?id=${scheduleId}`)
-    .then(res => res.json())
-    .then(data => {
-        // Fill dữ liệu vào form
-        document.getElementById('shiftDate').value = data.shiftDate?.substring(0,10) || '';
-        document.getElementById('shiftType').value = data.shiftType || '';
-        document.getElementById('startTime').value = data.startTime || '';
-        document.getElementById('endTime').value = data.endTime || '';
-        document.getElementById('notes').value = data.notes || '';
-    });
+if (scheduleId) {
+    fetch(`https://localhost:7097/api/DoctorShiftFiller/detail?id=${scheduleId}`)
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('shiftDate').value = data.shiftDate?.substring(0,10) || '';
+            document.getElementById('shiftType').value = data.shiftType || '';
+            document.getElementById('startTime').value = data.startTime || '';
+            document.getElementById('endTime').value = data.endTime || '';
+            document.getElementById('notes').value = data.notes || '';
+        })
+        .catch(() => {
+            const formMessage = document.getElementById('formMessage');
+            formMessage.innerHTML = `<div class="alert alert-danger">Không thể tải dữ liệu lịch trực!</div>`;
+        });
+}
 
-// Xử lý submit cập nhật
+// Xử lý submit cập nhật lịch trực
 document.getElementById('updateScheduleForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const formMessage = document.getElementById('formMessage');
     formMessage.innerHTML = '';
 
+    // Chuẩn bị dữ liệu gửi lên API
     const data = {
         id: parseInt(scheduleId),
         shiftDate: document.getElementById('shiftDate').value,

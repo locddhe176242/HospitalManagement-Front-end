@@ -55,7 +55,6 @@ document.addEventListener('DOMContentLoaded', function() {
 // Load patient information
 async function loadPatientInfo() {
     try {
-        // Hiển thị thông tin cơ bản trước
         document.getElementById('patientInfo').innerHTML = `
             <div class="col-md-6">
                 <div class="d-flex align-items-center">
@@ -90,39 +89,47 @@ async function loadPatientInfo() {
 
     } catch (error) {
         console.error('Error loading patient info:', error);
-        // Vẫn hiển thị thông tin cơ bản nếu API lỗi
     }
 }
 
-// Display patient information
 function displayPatientInfo(patientData) {
     document.getElementById('patientInfo').innerHTML = `
-        <div class="col-md-8">
-            <div class="d-flex align-items-center">
-                <div class="avatar avatar-lg me-3">
-                    <span class="avatar-title bg-primary rounded-circle fs-4">
-                        ${(patientData.name || currentPatientName).charAt(0).toUpperCase()}
-                    </span>
-                </div>
-                <div>
-                    <h6 class="mb-1">${patientData.name || currentPatientName}</h6>
-                    <p class="text-muted mb-0">Mã BN: ${patientData.id || currentPatientId}</p>
-                </div>
+        <div class="row">
+            <div class="col-md-6 mb-2">
+                <span class="text-muted">Tên bệnh nhân:</span>
+                <div>${patientData.name || ''}</div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-12">
-                    <small class="text-muted">Giới tính:</small>
-                    <span class="ms-2">${patientData.gender || 'N/A'}</span>
-                </div>
-                <div class="col-12">
-                    <small class="text-muted">Ngày sinh:</small>
-                    <span class="ms-2">${patientData.dob ? new Date(patientData.dob).toLocaleDateString('vi-VN') : 'N/A'}</span>
-                </div>
+            <div class="col-md-6 mb-2">
+                <span class="text-muted">Ngày sinh:</span>
+                <div>${patientData.dob ? new Date(patientData.dob).toLocaleDateString() : ''}</div>
+            </div>
+            <div class="col-md-6 mb-2">
+                <span class="text-muted">Giới tính:</span>
+                <div>${getGenderText(patientData.gender)}</div>
+            </div>
+            <div class="col-md-6 mb-2">
+                <span class="text-muted">Điện thoại:</span>
+                <div>${patientData.phone || ''}</div>
+            </div>
+            <div class="col-md-6 mb-2">
+                <span class="text-muted">CCCD:</span>
+                <div>${patientData.cccd || ''}</div>
+            </div>
+            <div class="col-md-6 mb-2">
+                <span class="text-muted">Địa chỉ nơi ở:</span>
+                <div>${patientData.address || ''}</div>
             </div>
         </div>
     `;
+}
+
+function getGenderText(gender) {
+    switch (gender) {
+        case 0: return "Nam";
+        case 1: return "Nữ";
+        case 2: return "Khác";
+        default: return gender || "";
+    }
 }
 
 // Load diseases list
@@ -269,8 +276,6 @@ async function submitForm() {
         hideLoading();
     }
 }
-
-// Get form data
 function getFormData() {
     const data = {
         Diagnosis: document.getElementById('diagnosis').value.trim(),
