@@ -49,10 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
             window.location.reload();
         };
     }
-    // const userId = localStorage.getItem('userId');
-    // if (userId) {
-    // loadUserProfile();
-    // }
+    
 });
 //Profile patient
 // function loadUserProfile() {
