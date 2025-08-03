@@ -133,7 +133,6 @@ document.addEventListener('DOMContentLoaded', function () {
     loadSchedules({});
 });
 
-// Hàm định dạng ngày (yyyy-MM-dd -> dd/MM/yyyy)
 function formatDate(dateStr) {
     if (!dateStr) return '';
     const d = new Date(dateStr);
@@ -144,7 +143,22 @@ function updateSchedule(id) {
     window.location.href = `doctor-schedule-update.html?id=${id}`;
 }
 function deleteSchedule(id) {
-    if (confirm('Bạn có chắc muốn xóa ca trực này?')) {
-        alert('Chức năng xóa chưa được triển khai!');
-    }
+    if (!confirm('Bạn có chắc muốn xóa ca trực này?')) return;
+
+    fetch('https://localhost:7097/api/DoctorSchedule/delete', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: id }) // truyền id vào body theo backend
+    })
+    .then(res => {
+        if (res.ok) {
+            alert('Xóa ca trực thành công!');
+            loadSchedules({});
+        } else {
+            res.json().then(data => {
+                alert('Xóa thất bại: ' + (data?.message || 'Lỗi không xác định'));
+            });
+        }
+    })
+    .catch(() => alert('Lỗi kết nối khi xóa!'));
 }
