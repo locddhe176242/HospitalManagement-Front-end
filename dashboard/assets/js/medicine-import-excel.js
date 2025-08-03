@@ -1,3 +1,13 @@
+
+document.addEventListener("DOMContentLoaded", () => {
+    const userRole = localStorage.getItem("role");
+    if (userRole !== "Admin") {
+        alert("Bạn không có quyền truy cập chức năng này!");
+        window.location.href = "auth/sign-in-admin.html"; 
+    }
+});
+
+
 let currentPreviewData = null;
 
 // Load nhà cung cấp từ API
