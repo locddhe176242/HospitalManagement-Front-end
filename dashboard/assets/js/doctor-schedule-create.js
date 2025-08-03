@@ -1,10 +1,3 @@
-// Hiển thị thông tin bác sĩ
-const doctorId = document.getElementById('doctorIdInput').value;
-const doctorName = localStorage.getItem('doctorName') || '';
-document.getElementById('doctorId').textContent = `ID: ${doctorId}`;
-document.getElementById('doctorName').textContent = `Tên bác sĩ: ${doctorName}`;
-
-// Khởi tạo flatpickr cho input giờ (24h, không AM/PM)
 flatpickr(".flatpickr-time", {
     enableTime: true,
     noCalendar: true,
@@ -12,13 +5,10 @@ flatpickr(".flatpickr-time", {
     time_24hr: true
 });
 
-// Xử lý submit form đăng ký ca trực
 document.getElementById('createScheduleForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const formMessage = document.getElementById('formMessage');
     formMessage.innerHTML = '';
-
-    const createBy = localStorage.getItem('username') || ''; // hoặc lấy từ input nếu có
 
     // Lấy dữ liệu từ form
     const data = {
@@ -28,7 +18,6 @@ document.getElementById('createScheduleForm').addEventListener('submit', functio
         startTime: document.getElementById('startTime').value,
         endTime: document.getElementById('endTime').value,
         notes: document.getElementById('notes').value,
-        createBy: document.getElementById('createBy').value,
     };
 
     // Gọi API tạo mới ca trực

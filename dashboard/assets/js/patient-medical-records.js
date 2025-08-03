@@ -87,7 +87,7 @@ function displayPatientInfo(patientData) {
                 </div>
                 <div>
                     <h6 class="mb-1">${patientData.name || currentPatientName}</h6>
-                    <p class="text-muted mb-0">ID cuộc hẹn: ${currentAppointmentId || 'N/A'}</p>
+                    <p class="text-muted mb-0">ID cuộc hẹn: ${patientData.appointmentId || currentAppointmentId || 'N/A'}</p>
                     <p class="text-muted mb-0">Ngày sinh: ${patientData.dob ? new Date(patientData.dob).toLocaleDateString('vi-VN') : 'N/A'}</p>
                 </div>
             </div>
@@ -320,9 +320,19 @@ function editMedicalRecord(recordId) {
 }
 
 function deleteMedicalRecord(recordId) {
-    if (confirm('Bạn có chắc chắn muốn xoá hồ sơ này?')) {
-        showNotification('Chức năng xoá hồ sơ đang được phát triển', 'info');
-    }
+    if (!confirm("Bạn có chắc muốn xóa hồ sơ này?")) return;
+    fetch(`${API_BASE_URL}/api/medical-record/delete/${recordId}`, {
+        method: 'DELETE'
+    })
+    .then(res => {
+        if (res.ok) {
+            alert("Xóa thành công!");
+            refreshRecords();
+        } else {
+            alert("Xóa thất bại!");
+        }
+    })
+    .catch(() => alert("Lỗi kết nối khi xóa!"));
 }
 function updateInvoice(appointmentId) {
     fetch(`${API_BASE_URL}/api/Invoice/generate-invoice-details/${appointmentId}`, {
